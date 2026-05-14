@@ -63,7 +63,7 @@ onUnmounted(() => {
   @apply flex h-full flex-col overflow-hidden rounded-2xl border shadow-sm;
   background: var(--arqel-panel);
   border-color: var(--arqel-line);
-  box-shadow: var(--arqel-shadow);
+  box-shadow: none;
 }
 
 .table-scroll-container :deep(.table-wrapper) {
@@ -79,8 +79,8 @@ onUnmounted(() => {
 }
 
 .table-scroll-container :deep(thead) {
-  @apply backdrop-blur-sm;
-  background: color-mix(in srgb, var(--arqel-panel-muted) 86%, transparent);
+  background: var(--arqel-panel-muted);
+  backdrop-filter: none;
 }
 
 .table-scroll-container :deep(tbody) {

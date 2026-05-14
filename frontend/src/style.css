@@ -22,7 +22,7 @@
   --arqel-warning-soft: rgba(245, 158, 11, 0.12);
   --arqel-danger: #dc2626;
   --arqel-danger-soft: rgba(239, 68, 68, 0.1);
-  --arqel-shadow: 0 0 0 1px rgba(17, 17, 19, 0.05), 0 10px 30px -24px rgba(17, 17, 19, 0.22);
+  --arqel-shadow: none;
   --arqel-focus: rgba(100, 103, 242, 0.16);
   --arqel-focus-strong: rgba(100, 103, 242, 0.24);
   --arqel-focus-border: color-mix(in srgb, var(--arqel-accent) 46%, var(--arqel-line-strong));
@@ -50,7 +50,7 @@
   --arqel-warning-soft: rgba(245, 158, 11, 0.1);
   --arqel-danger: #f87171;
   --arqel-danger-soft: rgba(239, 68, 68, 0.1);
-  --arqel-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 16px 44px -32px rgba(0, 0, 0, 0.92);
+  --arqel-shadow: none;
   --arqel-focus: rgba(100, 103, 242, 0.18);
   --arqel-focus-strong: rgba(100, 103, 242, 0.26);
   --arqel-focus-border: color-mix(in srgb, var(--arqel-accent) 52%, var(--arqel-line-strong));
@@ -68,9 +68,7 @@
 
   body {
     @apply min-h-screen;
-    background:
-      radial-gradient(circle at 50% -20%, rgba(100, 103, 242, 0.12), transparent 28rem),
-      var(--arqel-bg);
+    background: var(--arqel-bg);
     color: var(--arqel-text);
   }
 
@@ -140,14 +138,14 @@
 
   .btn-primary {
     @apply border text-white shadow-none;
-    background: linear-gradient(135deg, var(--arqel-accent) 0%, #5a5de8 100%);
+    background: var(--arqel-accent);
     border-color: var(--arqel-accent);
-    box-shadow: 0 10px 28px -22px rgba(100, 103, 242, 0.72);
+    box-shadow: none;
   }
 
   .btn-primary:hover {
-    background: linear-gradient(135deg, #7477ff 0%, var(--arqel-accent) 100%);
-    border-color: #7477ff;
+    background: var(--arqel-accent-strong);
+    border-color: var(--arqel-accent-strong);
   }
 
   .btn-secondary {
@@ -173,51 +171,93 @@
   }
 
   .btn-danger {
-    @apply bg-gradient-to-r from-red-500 to-red-600;
-    @apply text-white shadow-md shadow-red-500/25;
-    @apply hover:from-red-600 hover:to-red-700 hover:shadow-lg hover:shadow-red-500/30;
+    @apply border text-white shadow-none;
+    background: var(--arqel-danger);
+    border-color: var(--arqel-danger);
+    box-shadow: none;
+  }
+
+  .btn-danger:hover {
+    background: color-mix(in srgb, var(--arqel-danger) 86%, #000000);
+    border-color: color-mix(in srgb, var(--arqel-danger) 86%, #000000);
   }
 
   .btn-success {
-    @apply bg-gradient-to-r from-emerald-500 to-emerald-600;
-    @apply text-white shadow-md shadow-emerald-500/25;
-    @apply hover:from-emerald-600 hover:to-emerald-700 hover:shadow-lg hover:shadow-emerald-500/30;
-    @apply dark:shadow-emerald-500/20;
+    @apply border text-white shadow-none;
+    background: var(--arqel-success);
+    border-color: var(--arqel-success);
+    box-shadow: none;
+  }
+
+  .btn-success:hover {
+    background: color-mix(in srgb, var(--arqel-success) 86%, #000000);
+    border-color: color-mix(in srgb, var(--arqel-success) 86%, #000000);
   }
 
   .btn-warning {
-    @apply bg-gradient-to-r from-amber-500 to-amber-600;
-    @apply text-white shadow-md shadow-amber-500/25;
-    @apply hover:from-amber-600 hover:to-amber-700 hover:shadow-lg hover:shadow-amber-500/30;
-    @apply dark:shadow-amber-500/20;
+    @apply border text-white shadow-none;
+    background: var(--arqel-warning);
+    border-color: var(--arqel-warning);
+    box-shadow: none;
+  }
+
+  .btn-warning:hover {
+    background: color-mix(in srgb, var(--arqel-warning) 86%, #000000);
+    border-color: color-mix(in srgb, var(--arqel-warning) 86%, #000000);
   }
 
   .btn-stripe {
-    @apply bg-[#635bff] text-white shadow-md shadow-[#635bff]/25;
-    @apply hover:bg-[#5851ea] hover:shadow-lg hover:shadow-[#635bff]/30;
-    @apply dark:bg-[#7a73ff] dark:shadow-[#7a73ff]/20;
-    @apply dark:hover:bg-[#635bff];
+    @apply border bg-[#635bff] text-white shadow-none;
+    border-color: #635bff;
+    box-shadow: none;
+  }
+
+  .btn-stripe:hover {
+    @apply bg-[#5851ea];
+    border-color: #5851ea;
   }
 
   .btn-airwallex {
-    @apply bg-[#14171A] text-white shadow-md shadow-emerald-500/20;
-    @apply hover:bg-[#20252a] hover:shadow-lg hover:shadow-emerald-500/25;
-    @apply dark:bg-[#7AF0C4] dark:text-gray-950 dark:shadow-emerald-500/20;
-    @apply dark:hover:bg-[#62d9ad];
+    @apply border bg-[#14171A] text-white shadow-none;
+    border-color: #14171a;
+    box-shadow: none;
+  }
+
+  .btn-airwallex:hover {
+    @apply bg-[#20252a];
+    border-color: #20252a;
+  }
+
+  .dark .btn-airwallex {
+    @apply bg-[#7AF0C4] text-gray-950;
+    border-color: #7af0c4;
+  }
+
+  .dark .btn-airwallex:hover {
+    @apply bg-[#62d9ad];
+    border-color: #62d9ad;
   }
 
   .btn-alipay {
-    @apply bg-[#00AEEF] text-white shadow-md shadow-[#00AEEF]/25;
-    @apply hover:bg-[#009dd6] hover:shadow-lg hover:shadow-[#00AEEF]/30;
-    @apply active:bg-[#008cbe];
-    @apply dark:shadow-[#00AEEF]/20;
+    @apply border bg-[#00AEEF] text-white shadow-none;
+    border-color: #00aeef;
+    box-shadow: none;
+  }
+
+  .btn-alipay:hover {
+    @apply bg-[#009dd6];
+    border-color: #009dd6;
   }
 
   .btn-wxpay {
-    @apply bg-[#2BB741] text-white shadow-md shadow-[#2BB741]/25;
-    @apply hover:bg-[#24a038] hover:shadow-lg hover:shadow-[#2BB741]/30;
-    @apply active:bg-[#1d8a2f];
-    @apply dark:shadow-[#2BB741]/20;
+    @apply border bg-[#2BB741] text-white shadow-none;
+    border-color: #2bb741;
+    box-shadow: none;
+  }
+
+  .btn-wxpay:hover {
+    @apply bg-[#24a038];
+    border-color: #24a038;
   }
 
   .btn-sm {
@@ -335,10 +375,11 @@
   }
 
   .card-glass {
-    @apply border backdrop-blur-sm;
-    background: color-mix(in srgb, var(--arqel-panel) 90%, transparent);
+    @apply border;
+    background: var(--arqel-panel);
     border-color: var(--arqel-line);
     box-shadow: var(--arqel-shadow);
+    backdrop-filter: none;
   }
 
   .card-header {
@@ -718,7 +759,7 @@
   .sidebar-link-active {
     background: color-mix(in srgb, var(--arqel-accent) 15%, transparent);
     color: var(--arqel-accent-strong);
-    box-shadow: inset 2px 0 0 var(--arqel-accent);
+    box-shadow: none;
   }
 
   .sidebar-link-active:hover {
@@ -1004,8 +1045,8 @@
     overflow: hidden;
     border: 1px solid var(--arqel-line-strong);
     border-radius: 1rem;
-    background: color-mix(in srgb, var(--arqel-panel) 86%, var(--arqel-accent-softer));
-    box-shadow: var(--arqel-shadow);
+    background: var(--arqel-panel-muted);
+    box-shadow: none;
   }
 
   .arqel-default-mark {
@@ -1014,12 +1055,12 @@
     height: 100%;
     place-items: center;
     border-radius: inherit;
-    background: linear-gradient(135deg, var(--arqel-accent) 0%, #4f52d7 100%);
+    background: var(--arqel-panel-muted);
     color: #ffffff;
     font-weight: 750;
     line-height: 1;
     letter-spacing: -0.04em;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+    box-shadow: none;
   }
 }
 

@@ -9005,21 +9005,18 @@ watch(
 
 /* ============ 系统设置 Tab 导航 ============ */
 .settings-tabs-shell {
-  @apply sticky z-20 -mx-1 rounded-2xl border p-1.5 backdrop-blur-xl;
+  @apply sticky z-20 -mx-1 rounded-2xl border p-1.5;
   top: 4.75rem;
-  border-color: color-mix(in srgb, var(--arqel-line-strong) 70%, transparent);
-  background: color-mix(in srgb, var(--arqel-panel) 92%, transparent);
-  box-shadow:
-    0 12px 28px rgb(15 23 42 / 0.07),
-    0 1px 0 rgb(255 255 255 / 0.9) inset;
+  border-color: var(--arqel-line);
+  background: var(--arqel-panel);
+  box-shadow: none;
+  backdrop-filter: none;
 }
 
 :global(.dark) .settings-tabs-shell {
-  border-color: var(--arqel-line-strong);
-  background: color-mix(in srgb, var(--arqel-panel) 88%, transparent);
-  box-shadow:
-    0 16px 36px rgb(0 0 0 / 0.28),
-    0 1px 0 rgb(255 255 255 / 0.06) inset;
+  border-color: var(--arqel-line);
+  background: var(--arqel-panel);
+  box-shadow: none;
 }
 
 .settings-tabs-scroll {
@@ -9056,9 +9053,9 @@ watch(
 }
 
 .settings-tab::before {
-  @apply absolute inset-0 -z-10 rounded-xl opacity-0 transition-opacity duration-200;
+  @apply absolute inset-0 -z-10 rounded-xl opacity-0 transition-opacity duration-150;
   content: "";
-  background: color-mix(in srgb, var(--arqel-panel-muted) 86%, transparent);
+  background: var(--arqel-panel-muted);
 }
 
 .settings-tab:hover::before,
@@ -9067,27 +9064,23 @@ watch(
 }
 
 :global(.dark) .settings-tab::before {
-  background: color-mix(in srgb, var(--arqel-panel-muted) 76%, var(--arqel-accent-softer));
+  background: var(--arqel-panel-muted);
 }
 
 .settings-tab:focus-visible {
-  @apply ring-2 ring-primary-500/40 ring-offset-2 ring-offset-white dark:ring-offset-dark-900;
+  outline: 2px solid var(--arqel-focus-outline);
+  outline-offset: 2px;
 }
 
 .settings-tab-active {
-  @apply shadow-sm;
-  border-color: color-mix(in srgb, var(--arqel-accent) 34%, var(--arqel-line-strong));
-  background: var(--arqel-panel-raised);
+  border-color: var(--arqel-line-strong);
+  background: var(--arqel-panel-muted);
   color: var(--arqel-accent-strong);
-  box-shadow:
-    0 8px 18px rgb(15 23 42 / 0.08),
-    0 1px 0 rgb(255 255 255 / 0.92) inset;
+  box-shadow: none;
 }
 
 :global(.dark) .settings-tab-active {
-  box-shadow:
-    0 12px 26px rgb(0 0 0 / 0.22),
-    0 1px 0 rgb(255 255 255 / 0.08) inset;
+  box-shadow: none;
 }
 
 .settings-tab-active::before {
@@ -9095,14 +9088,7 @@ watch(
 }
 
 .settings-tab-active::after {
-  position: absolute;
-  right: 0.75rem;
-  bottom: 0.25rem;
-  left: 0.75rem;
-  height: 2px;
-  border-radius: 9999px;
-  content: "";
-  background: linear-gradient(90deg, var(--arqel-accent), var(--arqel-accent-strong));
+  content: none;
 }
 
 .settings-tab-icon {

@@ -1,8 +1,5 @@
 <template>
   <div class="app-shell min-h-screen">
-    <!-- Background Decoration -->
-    <div class="pointer-events-none fixed inset-0 app-shell-bg"></div>
-
     <!-- Sidebar -->
     <AppSidebar />
 
@@ -15,7 +12,7 @@
       <AppHeader />
 
       <!-- Main Content -->
-      <main class="p-4 md:p-6 lg:p-8">
+      <main class="p-4 md:p-6 lg:px-2 lg:py-8">
         <slot />
       </main>
     </div>
@@ -57,9 +54,4 @@ defineExpose({ replayTour })
   color: var(--arqel-text);
 }
 
-.app-shell-bg {
-  background:
-    radial-gradient(circle at 50% -20%, rgba(100, 103, 242, 0.1), transparent 28rem),
-    var(--arqel-bg);
-}
 </style>

@@ -60,17 +60,17 @@
     </template>
   </div>
 
-  <div
-    v-else
-    ref="tableWrapperRef"
-    class="table-wrapper"
-    :style="tableWrapperStyle"
-    :class="{
-      'actions-expanded': actionsExpanded,
-      'is-scrollable': isScrollable
-    }"
-  >
-    <table class="w-full min-w-max divide-y divide-[var(--arqel-line)]">
+  <div v-else class="data-table-desktop">
+    <div
+      ref="tableWrapperRef"
+      class="table-wrapper"
+      :style="tableWrapperStyle"
+      :class="{
+        'actions-expanded': actionsExpanded,
+        'is-scrollable': isScrollable
+      }"
+    >
+      <table class="w-full min-w-max divide-y divide-[var(--arqel-line)]">
       <thead class="table-header">
         <tr>
           <th
@@ -129,29 +129,8 @@
           </td>
         </tr>
 
-        <!-- Empty state -->
-        <tr v-else-if="!data || data.length === 0">
-          <td
-            :colspan="columns.length"
-            :class="['py-12 text-center text-gray-500 dark:text-dark-400', getAdaptivePaddingClass()]"
-          >
-            <slot name="empty">
-              <div class="flex flex-col items-center">
-                <Icon
-                  name="inbox"
-                  size="xl"
-                  class="mb-4 h-12 w-12 text-gray-400 dark:text-dark-500"
-                />
-                <p class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                  {{ t('empty.noData') }}
-                </p>
-              </div>
-            </slot>
-          </td>
-        </tr>
-
         <!-- Data rows (virtual scroll) -->
-        <template v-else>
+        <template v-else-if="!isEmptyState">
           <tr v-if="virtualPaddingTop > 0" aria-hidden="true">
             <td :colspan="columns.length"
                 :style="{ height: virtualPaddingTop + 'px', padding: 0, border: 'none' }">
@@ -192,7 +171,25 @@
           </tr>
         </template>
       </tbody>
-    </table>
+      </table>
+    </div>
+
+    <div v-if="showDesktopEmptyState" class="table-empty-layer" aria-live="polite">
+      <div class="table-empty-state">
+        <slot name="empty">
+          <div class="flex flex-col items-center">
+            <Icon
+              name="inbox"
+              size="xl"
+              class="mb-4 h-12 w-12 text-gray-400 dark:text-dark-500"
+            />
+            <p class="text-lg font-medium text-gray-900 dark:text-gray-100">
+              {{ t('empty.noData') }}
+            </p>
+          </div>
+        </slot>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -222,6 +219,8 @@ const isScrollable = ref(false)
 const checkScrollable = () => {
   if (tableWrapperRef.value) {
     isScrollable.value = tableWrapperRef.value.scrollWidth > tableWrapperRef.value.clientWidth
+  } else {
+    isScrollable.value = false
   }
 }
 
@@ -478,6 +477,8 @@ const resolveRowKey = (row: any, index: number) => {
 
 const dataColumns = computed(() => props.columns.filter((column) => column.key !== 'actions'))
 const isLoadingState = computed(() => props.loading || props.initialLoading)
+const isEmptyState = computed(() => !props.data || props.data.length === 0)
+const showDesktopEmptyState = computed(() => !isLoadingState.value && isEmptyState.value)
 const tableWrapperStyle = computed(() => {
   const actionsCount = props.actionsCount ?? 3
   const width = Math.min(Math.max(actionsCount * 2.5, 8), 18)
@@ -677,6 +678,14 @@ defineExpose({
 </script>
 
 <style scoped>
+.data-table-desktop {
+  position: relative;
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  background: var(--arqel-panel);
+}
+
 /* 表格横向滚动 */
 .table-wrapper {
   --select-col-width: 52px; /* 勾选列宽度：px-6 (24px*2) + checkbox (16px) */
@@ -694,7 +703,7 @@ defineExpose({
   position: sticky;
   top: 0;
   z-index: 200;
-  background: color-mix(in srgb, var(--arqel-panel-muted) 82%, var(--arqel-panel));
+  background: var(--arqel-panel-muted);
 }
 
 /* 表体保持在表头下方 */
@@ -703,12 +712,31 @@ defineExpose({
   z-index: 0;
 }
 
+.table-empty-layer {
+  position: absolute;
+  inset: 3.25rem 0 0 0;
+  z-index: 30;
+  display: flex;
+  min-height: 14rem;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  text-align: center;
+  pointer-events: none;
+}
+
+.table-empty-state {
+  max-width: min(28rem, calc(100% - 3rem));
+  margin-inline: auto;
+  pointer-events: auto;
+}
+
 /* 所有表头单元格固定在顶部 */
 .sticky-header-cell {
   position: sticky;
   top: 0;
   z-index: 210; /* 必须高于所有表体内容 */
-  background: color-mix(in srgb, var(--arqel-panel-muted) 82%, var(--arqel-panel));
+  background: var(--arqel-panel-muted);
 }
 
 /* Sticky 列基础样式 */

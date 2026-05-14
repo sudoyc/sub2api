@@ -1,5 +1,5 @@
 <template>
-  <header class="glass sticky top-0 z-30 border-b border-[var(--arqel-line)]">
+  <header class="app-header sticky top-0 z-30 border-b border-[var(--arqel-line)]">
     <div class="flex h-16 items-center justify-between px-4 md:px-6">
       <!-- Left: Mobile Menu Toggle + Page Title -->
       <div class="flex items-center gap-4">
@@ -74,7 +74,7 @@
             class="flex items-center gap-2 rounded-xl p-1.5 transition-colors hover:bg-[var(--arqel-panel-muted)]"
             aria-label="User Menu"
           >
-            <div class="flex h-8 w-8 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-primary-500 to-primary-600 text-sm font-medium text-white shadow-sm">
+            <div class="header-user-avatar flex h-8 w-8 items-center justify-center overflow-hidden rounded-xl text-sm font-medium text-white">
               <img
                 v-if="avatarUrl"
                 :src="avatarUrl"
@@ -330,6 +330,18 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
+.app-header {
+  background: var(--arqel-bg);
+  backdrop-filter: none;
+  box-shadow: none;
+}
+
+.header-user-avatar {
+  background: var(--arqel-panel-muted);
+  border: 1px solid var(--arqel-line-strong);
+  box-shadow: none;
+}
+
 .dropdown-enter-active,
 .dropdown-leave-active {
   transition: all 0.2s ease;

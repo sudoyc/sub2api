@@ -2,9 +2,9 @@
   <AppLayout>
     <TablePageLayout>
       <template #filters>
-        <div class="flex flex-wrap items-center gap-3">
+        <div class="proxy-toolbar flex items-center gap-1.5 overflow-x-auto pb-1">
           <!-- Left: Search + Filters -->
-          <div class="relative w-full sm:w-64">
+          <div class="proxy-toolbar-search relative shrink-0">
             <Icon
               name="search"
               size="md"
@@ -19,7 +19,7 @@
             />
           </div>
 
-          <div class="w-full sm:w-40">
+          <div class="proxy-toolbar-filter shrink-0">
             <Select
               v-model="filters.protocol"
               :options="protocolOptions"
@@ -27,7 +27,7 @@
               @change="loadProxies"
             />
           </div>
-          <div class="w-full sm:w-36">
+          <div class="proxy-toolbar-filter proxy-toolbar-filter-status shrink-0">
             <Select
               v-model="filters.status"
               :options="statusOptions"
@@ -37,11 +37,11 @@
           </div>
 
           <!-- Right: All action buttons -->
-          <div class="flex flex-1 flex-wrap items-center justify-end gap-2">
+          <div class="proxy-toolbar-actions flex shrink-0 items-stretch justify-end gap-1.5">
             <button
               @click="loadProxies"
               :disabled="loading"
-              class="btn btn-secondary"
+              class="btn btn-secondary proxy-toolbar-button proxy-toolbar-icon-button"
               :title="t('common.refresh')"
             >
               <Icon name="refresh" size="md" :class="loading ? 'animate-spin' : ''" />
@@ -49,38 +49,34 @@
             <button
               @click="handleBatchTest"
               :disabled="batchTesting || loading"
-              class="btn btn-secondary"
+              class="btn btn-secondary proxy-toolbar-button"
               :title="t('admin.proxies.testConnection')"
             >
-              <Icon name="play" size="md" class="mr-2" />
               {{ t('admin.proxies.testConnection') }}
             </button>
             <button
               @click="handleBatchQualityCheck"
               :disabled="batchQualityChecking || loading"
-              class="btn btn-secondary"
+              class="btn btn-secondary proxy-toolbar-button"
               :title="t('admin.proxies.batchQualityCheck')"
             >
-              <Icon name="shield" size="md" class="mr-2" :class="batchQualityChecking ? 'animate-pulse' : ''" />
               {{ t('admin.proxies.batchQualityCheck') }}
             </button>
             <button
               @click="openBatchDelete"
               :disabled="selectedCount === 0"
-              class="btn btn-danger"
+              class="btn btn-danger proxy-toolbar-button"
               :title="t('admin.proxies.batchDeleteAction')"
             >
-              <Icon name="trash" size="md" class="mr-2" />
               {{ t('admin.proxies.batchDeleteAction') }}
             </button>
-            <button @click="showImportData = true" class="btn btn-secondary">
+            <button @click="showImportData = true" class="btn btn-secondary proxy-toolbar-button">
               {{ t('admin.proxies.dataImport') }}
             </button>
-            <button @click="showExportDataDialog = true" class="btn btn-secondary">
+            <button @click="showExportDataDialog = true" class="btn btn-secondary proxy-toolbar-button">
               {{ selectedCount > 0 ? t('admin.proxies.dataExportSelected') : t('admin.proxies.dataExport') }}
             </button>
-            <button @click="showCreateModal = true" class="btn btn-primary">
-              <Icon name="plus" size="md" class="mr-2" />
+            <button @click="showCreateModal = true" class="btn btn-primary proxy-toolbar-button">
               {{ t('admin.proxies.createProxy') }}
             </button>
           </div>
@@ -251,11 +247,11 @@
           </template>
 
           <template #cell-actions="{ row }">
-            <div class="flex items-center gap-1">
+            <div class="proxy-row-actions">
               <button
                 @click="handleTestConnection(row)"
                 :disabled="testingProxyIds.has(row.id)"
-                class="flex flex-col items-center gap-0.5 rounded-lg p-1.5 text-gray-500 transition-colors hover:bg-emerald-50 hover:text-emerald-600 disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-emerald-900/20 dark:hover:text-emerald-400"
+                class="proxy-row-action"
               >
                 <svg
                   v-if="testingProxyIds.has(row.id)"
@@ -283,7 +279,7 @@
               <button
                 @click="handleQualityCheck(row)"
                 :disabled="qualityCheckingProxyIds.has(row.id)"
-                class="flex flex-col items-center gap-0.5 rounded-lg p-1.5 text-gray-500 transition-colors hover:bg-blue-50 hover:text-blue-600 disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-blue-900/20 dark:hover:text-blue-400"
+                class="proxy-row-action"
               >
                 <svg
                   v-if="qualityCheckingProxyIds.has(row.id)"
@@ -310,14 +306,14 @@
               </button>
               <button
                 @click="handleEdit(row)"
-                class="flex flex-col items-center gap-0.5 rounded-lg p-1.5 text-gray-500 transition-colors hover:bg-gray-100 hover:text-primary-600 dark:hover:bg-dark-700 dark:hover:text-primary-400"
+                class="proxy-row-action"
               >
                 <Icon name="edit" size="sm" />
                 <span class="text-xs">{{ t('common.edit') }}</span>
               </button>
               <button
                 @click="handleDelete(row)"
-                class="flex flex-col items-center gap-0.5 rounded-lg p-1.5 text-gray-500 transition-colors hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/20 dark:hover:text-red-400"
+                class="proxy-row-action proxy-row-action-danger"
               >
                 <Icon name="trash" size="sm" />
                 <span class="text-xs">{{ t('common.delete') }}</span>
@@ -908,7 +904,7 @@ const columns = computed<Column[]>(() => [
   { key: 'account_count', label: t('admin.proxies.columns.accounts'), sortable: true },
   { key: 'latency', label: t('admin.proxies.columns.latency'), sortable: false },
   { key: 'status', label: t('admin.proxies.columns.status'), sortable: true },
-  { key: 'actions', label: t('admin.proxies.columns.actions'), sortable: false }
+  { key: 'actions', label: t('admin.proxies.columns.actions'), sortable: false, class: 'proxy-actions-column' }
 ])
 
 // Filter options
@@ -1880,3 +1876,100 @@ onUnmounted(() => {
   document.removeEventListener('click', closeCopyMenu)
 })
 </script>
+
+<style scoped>
+.proxy-toolbar {
+  width: 100%;
+  min-width: 0;
+  flex-wrap: nowrap;
+  scrollbar-width: thin;
+}
+
+.proxy-toolbar-search {
+  width: 12rem;
+}
+
+.proxy-toolbar-filter {
+  width: 7.5rem;
+}
+
+.proxy-toolbar-filter-status {
+  width: 7.5rem;
+}
+
+.proxy-toolbar-filter :deep(.select-trigger) {
+  padding-left: 0.875rem;
+  padding-right: 0.875rem;
+}
+
+.proxy-toolbar-filter :deep(.select-value) {
+  min-width: 3.5rem;
+  overflow: visible;
+  text-overflow: clip;
+}
+
+.proxy-toolbar-actions {
+  min-width: max-content;
+}
+
+.proxy-toolbar-button {
+  min-height: 2.5rem;
+  padding-right: 0.875rem;
+  padding-left: 0.875rem;
+  white-space: nowrap;
+  box-shadow: none !important;
+}
+
+.proxy-toolbar-icon-button {
+  width: 2.5rem;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.proxy-row-action {
+  display: inline-flex;
+  width: 4.25rem;
+  height: 3rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.125rem;
+  border-radius: 0.5rem;
+  padding: 0.375rem 0.5rem;
+  color: var(--arqel-muted);
+  transition: background-color 150ms ease-out, color 150ms ease-out;
+}
+
+.proxy-row-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  width: 100%;
+}
+
+.proxy-row-action span {
+  white-space: nowrap;
+}
+
+.proxy-row-action:hover {
+  background: var(--arqel-panel-muted);
+  color: var(--arqel-accent-strong);
+}
+
+.proxy-row-action:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.proxy-row-action-danger:hover {
+  background: var(--arqel-danger-soft);
+  color: var(--arqel-danger);
+}
+
+:global(.proxy-actions-column) {
+  width: 18.5rem;
+  min-width: 18.5rem;
+  text-align: center;
+}
+</style>
