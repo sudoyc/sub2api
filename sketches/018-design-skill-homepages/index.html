@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arqel Homepage Directions</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #f6f7f8; color: #171717; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    main { max-width: 1160px; margin: 0 auto; padding: 42px 24px 64px; }
+    .top { display: flex; align-items: end; justify-content: space-between; gap: 24px; border-bottom: 1px solid #dedede; padding-bottom: 28px; }
+    h1 { margin: 0; font-size: clamp(34px, 5vw, 58px); line-height: .96; letter-spacing: -.055em; }
+    p { margin: 14px 0 0; color: #666; line-height: 1.7; max-width: 68ch; }
+    .badge { flex: 0 0 auto; border: 1px solid #d8d8d8; border-radius: 999px; background: white; padding: 8px 12px; color: #444; font-size: 13px; }
+    .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 28px; }
+    a { color: inherit; text-decoration: none; }
+    .card { min-height: 420px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; border: 1px solid #dedede; border-radius: 18px; background: #fff; transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+    .card:hover { transform: translateY(-3px); border-color: #c8c8c8; box-shadow: 0 18px 50px rgba(20, 20, 20, .08); }
+    .preview { height: 190px; border-bottom: 1px solid #e8e8e8; position: relative; overflow: hidden; }
+    .preview.mono { background: #fdfcfc; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+    .preview.cloud { background: radial-gradient(circle at 30% 20%, #00dfd8, transparent 28%), radial-gradient(circle at 66% 18%, #ff0080, transparent 24%), radial-gradient(circle at 58% 70%, #f9cb28, transparent 24%), #fafafa; }
+    .preview.ops { background: #fff; }
+    .term { position: absolute; inset: 28px 26px; background: #201d1d; color: #fdfcfc; padding: 18px; font-size: 12px; line-height: 1.65; }
+    .cloud-card { position: absolute; left: 32px; right: 32px; bottom: 26px; border-radius: 14px; background: rgba(255,255,255,.88); border: 1px solid rgba(0,0,0,.1); padding: 18px; box-shadow: 0 12px 28px rgba(0,0,0,.10); }
+    .ops-pane { position: absolute; inset: 26px; border: 1px solid #dfdfdf; border-radius: 14px; background: #fff; box-shadow: 0 12px 34px rgba(0,0,0,.08); display: grid; grid-template-columns: 120px 1fr; overflow: hidden; }
+    .ops-side { background: #fafafa; border-right: 1px solid #e8e8e8; padding: 12px; display: grid; gap: 8px; align-content: start; }
+    .ops-line { height: 8px; border-radius: 999px; background: #dcdcdc; }
+    .ops-main { padding: 14px; display: grid; gap: 8px; align-content: start; }
+    .green { background: #3ecf8e; }
+    .content { padding: 22px; }
+    .content small { color: #777; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 11px; text-transform: uppercase; letter-spacing: .12em; }
+    .content h2 { margin: 12px 0 0; font-size: 24px; letter-spacing: -.04em; }
+    .content p { font-size: 14px; }
+    .pick { display: inline-flex; align-self: start; margin: 0 22px 22px; min-height: 38px; align-items: center; border-radius: 999px; background: #171717; color: white; padding: 0 14px; font-size: 14px; font-weight: 650; }
+    @media (max-width: 900px) { .top { align-items: start; flex-direction: column; } .grid { grid-template-columns: 1fr; } .card { min-height: auto; } }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="top">
+      <div>
+        <h1>Arqel 首页视觉方向</h1>
+        <p>基于 design skill 里的 OpenCode、Vercel、Supabase 参考生成的独立 HTML 草图。这里只做选择用，不修改现有前端代码。</p>
+      </div>
+      <span class="badge">3 directions / static HTML</span>
+    </section>
+    <section class="grid">
+      <a class="card" href="./01-mono-gateway.html">
+        <div class="preview mono"><div class="term">$ arqel route --model auto<br />[+] Claude ready<br />[+] GPT fallback<br />[+] Gemini backup</div></div>
+        <div class="content"><small>OpenCode inspired</small><h2>Mono Gateway</h2><p>像 README / manpage 一样的工程师首页，纯文字、终端、少装饰，强调可信和边界清晰。</p></div>
+        <span class="pick">打开方案 01</span>
+      </a>
+      <a class="card" href="./02-ai-cloud.html">
+        <div class="preview cloud"><div class="cloud-card"><strong>AI Gateway.</strong><p style="margin:6px 0 0;color:#555;font-size:12px;line-height:1.5">One endpoint for every model.</p></div></div>
+        <div class="content"><small>Vercel inspired</small><h2>AI Cloud</h2><p>更强营销感，黑白主基调配大面积彩色 mesh，适合作为公开官网首页。</p></div>
+        <span class="pick">打开方案 02</span>
+      </a>
+      <a class="card" href="./03-emerald-console.html">
+        <div class="preview ops"><div class="ops-pane"><div class="ops-side"><i class="ops-line green"></i><i class="ops-line"></i><i class="ops-line"></i></div><div class="ops-main"><i class="ops-line green" style="width:48%"></i><i class="ops-line" style="width:86%"></i><i class="ops-line" style="width:72%"></i><i class="ops-line" style="width:92%"></i></div></div></div>
+        <div class="content"><small>Supabase inspired</small><h2>Emerald Console</h2><p>白底产品 UI 截图感，绿色 CTA 很克制，强调控制台、用量、路由状态。</p></div>
+        <span class="pick">打开方案 03</span>
+      </a>
+    </section>
+  </main>
+</body>
+</html>

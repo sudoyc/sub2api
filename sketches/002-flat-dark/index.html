@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sub2API Sketch — Flat Dark</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0d1117;
+      --panel: #111827;
+      --panel-2: #0f172a;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --line: rgba(148, 163, 184, 0.18);
+      --line-strong: rgba(148, 163, 184, 0.28);
+      --accent: #7c3aed;
+      --accent-soft: rgba(124, 58, 237, 0.14);
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --shadow: 0 12px 30px rgba(0, 0, 0, 0.24);
+      --radius: 14px;
+      --max: 1120px;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(124, 58, 237, 0.14), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.10), transparent 28%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 24px; }
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      padding: 14px 18px; background: rgba(17, 24, 39, 0.82); backdrop-filter: blur(14px);
+      border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); position: sticky; top: 18px; z-index: 10;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; letter-spacing: -0.02em; }
+    .mark { width: 38px; height: 38px; border-radius: 12px; background: linear-gradient(135deg, #7c3aed, #4f46e5); display: grid; place-items: center; font-size: 14px; color: #fff; }
+    .nav { display: flex; align-items: center; gap: 18px; color: var(--muted); font-size: 14px; }
+    .cta {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      height: 42px; padding: 0 16px; border-radius: 12px; border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.02); font-weight: 600; color: var(--text);
+    }
+    .cta.primary { background: var(--accent); border-color: transparent; color: #fff; }
+    .hero {
+      display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 26px; align-items: stretch;
+      padding: 42px 0 28px;
+    }
+    .hero-copy, .hero-panel, .card, .section {
+      background: rgba(17, 24, 39, 0.88); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow);
+    }
+    .hero-copy { padding: 34px; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 999px;
+      background: var(--accent-soft); color: #c4b5fd; font-size: 13px; font-weight: 600; margin-bottom: 18px;
+    }
+    h1 { margin: 0; font-size: clamp(34px, 6vw, 60px); line-height: 1.02; letter-spacing: -0.05em; color: #f8fafc; }
+    .lead { margin: 18px 0 0; font-size: 17px; color: var(--muted); max-width: 58ch; }
+    .hero-actions { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 28px; }
+    .stat { padding: 16px; border-radius: 12px; background: var(--panel-2); border: 1px solid var(--line); }
+    .stat strong { display: block; font-size: 22px; letter-spacing: -0.03em; color: #f8fafc; }
+    .stat span { color: var(--muted); font-size: 13px; }
+    .hero-panel { padding: 20px; display: grid; gap: 14px; }
+    .console {
+      background: #020617; border: 1px solid rgba(148, 163, 184, 0.16); border-radius: 14px; padding: 16px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px;
+    }
+    .line { display: flex; justify-content: space-between; gap: 16px; padding: 8px 0; border-bottom: 1px solid rgba(148, 163, 184, 0.12); }
+    .line:last-child { border-bottom: 0; }
+    .line span:first-child { color: #cbd5e1; }
+    .line span:last-child { color: #e2e8f0; }
+    .tag { color: #a78bfa; }
+    .ok { color: var(--success); }
+    .warn { color: var(--warning); }
+    .stack { display: grid; gap: 12px; }
+    .tile { padding: 16px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px solid var(--line); }
+    .tile .row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .tile b { display: block; font-size: 15px; }
+    .tile p { margin: 6px 0 0; color: var(--muted); font-size: 13px; }
+    .section { margin-top: 18px; padding: 24px; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+    .section h2 { margin: 0; font-size: 22px; letter-spacing: -0.03em; color: #f8fafc; }
+    .section p { margin: 6px 0 0; color: var(--muted); }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .feature { padding: 18px; border-radius: 14px; border: 1px solid var(--line); background: rgba(255,255,255,0.02); }
+    .feature .icon { width: 36px; height: 36px; border-radius: 10px; background: rgba(124, 58, 237, 0.18); color: #c4b5fd; display: grid; place-items: center; font-weight: 700; margin-bottom: 14px; }
+    .feature h3 { margin: 0; font-size: 16px; color: #f8fafc; }
+    .feature p { margin-top: 8px; font-size: 14px; }
+    .switches { display: flex; gap: 10px; flex-wrap: wrap; }
+    .chip { padding: 9px 12px; border-radius: 999px; border: 1px solid var(--line); background: rgba(255,255,255,0.02); font-size: 13px; color: var(--muted); }
+    .chip.active { border-color: rgba(124, 58, 237, 0.5); color: #ddd6fe; background: rgba(124, 58, 237, 0.12); }
+    footer { color: var(--muted); font-size: 13px; padding: 24px 4px 8px; text-align: center; }
+    @media (max-width: 900px) {
+      .hero, .grid, .stats { grid-template-columns: 1fr; }
+      .topbar { position: static; }
+      .nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <div class="brand"><div class="mark">S</div>Sub2API</div>
+      <nav class="nav"><a href="#">概览</a><a href="#">监控</a><a href="#">文档</a><a href="#">设置</a></nav>
+      <a class="cta primary" href="#">打开控制台</a>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow">Flat Dark · 极简深色控制台风</div>
+          <h1>把“酷炫”收起来，只保留密度和秩序。</h1>
+          <p class="lead">这版是更接近 Linear / 控制台产品的感觉：暗底、弱边线、低饱和强调色。适合后台、状态页、账户中心，克制但不冷。</p>
+          <div class="hero-actions">
+            <a class="cta primary" href="#">立即进入</a>
+            <a class="cta" href="#">查看状态</a>
+          </div>
+          <div class="stats">
+            <div class="stat"><strong>24</strong><span>当前连接</span></div>
+            <div class="stat"><strong>0.8s</strong><span>视觉响应</span></div>
+            <div class="stat"><strong>1</strong><span>主色强调</span></div>
+          </div>
+        </div>
+        <aside class="hero-panel">
+          <div class="console">
+            <div class="line"><span>$ theme</span><span class="tag">dark / flat</span></div>
+            <div class="line"><span>border</span><span>1px subtle line</span></div>
+            <div class="line"><span>shadow</span><span>very soft</span></div>
+            <div class="line"><span>accent</span><span class="ok">purple only</span></div>
+          </div>
+          <div class="stack">
+            <div class="tile">
+              <div class="row"><b>接口稳定性</b><span class="ok">良好</span></div>
+              <p>状态色比图案更重要，信息一眼读懂。</p>
+            </div>
+            <div class="tile">
+              <div class="row"><b>异常告警</b><span class="warn">2 条</span></div>
+              <p>用低频强调提醒，不制造噪音。</p>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <h2>结构感</h2>
+            <p>更适合管理界面、状态界面和设置页。</p>
+          </div>
+          <div class="switches">
+            <span class="chip active">深色</span>
+            <span class="chip">扁平</span>
+            <span class="chip">低噪音</span>
+          </div>
+        </div>
+        <div class="grid">
+          <article class="feature">
+            <div class="icon">A</div>
+            <h3>信息堆叠</h3>
+            <p>内容按优先级堆叠，而不是按视觉花样分散。</p>
+          </article>
+          <article class="feature">
+            <div class="icon">B</div>
+            <h3>边线代替阴影</h3>
+            <p>轻微分隔就足够，减少层层悬浮感。</p>
+          </article>
+          <article class="feature">
+            <div class="icon">C</div>
+            <h3>纯色强调</h3>
+            <p>只保留单一强调色，让系统更统一。</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>Flat Dark · 参考重点：暗底、克制、统一、低噪音。</footer>
+  </div>
+</body>
+</html>

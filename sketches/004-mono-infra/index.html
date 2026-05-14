@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sub2API Theme 004 — Mono Infra</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root { --bg:#fff; --text:#171717; --muted:#666; --line:#eaeaea; --line2:#d9d9d9; --panel:#fff; --soft:#fafafa; --invert:#171717; --accent:#0070f3; --ok:#0f8f4d; --warn:#a16207; --radius:8px; }
+    *{box-sizing:border-box} html,body{margin:0;min-height:100%} body{font-family:Geist,system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased} a{text-decoration:none;color:inherit}
+    .wrap{max-width:1180px;margin:0 auto;padding:22px}.topbar{position:sticky;top:16px;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:12px 14px;background:rgba(255,255,255,.86);backdrop-filter:blur(10px);box-shadow:0 0 0 1px rgba(0,0,0,.08);border-radius:12px}.brand{display:flex;align-items:center;gap:10px;font-weight:600;letter-spacing:-.03em}.mark{width:34px;height:34px;border-radius:8px;background:#171717;color:#fff;display:grid;place-items:center;font-family:Geist Mono,monospace;font-size:12px}.nav{display:flex;gap:20px;color:var(--muted);font-size:14px}.actions{display:flex;gap:10px}.btn{height:38px;padding:0 14px;display:inline-flex;align-items:center;justify-content:center;border-radius:7px;box-shadow:0 0 0 1px rgba(0,0,0,.1);font-weight:500;font-size:14px;background:#fff}.btn.primary{background:#171717;color:#fff;box-shadow:none}.hero{display:grid;grid-template-columns:1fr 440px;gap:22px;padding:48px 0 24px}.hero-card{padding:38px;border-radius:12px;box-shadow:0 0 0 1px rgba(0,0,0,.08);background:linear-gradient(180deg,#fff,#fcfcfc)}.eyebrow{font-family:Geist Mono,monospace;font-size:12px;color:#666;margin-bottom:18px;text-transform:uppercase;letter-spacing:.06em}h1{font-size:64px;line-height:.96;letter-spacing:-.07em;margin:0}.lead{font-size:18px;color:#555;max-width:60ch;margin:20px 0 0}.hero-actions{display:flex;gap:10px;margin-top:26px;flex-wrap:wrap}.terminal{background:#0a0a0a;color:#ededed;border-radius:12px;padding:16px;font-family:Geist Mono,monospace;font-size:13px;box-shadow:0 0 0 1px rgba(0,0,0,.08)}.term-head{display:flex;justify-content:space-between;color:#888;margin-bottom:14px}.cmd{padding:8px 0;border-top:1px solid rgba(255,255,255,.08)}.blue{color:#7ab7ff}.green{color:#52d273}.workspace{display:grid;grid-template-columns:260px 1fr;gap:22px;margin-top:12px}.panel{box-shadow:0 0 0 1px rgba(0,0,0,.08);border-radius:12px;background:#fff}.panel h2{font-size:18px;letter-spacing:-.03em;margin:0}.side{padding:16px}.side a{display:flex;justify-content:space-between;padding:11px 10px;border-radius:8px;color:#555;font-size:14px}.side a.active,.side a:hover{background:#f5f5f5;color:#171717}.main{padding:18px}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}.metric{padding:16px;border-radius:10px;background:#fafafa;box-shadow:0 0 0 1px rgba(0,0,0,.06)}.metric b{display:block;font-size:24px;letter-spacing:-.05em}.metric span{color:#666;font-size:13px}.table{margin-top:16px;border-radius:10px;overflow:hidden;box-shadow:0 0 0 1px rgba(0,0,0,.07)}.row{display:grid;grid-template-columns:1.3fr .8fr .8fr .6fr;gap:14px;padding:13px 14px;border-bottom:1px solid #eee;font-size:14px}.row:last-child{border-bottom:0}.head{background:#fafafa;color:#666;font-size:12px;font-family:Geist Mono,monospace;text-transform:uppercase}.pill{display:inline-flex;width:max-content;padding:3px 7px;border-radius:999px;background:#f0fdf4;color:#0f7a43;font-size:12px}.tab{border:0;background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.08);border-radius:7px;padding:7px 10px;cursor:pointer}.tab.active{background:#171717;color:#fff}.tabs{display:flex;gap:8px;flex-wrap:wrap}.toast{background:#171717;color:#fff;box-shadow:0 8px 24px rgba(0,0,0,.18)}.side-drawer{background:#fff;box-shadow:-1px 0 0 #eaeaea,-24px 0 80px rgba(0,0,0,.12)}
+
+    .toast { position: fixed; right: 24px; bottom: 24px; transform: translateY(14px); opacity: 0; pointer-events: none; transition: .2s ease; padding: 10px 14px; border-radius: 10px; font-size: 13px; z-index: 50; }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .side-drawer { position: fixed; top: 0; right: 0; height: 100vh; width: min(360px, 92vw); transform: translateX(100%); transition: .24s ease; z-index: 40; padding: 22px; }
+    .side-drawer.open { transform: translateX(0); }
+    @media (max-width: 860px) {
+      .nav { display: none; }
+      .hero, .workspace, .grid-3, .dashboard { grid-template-columns: 1fr !important; }
+      .wrap { padding: 16px !important; }
+      h1 { font-size: 38px !important; }
+      .topbar { top: 10px !important; }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="wrap"><header class="topbar"><a class="brand" href="#"><span class="mark">S2</span><span>Sub2API</span></a><nav class="nav"><a>网关</a><a>渠道</a><a>计费</a><a>文档</a></nav><div class="actions"><button class="btn" onclick="togglePanel()">配置</button><button class="btn primary" onclick="toast('进入控制台')">控制台</button></div></header>
+    <section class="hero"><div class="hero-card"><div class="eyebrow">subscription to api gateway</div><h1>把订阅账号转换成稳定 API。</h1><p class="lead">黑白基础设施风格。重点是可靠、清晰、工程感强，适合默认浅色主题和管理后台。</p><div class="hero-actions"><button class="btn primary" onclick="toast('开始接入')">开始接入</button><button class="btn">查看文档</button></div></div><div class="terminal"><div class="term-head"><span>gateway.log</span><span>live</span></div><div class="cmd"><span class="blue">POST</span> /v1/chat/completions</div><div class="cmd">provider=openai-account-03</div><div class="cmd"><span class="green">200 OK</span> latency=812ms cost=¥0.014</div><div class="cmd">sticky_session=true</div></div></section>
+    <section class="workspace"><aside class="panel side"><a class="active">概览 <span>⌘1</span></a><a>渠道状态 <span>⌘2</span></a><a>模型映射 <span>⌘3</span></a><a>用量账单 <span>⌘4</span></a></aside><main class="panel main"><div style="display:flex;justify-content:space-between;gap:12px;align-items:center"><h2>今日网关概览</h2><div class="tabs"><button class="tab active" data-tab-group="range" onclick="switchTab(this,'range')">24h</button><button class="tab" data-tab-group="range" onclick="switchTab(this,'range')">7d</button><button class="tab" data-tab-group="range" onclick="switchTab(this,'range')">30d</button></div></div><div class="metrics"><div class="metric"><b>98.9%</b><span>成功率</span></div><div class="metric"><b>842ms</b><span>中位延迟</span></div><div class="metric"><b>12.4k</b><span>请求数</span></div><div class="metric"><b>¥42.18</b><span>成本</span></div></div><div class="table"><div class="row head"><span>渠道</span><span>模型</span><span>状态</span><span>延迟</span></div><div class="row"><span>claude-pro-01</span><span>sonnet-4.5</span><span class="pill">healthy</span><span>706ms</span></div><div class="row"><span>openai-plus-02</span><span>gpt-5.1</span><span class="pill">healthy</span><span>812ms</span></div><div class="row"><span>gemini-advanced</span><span>gemini-3-pro</span><span class="pill">healthy</span><span>930ms</span></div></div></main></section></div><aside class="side-drawer"><h2>主题说明</h2><p>Mono Infra：Vercel 式黑白、高可读、低装饰。适合作为全站默认浅色底。</p></aside><div class="toast"></div>
+<script>
+  function toast(message) {
+    const el = document.querySelector('.toast');
+    if (!el) return;
+    el.textContent = message;
+    el.classList.add('show');
+    clearTimeout(window.__toastTimer);
+    window.__toastTimer = setTimeout(() => el.classList.remove('show'), 1600);
+  }
+  function switchTab(btn, group) {
+    document.querySelectorAll(`[data-tab-group="${group}"]`).forEach(el => el.classList.remove('active'));
+    btn.classList.add('active');
+    toast(btn.textContent.trim() + ' 预览');
+  }
+  function togglePanel() {
+    const panel = document.querySelector('.side-drawer');
+    if (panel) panel.classList.toggle('open');
+  }
+</script></body></html>

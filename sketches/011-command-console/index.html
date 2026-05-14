@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arqel Option B - Command Console</title>
+  <style>
+    :root {
+      --bg: #0b0f12;
+      --panel: #11181c;
+      --panel2: #151f24;
+      --ink: #eef6f1;
+      --muted: #8ea09a;
+      --line: rgba(238,246,241,.12);
+      --green: #60f0a5;
+      --cyan: #8bd8ff;
+      --amber: #ffd875;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 80% 0%, rgba(96,240,165,.16), transparent 32rem),
+        radial-gradient(circle at 5% 30%, rgba(139,216,255,.12), transparent 26rem),
+        var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    .grid-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .22;
+      background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, black, transparent 78%);
+    }
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px clamp(22px, 4.5vw, 70px);
+      background: rgba(11,15,18,.76);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--line);
+    }
+    .brand { display: flex; gap: 12px; align-items: center; font-weight: 760; }
+    .mark { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; background: var(--green); color: #08100c; }
+    nav a { color: var(--muted); text-decoration: none; margin-left: 22px; font-size: 14px; }
+    .hero {
+      min-height: 92vh;
+      display: grid;
+      grid-template-columns: minmax(0, .92fr) minmax(380px, 1.08fr);
+      gap: clamp(36px, 6vw, 86px);
+      padding: clamp(58px, 9vw, 120px) clamp(22px, 4.5vw, 70px) 70px;
+      align-items: center;
+    }
+    .eyebrow { color: var(--green); text-transform: uppercase; letter-spacing: .18em; font-size: 12px; font-weight: 760; }
+    h1 { font-size: clamp(62px, 11vw, 156px); line-height: .82; letter-spacing: -.085em; margin: 22px 0; }
+    .lead { font-size: clamp(22px, 3vw, 40px); line-height: 1.08; letter-spacing: -.055em; margin: 0; }
+    .desc { color: var(--muted); max-width: 560px; font-size: 17px; line-height: 1.75; margin: 28px 0 0; }
+    .actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 34px; }
+    .btn { color: var(--ink); border: 1px solid var(--line); text-decoration: none; padding: 13px 19px; border-radius: 14px; background: rgba(255,255,255,.04); }
+    .btn.primary { background: var(--green); color: #07100b; border-color: transparent; font-weight: 760; }
+    .console {
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.025));
+      border-radius: 28px;
+      box-shadow: 0 30px 110px rgba(0,0,0,.38);
+      overflow: hidden;
+    }
+    .console-head { display: flex; justify-content: space-between; align-items: center; padding: 16px 18px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+    .dots { display: flex; gap: 7px; }
+    .dots span { width: 10px; height: 10px; border-radius: 50%; background: var(--line); }
+    .console-body { padding: 22px; font-family: "SFMono-Regular", ui-monospace, monospace; }
+    .cmd, .result, .route { border: 1px solid var(--line); border-radius: 18px; padding: 18px; margin-bottom: 14px; background: rgba(0,0,0,.2); }
+    .cmd { color: var(--cyan); }
+    .route { color: var(--muted); }
+    .ok { color: var(--green); }
+    .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; padding: 0 clamp(22px, 4.5vw, 70px); }
+    .metric { background: rgba(255,255,255,.045); border: 1px solid var(--line); border-radius: 22px; padding: 22px; }
+    .metric strong { display: block; font-size: 36px; letter-spacing: -.05em; color: var(--green); }
+    .metric span { color: var(--muted); }
+    .sections { padding: 90px clamp(22px, 4.5vw, 70px); display: grid; gap: 24px; }
+    .section {
+      display: grid;
+      grid-template-columns: 90px minmax(0, 1fr) minmax(280px, .45fr);
+      gap: 34px;
+      align-items: start;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      background: rgba(255,255,255,.035);
+      padding: clamp(28px, 5vw, 58px);
+      min-height: 330px;
+      animation: rise both linear;
+      animation-timeline: view();
+      animation-range: entry 0% cover 38%;
+    }
+    .num { color: var(--green); letter-spacing: .2em; font-size: 13px; }
+    .section h2 { font-size: clamp(42px, 6vw, 82px); line-height: .92; letter-spacing: -.07em; margin: 0; }
+    .section p { color: var(--muted); font-size: clamp(18px, 2.1vw, 28px); line-height: 1.35; margin: 0; }
+    .mini { display: grid; gap: 10px; }
+    .pill { border: 1px solid var(--line); border-radius: 999px; padding: 10px 14px; color: var(--muted); background: rgba(0,0,0,.2); }
+    .resources { display: grid; grid-template-columns: .9fr 1.1fr; gap: 22px; padding: 0 clamp(22px, 4.5vw, 70px) 100px; }
+    .leadbox, .linkbox { border: 1px solid var(--line); background: rgba(255,255,255,.04); border-radius: 28px; padding: 32px; animation: rise both linear; animation-timeline: view(); animation-range: entry 8% cover 32%; }
+    .leadbox h2 { font-size: clamp(36px, 5vw, 72px); line-height: .96; letter-spacing: -.065em; margin: 12px 0; }
+    .leadbox p, .linkbox p { color: var(--muted); line-height: 1.7; }
+    .linkbox:hover { box-shadow: 0 26px 80px rgba(96,240,165,.12); transform: translateY(-4px); transition: .25s ease; }
+    @keyframes rise { from { opacity: 0; transform: translateY(90px) scale(.98); filter: blur(10px); } to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); } }
+    @media (prefers-reduced-motion: reduce) { .section, .leadbox, .linkbox { animation: none; } }
+    @media (max-width: 900px) { .hero, .section, .resources { grid-template-columns: 1fr; } .metrics { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="grid-bg"></div>
+  <nav><div class="brand"><span class="mark">A</span>Arqel</div><div><a href="#usage">Key 用量</a><a href="#docs">Docs</a><a href="#login">登录</a></div></nav>
+  <main>
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Command center for model access</p>
+        <h1>Route every model from one API.</h1>
+        <p class="lead">把模型、Key、消耗和失败恢复集中在一块干净的控制面板里。</p>
+        <p class="desc">这版更偏开发者命令台：深色、技术感、强调请求链路和路由状态。适合你想让首页一眼看起来像“API 网关产品”。</p>
+        <div class="actions"><a class="btn primary" href="#start">Create API key</a><a class="btn" href="#usage">Check usage</a></div>
+      </div>
+      <div class="console">
+        <div class="console-head"><div class="dots"><span></span><span></span><span></span></div><span>arqel request trace</span></div>
+        <div class="console-body"><div class="cmd">POST /v1/chat/completions</div><div class="route">policy: available → affordable → fast</div><div class="result"><span class="ok">200 OK</span><br>{ model: "auto", upstream: "claude" }</div></div>
+      </div>
+    </section>
+    <section class="metrics"><div class="metric"><strong>1</strong><span>统一入口</span></div><div class="metric"><strong>3+</strong><span>模型上游</span></div><div class="metric"><strong>trace</strong><span>失败可追踪</span></div></section>
+    <section class="sections">
+      <article class="section"><div class="num">01</div><h2>接入少一点。</h2><p>常用模型、Key 管理、用量查看和基础路由放在同一处。先把请求跑通，再优化模型和策略。</p><div class="mini"><span class="pill">Claude</span><span class="pill">GPT</span><span class="pill">Gemini</span></div></article>
+      <article class="section"><div class="num">02</div><h2>承诺克制一点。</h2><p>不包装成官方服务，不承诺绕过平台规则。上游波动时，界面应该告诉你发生了什么。</p><div class="mini"><span class="pill">No fake official</span><span class="pill">No magic unlimited</span></div></article>
+      <article class="section"><div class="num">03</div><h2>问题清楚一点。</h2><p>价格、消耗和可用状态尽量透明。失败请求优先做到可追踪、可解释、可恢复。</p><div class="mini"><span class="pill">Usage</span><span class="pill">Billing</span><span class="pill">Recovery</span></div></article>
+    </section>
+    <section class="resources"><div class="leadbox"><p class="eyebrow">Vibe Coding</p><h2>从第一条请求开始。</h2><p>创建 Key，复制 API 地址，接入 Cursor、Claude Code 或小工具。</p></div><div class="linkbox"><h3>文档入口</h3><p>模型名、Base URL、客户端配置和常见错误。</p></div><div class="linkbox"><h3>交流群</h3><p>卡住时直接问，优先帮你跑通第一条请求。</p></div></section>
+  </main>
+</body>
+</html>

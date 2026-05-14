@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arqel - Mono Gateway</title>
+  <style>
+    :root { --ink:#201d1d; --canvas:#fdfcfc; --soft:#f8f7f7; --card:#f1eeee; --muted:#646262; --ash:#9a9898; --line:rgba(15,0,0,.13); --blue:#007aff; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--canvas); color: var(--ink); font-family: "JetBrains Mono", "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 16px; line-height: 1.5; }
+    a { color: inherit; text-decoration: none; }
+    .nav { height: 58px; display: flex; align-items: center; justify-content: space-between; max-width: 1080px; margin: 0 auto; padding: 0 22px; border-bottom: 1px solid var(--line); }
+    .brand { font-weight: 700; letter-spacing: -.03em; }
+    .links { display: flex; gap: 18px; color: var(--muted); font-size: 14px; }
+    .button { display: inline-flex; align-items: center; justify-content: center; min-height: 36px; border-radius: 4px; padding: 0 16px; border: 1px solid var(--ink); font-weight: 600; }
+    .button.dark { background: var(--ink); color: var(--canvas); }
+    main { max-width: 1080px; margin: 0 auto; padding: 74px 22px 42px; }
+    .hero { display: grid; gap: 42px; }
+    .news { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; color: var(--muted); }
+    .tag { background: var(--ink); color: var(--canvas); border-radius: 4px; padding: 2px 8px; font-size: 14px; }
+    h1 { max-width: 900px; margin: 0; font-size: clamp(32px, 5vw, 52px); line-height: 1.22; letter-spacing: -.035em; }
+    .lead { max-width: 760px; margin: 0; color: #424245; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .terminal { background: var(--ink); color: var(--canvas); padding: clamp(28px, 6vw, 64px) clamp(18px, 4vw, 34px); overflow: auto; }
+    .ascii { font-size: clamp(18px, 3.4vw, 38px); font-weight: 700; line-height: 1.05; white-space: pre; margin: 0 0 32px; }
+    .prompt { background: #302c2c; border-radius: 4px; padding: 12px; color: #fdfcfc; min-width: 640px; }
+    .prompt span { color: var(--ash); }
+    .meta { display: flex; justify-content: space-between; gap: 16px; color: var(--ash); margin-top: 18px; min-width: 640px; }
+    .sections { margin-top: 92px; display: grid; gap: 0; border-top: 1px solid var(--line); }
+    .row { display: grid; grid-template-columns: 190px 1fr; gap: 28px; padding: 26px 0; border-bottom: 1px solid var(--line); }
+    .row h2 { margin: 0; font-size: 16px; }
+    .row p { margin: 0; color: #424245; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); margin-top: 92px; }
+    .stat { background: var(--canvas); padding: 20px; }
+    .stat strong { display: block; font-size: 28px; }
+    footer { max-width: 1080px; margin: 48px auto 0; padding: 30px 22px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+    @media (max-width: 760px) { .links { display: none; } .row, .stats { grid-template-columns: 1fr; } main { padding-top: 46px; } }
+  </style>
+</head>
+<body>
+  <header class="nav"><a class="brand">ARQEL</a><div class="links"><a>Docs</a><a>Pricing</a><a>Status</a><a>Gateway</a></div><a class="button dark">Sign in</a></header>
+  <main>
+    <section class="hero">
+      <div class="news"><span class="tag">Live</span><span>Unified AI API Gateway for Claude, GPT, Gemini and more.</span></div>
+      <h1>One endpoint for model routing, key usage, and fallback control.</h1>
+      <p class="lead">Arqel keeps the public homepage plain and exact: create a key, call an OpenAI-compatible endpoint, review usage, and keep upstream model changes visible instead of mysterious.</p>
+      <div class="actions"><a class="button dark">Get started</a><a class="button">Read docs</a></div>
+      <aside class="terminal">
+        <pre class="ascii"> █████╗ ██████╗  ██████╗ ███████╗██╗     
+██╔══██╗██╔══██╗██╔═══██╗██╔════╝██║     
+███████║██████╔╝██║   ██║█████╗  ██║     
+██╔══██║██╔══██╗██║▄▄ ██║██╔══╝  ██║     
+██║  ██║██║  ██║╚██████╔╝███████╗███████╗</pre>
+        <div class="prompt">| POST /v1/chat/completions <span>model=auto route=claude,gpt,gemini</span></div>
+        <div class="meta"><span>tab switch provider</span><span>ctrl-k inspect usage</span><span>status 200</span></div>
+      </aside>
+    </section>
+    <section class="sections">
+      <article class="row"><h2>[+] What we do</h2><p>Unify multiple AI model providers behind a stable API address, with usage accounting and predictable key management.</p></article>
+      <article class="row"><h2>[-] What we do not do</h2><p>We do not pretend to be the official provider. Upstream limits, latency, and policy still matter and should stay visible.</p></article>
+      <article class="row"><h2>[x] Why it works</h2><p>Small surface area: fewer visual promises, fewer product concepts, and a homepage that says exactly how developers start.</p></article>
+    </section>
+    <section class="stats"><div class="stat"><strong>1</strong><span>API base URL</span></div><div class="stat"><strong>3+</strong><span>model families</span></div><div class="stat"><strong>0</strong><span>hidden setup steps</span></div></section>
+  </main>
+  <footer>© Arqel. Key usage query · API docs · Service status</footer>
+</body>
+</html>

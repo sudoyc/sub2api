@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arqel - AI Cloud</title>
+  <style>
+    :root { --ink:#171717; --body:#4d4d4d; --muted:#888; --line:#ebebeb; --canvas:#fff; --soft:#fafafa; --blue:#007cf0; --cyan:#00dfd8; --violet:#7928ca; --pink:#ff0080; --red:#ff4d4d; --amber:#f9cb28; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--soft); color: var(--ink); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    a { color: inherit; text-decoration: none; }
+    .nav { position: sticky; top: 0; z-index: 10; height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 0 24px; background: rgba(255,255,255,.86); border-bottom: 1px solid var(--line); backdrop-filter: blur(14px); }
+    .brand { font-weight: 650; letter-spacing: -.04em; }
+    .links { display: flex; gap: 6px; color: var(--body); font-size: 14px; }
+    .links a { padding: 8px 10px; border-radius: 999px; }
+    .nav-actions { display: flex; gap: 8px; }
+    .small { min-height: 30px; display: inline-flex; align-items: center; border-radius: 7px; border: 1px solid var(--line); padding: 0 10px; font-size: 14px; font-weight: 550; background: white; }
+    .small.dark, .btn.dark { background: var(--ink); color: white; border-color: var(--ink); }
+    .hero { position: relative; overflow: hidden; min-height: 760px; display: grid; place-items: center; padding: 96px 24px 70px; background: var(--canvas); }
+    .mesh { position: absolute; inset: -20% -10% auto; height: 580px; background: radial-gradient(circle at 24% 32%, rgba(0,124,240,.72), transparent 25%), radial-gradient(circle at 48% 26%, rgba(0,223,216,.62), transparent 22%), radial-gradient(circle at 66% 28%, rgba(255,0,128,.62), transparent 24%), radial-gradient(circle at 58% 62%, rgba(249,203,40,.64), transparent 23%), radial-gradient(circle at 40% 58%, rgba(121,40,202,.5), transparent 28%); filter: blur(34px); opacity: .84; }
+    .hero-inner { position: relative; z-index: 1; width: min(980px, 100%); text-align: center; }
+    .banner { display: inline-flex; align-items: center; gap: 8px; min-height: 34px; border-radius: 999px; background: rgba(255,255,255,.78); border: 1px solid rgba(0,0,0,.08); padding: 0 13px; color: var(--body); font-size: 14px; box-shadow: 0 2px 2px rgba(0,0,0,.04); }
+    h1 { margin: 26px auto 0; max-width: 850px; font-size: clamp(44px, 8vw, 86px); line-height: .94; letter-spacing: -.07em; font-weight: 650; }
+    .lead { margin: 24px auto 0; max-width: 680px; color: var(--body); font-size: clamp(17px, 2.1vw, 20px); line-height: 1.6; }
+    .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 34px; }
+    .btn { min-height: 48px; display: inline-flex; align-items: center; justify-content: center; border-radius: 999px; border: 1px solid var(--line); background: white; padding: 0 20px; font-size: 16px; font-weight: 580; box-shadow: 0 2px 2px rgba(0,0,0,.04); }
+    .console { margin: 58px auto 0; max-width: 880px; overflow: hidden; text-align: left; border-radius: 16px; background: #171717; color: white; border: 1px solid rgba(255,255,255,.1); box-shadow: 0 24px 70px rgba(0,0,0,.18), inset 0 0 0 1px rgba(255,255,255,.06); }
+    .console-head { height: 44px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; border-bottom: 1px solid rgba(255,255,255,.1); color: #aaa; font: 12px/1 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+    .code { padding: 22px; font: 13px/1.7 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; color: #d6d6d6; }
+    .cyan { color: #50e3c2; } .pink { color: #ff0080; } .blue { color: #58a6ff; } .dim { color: #777; }
+    .band { padding: 96px 24px; }
+    .band-inner { max-width: 1180px; margin: 0 auto; }
+    .section-title { max-width: 650px; margin: 0; font-size: clamp(34px, 5vw, 58px); line-height: 1; letter-spacing: -.055em; font-weight: 650; }
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 34px; }
+    .card { min-height: 230px; border-radius: 14px; background: white; border: 1px solid var(--line); padding: 24px; box-shadow: 0 1px 1px rgba(0,0,0,.03), 0 8px 16px -8px rgba(0,0,0,.12); }
+    .card small { color: var(--muted); font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+    .card h3 { margin: 48px 0 8px; font-size: 22px; letter-spacing: -.035em; }
+    .card p { color: var(--body); line-height: 1.65; margin: 0; }
+    .dark-band { background: var(--ink); color: white; padding: 92px 24px; }
+    .dark-band p { color: #bdbdbd; max-width: 620px; line-height: 1.7; }
+    @media (max-width: 860px) { .links { display: none; } .cards { grid-template-columns: 1fr; } .hero { min-height: auto; } }
+    @media (max-width: 560px) { .nav { padding: 0 16px; } .nav-actions .small:first-child { display:none; } }
+  </style>
+</head>
+<body>
+  <header class="nav"><a class="brand">▲ Arqel</a><nav class="links"><a>Products</a><a>Docs</a><a>Models</a><a>Pricing</a></nav><div class="nav-actions"><a class="small">Usage query</a><a class="small dark">Sign Up</a></div></header>
+  <section class="hero">
+    <div class="mesh"></div>
+    <div class="hero-inner">
+      <div class="banner">Introducing automatic fallback routing <span>→</span></div>
+      <h1>Build on every AI model with one gateway.</h1>
+      <p class="lead">Arqel gives developers a single OpenAI-compatible entry point for Claude, GPT, Gemini and future providers, with usage visibility and operational controls built in.</p>
+      <div class="actions"><a class="btn dark">Start building</a><a class="btn">View documentation</a></div>
+      <div class="console"><div class="console-head"><span>api.arqel.dev</span><span>route:auto</span></div><div class="code"><span class="dim">POST</span> <span class="cyan">/v1/chat/completions</span><br />{<br />  <span class="blue">"model"</span>: <span class="pink">"auto"</span>,<br />  <span class="blue">"fallback"</span>: [<span class="pink">"claude"</span>, <span class="pink">"gpt"</span>, <span class="pink">"gemini"</span>]<br />}<br /><span class="dim">// 200 OK in 842ms</span></div></div>
+    </div>
+  </section>
+  <section class="band"><div class="band-inner"><h2 class="section-title">A gateway surface engineered for production AI apps.</h2><div class="cards"><article class="card"><small>01 ROUTE</small><h3>Provider fallback</h3><p>Define priority routes once, then keep apps working through model or provider turbulence.</p></article><article class="card"><small>02 METER</small><h3>Usage clarity</h3><p>Query key consumption, understand spend, and expose predictable limits to your users.</p></article><article class="card"><small>03 ADAPT</small><h3>OpenAI compatible</h3><p>Keep clients simple with a familiar API shape while swapping providers behind the gateway.</p></article></div></div></section>
+  <section class="dark-band"><div class="band-inner"><h2 class="section-title">Fewer integration branches. More reliable AI features.</h2><p>Use the homepage to sell one idea strongly: Arqel is not another model brand. It is the operational layer between your product and the changing AI model market.</p><div class="actions" style="justify-content:flex-start"><a class="btn">Create an API key</a></div></div></section>
+</body>
+</html>

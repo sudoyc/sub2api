@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sub2API Sketch — Flat Light</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f6f7f9;
+      --panel: #ffffff;
+      --panel-2: #eef1f5;
+      --text: #14161a;
+      --muted: #616975;
+      --line: #dde3ea;
+      --line-strong: #cfd6df;
+      --accent: #1668f5;
+      --accent-soft: rgba(22, 104, 245, 0.08);
+      --success: #127a4b;
+      --shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+      --radius: 14px;
+      --radius-sm: 10px;
+      --max: 1120px;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    a { color: inherit; text-decoration: none; }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 24px; }
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      padding: 14px 18px; background: rgba(255,255,255,0.72); backdrop-filter: blur(8px);
+      border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); position: sticky; top: 18px; z-index: 10;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; letter-spacing: -0.02em; }
+    .mark { width: 38px; height: 38px; border-radius: 12px; background: #111827; color: #fff; display: grid; place-items: center; font-size: 14px; }
+    .nav { display: flex; align-items: center; gap: 18px; color: var(--muted); font-size: 14px; }
+    .cta {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      height: 42px; padding: 0 16px; border-radius: 12px; border: 1px solid var(--line);
+      background: #fff; font-weight: 600;
+    }
+    .cta.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .hero {
+      display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 28px; align-items: stretch;
+      padding: 42px 0 28px;
+    }
+    .hero-copy, .hero-panel, .card, .section {
+      background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow);
+    }
+    .hero-copy { padding: 34px; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 999px;
+      background: var(--accent-soft); color: var(--accent); font-size: 13px; font-weight: 600; margin-bottom: 18px;
+    }
+    h1 { margin: 0; font-size: clamp(34px, 6vw, 60px); line-height: 1.02; letter-spacing: -0.05em; }
+    .lead { margin: 18px 0 0; font-size: 17px; color: var(--muted); max-width: 58ch; }
+    .hero-actions { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 28px; }
+    .stat { padding: 16px; border-radius: 12px; background: var(--panel-2); border: 1px solid var(--line); }
+    .stat strong { display: block; font-size: 22px; letter-spacing: -0.03em; }
+    .stat span { color: var(--muted); font-size: 13px; }
+    .hero-panel { padding: 20px; display: grid; gap: 14px; }
+    .console {
+      background: #f8fafc; border: 1px solid var(--line); border-radius: 14px; padding: 16px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px;
+    }
+    .line { display: flex; gap: 10px; padding: 7px 0; border-bottom: 1px solid #edf1f6; }
+    .line:last-child { border-bottom: 0; }
+    .tag { color: var(--accent); }
+    .ok { color: var(--success); }
+    .mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .mini { padding: 14px; border-radius: 12px; border: 1px solid var(--line); background: #fff; }
+    .mini b { display: block; font-size: 16px; }
+    .mini p { margin: 6px 0 0; color: var(--muted); font-size: 13px; }
+    .section { margin-top: 18px; padding: 24px; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+    .section h2 { margin: 0; font-size: 22px; letter-spacing: -0.03em; }
+    .section p { margin: 6px 0 0; color: var(--muted); }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .feature { padding: 18px; border-radius: 14px; border: 1px solid var(--line); background: linear-gradient(180deg, #fff, #fbfcfe); }
+    .feature .icon { width: 36px; height: 36px; border-radius: 10px; background: #eef4ff; color: var(--accent); display: grid; place-items: center; font-weight: 700; margin-bottom: 14px; }
+    .feature h3 { margin: 0; font-size: 16px; }
+    .feature p { margin-top: 8px; font-size: 14px; }
+    .toggle-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .chip { padding: 9px 12px; border-radius: 999px; border: 1px solid var(--line); background: #fff; font-size: 13px; color: var(--muted); cursor: pointer; }
+    .chip.active { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+    footer { color: var(--muted); font-size: 13px; padding: 24px 4px 8px; text-align: center; }
+    @media (max-width: 900px) {
+      .hero, .grid, .mini-grid, .stats { grid-template-columns: 1fr; }
+      .topbar { position: static; }
+      .nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <div class="brand"><div class="mark">S</div>Sub2API</div>
+      <nav class="nav"><a href="#">首页</a><a href="#">仪表盘</a><a href="#">文档</a><a href="#">定价</a></nav>
+      <a class="cta primary" href="#">进入控制台</a>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow">Flat Light · 极简浅色工具风</div>
+          <h1>更少装饰，更清晰的信息层级。</h1>
+          <p class="lead">这版完全把渐变、发光和厚阴影收掉，靠留白、字号、边线和按钮状态来组织内容。适合做成更像工具而不是营销页的首页。</p>
+          <div class="hero-actions">
+            <a class="cta primary" href="#">开始使用</a>
+            <a class="cta" href="#">查看文档</a>
+          </div>
+          <div class="stats">
+            <div class="stat"><strong>12</strong><span>核心入口</span></div>
+            <div class="stat"><strong>3s</strong><span>完成首轮操作</span></div>
+            <div class="stat"><strong>99%</strong><span>信息优先级清晰</span></div>
+          </div>
+        </div>
+        <aside class="hero-panel">
+          <div class="console">
+            <div class="line"><span class="tag">$</span><span>sub2api status</span></div>
+            <div class="line"><span>mode</span><span class="ok">flat / minimal</span></div>
+            <div class="line"><span>surface</span><span>white + gray</span></div>
+            <div class="line"><span>effect</span><span>1px line, soft hover</span></div>
+          </div>
+          <div class="mini-grid">
+            <div class="mini"><b>账号</b><p>统一放在一列，不做视觉打散。</p></div>
+            <div class="mini"><b>支付</b><p>用清晰状态和步骤提示替代花哨卡片。</p></div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <h2>页面结构</h2>
+            <p>更像后台工具首页，而不是产品宣传页。</p>
+          </div>
+          <div class="toggle-row">
+            <span class="chip active">浅色</span>
+            <span class="chip">扁平</span>
+            <span class="chip">低装饰</span>
+          </div>
+        </div>
+        <div class="grid">
+          <article class="feature">
+            <div class="icon">1</div>
+            <h3>导航简化</h3>
+            <p>主入口集中，次要信息折叠在低权重区域。</p>
+          </article>
+          <article class="feature">
+            <div class="icon">2</div>
+            <h3>卡片扁平化</h3>
+            <p>减少阴影，更多使用边框和留白分区。</p>
+          </article>
+          <article class="feature">
+            <div class="icon">3</div>
+            <h3>状态优先</h3>
+            <p>成功、待处理、失败只用很少的颜色强调。</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>Flat Light · 参考重点：清爽、直接、低装饰、工具感。</footer>
+  </div>
+</body>
+</html>
