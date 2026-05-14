@@ -5,7 +5,8 @@
       <nav class="mx-auto flex max-w-6xl items-center justify-between">
         <router-link to="/home" class="flex items-center gap-3">
           <div class="h-10 w-10 overflow-hidden rounded-xl shadow-md">
-            <img :src="siteLogo || '/logo.png'" alt="Logo" class="h-full w-full object-contain" />
+            <img v-if="siteLogo" :src="siteLogo" alt="Logo" class="h-full w-full object-contain" />
+            <span v-else class="arqel-default-mark text-xl" aria-hidden="true">A</span>
           </div>
           <span class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white">{{ siteName }}</span>
         </router-link>
@@ -257,7 +258,7 @@
                       :class="row.iconColor"
                       viewBox="0 0 24 24" fill="none" stroke="currentColor"
                       stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                      v-html="row.iconSvg"
+                      v-html="sanitizeSvg(row.iconSvg)"
                     ></svg>
                   </div>
                   <span class="text-sm text-gray-700 dark:text-dark-200">{{ row.label }}</span>
@@ -366,6 +367,7 @@ import { useI18n } from 'vue-i18n'
 import { useAppStore } from '@/stores'
 import LocaleSwitcher from '@/components/common/LocaleSwitcher.vue'
 import Icon from '@/components/icons/Icon.vue'
+import { sanitizeSvg } from '@/utils/sanitize'
 import { initThemePreference, toggleThemePreference } from '@/utils/theme'
 
 const { t, locale } = useI18n()
@@ -373,7 +375,7 @@ const appStore = useAppStore()
 
 // ==================== Site Settings (same as HomeView) ====================
 
-const siteName = computed(() => appStore.cachedPublicSettings?.site_name || appStore.siteName || 'Sub2API')
+const siteName = computed(() => appStore.cachedPublicSettings?.site_name || appStore.siteName || 'Arqel')
 const siteLogo = computed(() => appStore.cachedPublicSettings?.site_logo || appStore.siteLogo || '')
 const docUrl = computed(() => appStore.cachedPublicSettings?.doc_url || appStore.docUrl || '')
 const githubUrl = 'https://github.com/Wei-Shaw/sub2api'
@@ -603,6 +605,7 @@ const detailRows = computed<DetailRow[]>(() => {
   if (!data) return []
 
   const rows: DetailRow[] = []
+  // Icons are local constants; sanitize before rendering to keep this public view safe if refactored later.
   const ICON_SHIELD = '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>'
   const ICON_CALENDAR = '<rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>'
   const ICON_DOLLAR = '<line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>'
@@ -911,14 +914,20 @@ onUnmounted(() => {
   color: var(--ku-soft);
 }
 
-/* Input focus ring */
 .input-ring {
-  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
+
 .input-ring:focus {
-  box-shadow: 0 0 0 3px var(--arqel-focus);
-  border-color: var(--arqel-accent);
+  border-color: var(--ku-line-strong);
+  box-shadow: none;
   outline: none;
+}
+
+.input-ring:focus-visible {
+  border-color: var(--arqel-focus-border);
+  outline: 1px solid var(--arqel-focus-outline);
+  outline-offset: 1px;
 }
 
 /* Ring animation */

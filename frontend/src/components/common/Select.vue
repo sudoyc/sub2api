@@ -6,7 +6,9 @@
       @click="toggle"
       :disabled="disabled"
       :aria-expanded="isOpen"
-      :aria-haspopup="true"
+      aria-haspopup="listbox"
+      :aria-controls="isOpen ? listboxId : undefined"
+      :aria-activedescendant="activeOptionId || undefined"
       aria-label="Select option"
       :class="[
         'select-trigger',
@@ -16,6 +18,9 @@
       ]"
       @keydown.down.prevent="onTriggerKeyDown"
       @keydown.up.prevent="onTriggerKeyDown"
+      @keydown.enter.prevent="onTriggerKeyDown"
+      @keydown.space.prevent="onTriggerKeyDown"
+      @keydown.esc.prevent="closeAndFocusTrigger"
     >
       <span class="select-value">
         <slot name="selected" :option="selectedOption">
@@ -40,6 +45,7 @@
           class="select-dropdown-portal"
           :class="[instanceId]"
           :style="dropdownStyle"
+          :id="listboxId"
           role="listbox"
           @click.stop
           @mousedown.stop
@@ -63,6 +69,7 @@
             <div
               v-for="(option, index) in filteredOptions"
               :key="`${typeof getOptionValue(option)}:${String(getOptionValue(option) ?? '')}`"
+              :id="getOptionId(index)"
               role="option"
               :aria-selected="isSelected(option)"
               :aria-disabled="isOptionDisabled(option)"
@@ -83,7 +90,7 @@
                   size="sm"
                   class="flex-shrink-0 text-gray-400"
                 />
-                <span class="select-option-label" :class="option._creatable && 'italic text-gray-500 dark:text-dark-300'">{{ getOptionLabel(option) }}</span>
+                <span class="select-option-label" :class="option._creatable && 'italic text-[var(--arqel-muted)]'">{{ getOptionLabel(option) }}</span>
                 <Icon
                   v-if="isSelected(option)"
                   name="check"
@@ -114,6 +121,7 @@ const { t } = useI18n()
 
 // Instance ID for unique click-outside detection
 const instanceId = `select-${Math.random().toString(36).substring(2, 9)}`
+const listboxId = `${instanceId}-listbox`
 
 export interface SelectOption {
   value: string | number | boolean | null
@@ -260,6 +268,16 @@ const filteredOptions = computed(() => {
   return opts
 })
 
+const getOptionId = (index: number) => `${instanceId}-option-${index}`
+
+const activeOptionId = computed(() => {
+  const index = focusedIndex.value
+  if (!isOpen.value || index < 0 || index >= filteredOptions.value.length) return ''
+  const option = filteredOptions.value[index]
+  if (isGroupHeaderOption(option) || isOptionDisabled(option)) return ''
+  return getOptionId(index)
+})
+
 const isSelected = (option: any): boolean => {
   return getOptionValue(option) === props.modelValue
 }
@@ -355,10 +373,53 @@ const selectOption = (option: any) => {
   triggerRef.value?.focus()
 }
 
-// Keyboards
-const onTriggerKeyDown = () => {
+const closeAndFocusTrigger = () => {
+  isOpen.value = false
+  triggerRef.value?.focus()
+}
+
+const selectFocusedOption = () => {
+  if (focusedIndex.value < 0 || focusedIndex.value >= filteredOptions.value.length) return
+  const opt = filteredOptions.value[focusedIndex.value]
+  if (!isOptionDisabled(opt) && !isGroupHeaderOption(opt)) {
+    selectOption(opt)
+  }
+}
+
+const focusNextOption = () => {
+  focusedIndex.value = findNextEnabledIndex(focusedIndex.value + 1)
+  if (focusedIndex.value >= 0) scrollToFocused()
+}
+
+const focusPrevOption = () => {
+  focusedIndex.value = findPrevEnabledIndex(focusedIndex.value - 1)
+  if (focusedIndex.value >= 0) scrollToFocused()
+}
+
+// Keyboard support for the trigger while focus remains on the button.
+const onTriggerKeyDown = (e: KeyboardEvent) => {
   if (!isOpen.value) {
     isOpen.value = true
+    if (e.key === 'ArrowUp') {
+      nextTick(() => {
+        focusedIndex.value = findPrevEnabledIndex(filteredOptions.value.length - 1)
+        scrollToFocused()
+      })
+    }
+    return
+  }
+
+  switch (e.key) {
+    case 'ArrowDown':
+      focusNextOption()
+      break
+    case 'ArrowUp':
+      focusPrevOption()
+      break
+    case 'Enter':
+    case ' ':
+      selectFocusedOption()
+      break
   }
 }
 
@@ -366,25 +427,19 @@ const onDropdownKeyDown = (e: KeyboardEvent) => {
   switch (e.key) {
     case 'ArrowDown':
       e.preventDefault()
-      focusedIndex.value = findNextEnabledIndex(focusedIndex.value + 1)
-      if (focusedIndex.value >= 0) scrollToFocused()
+      focusNextOption()
       break
     case 'ArrowUp':
       e.preventDefault()
-      focusedIndex.value = findPrevEnabledIndex(focusedIndex.value - 1)
-      if (focusedIndex.value >= 0) scrollToFocused()
+      focusPrevOption()
       break
     case 'Enter':
       e.preventDefault()
-      if (focusedIndex.value >= 0 && focusedIndex.value < filteredOptions.value.length) {
-        const opt = filteredOptions.value[focusedIndex.value]
-        if (!isOptionDisabled(opt)) selectOption(opt)
-      }
+      selectFocusedOption()
       break
     case 'Escape':
       e.preventDefault()
-      isOpen.value = false
-      triggerRef.value?.focus()
+      closeAndFocusTrigger()
       break
     case 'Tab':
       isOpen.value = false
@@ -433,25 +488,49 @@ onUnmounted(() => {
 .select-trigger {
   @apply flex w-full items-center justify-between gap-2;
   @apply rounded-xl px-4 py-2.5 text-sm;
-  @apply bg-white dark:bg-dark-800;
-  @apply border border-gray-200 dark:border-dark-600;
-  @apply text-gray-900 dark:text-gray-100;
-  @apply transition-all duration-200;
-  @apply focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/30;
-  @apply hover:border-gray-300 dark:hover:border-dark-500;
+  @apply border;
+  @apply transition-colors duration-150;
+  @apply focus:outline-none;
   @apply cursor-pointer;
+  background: var(--arqel-panel);
+  border-color: var(--arqel-line-strong);
+  color: var(--arqel-text);
+  --tw-ring-color: var(--arqel-focus);
 }
 
+.select-trigger:hover {
+  background: var(--arqel-panel-muted);
+  border-color: var(--arqel-line-strong);
+  box-shadow: none;
+}
+
+.select-trigger:focus {
+  border-color: var(--arqel-line-strong);
+  box-shadow: none;
+}
+
+  .select-trigger:focus-visible {
+    border-color: var(--arqel-focus-border);
+    outline: 2px solid var(--arqel-focus-outline);
+    outline-offset: 1px;
+  }
+
 .select-trigger-open {
-  @apply border-primary-500 ring-2 ring-primary-500/30;
+  border-color: var(--arqel-line-strong);
 }
 
 .select-trigger-error {
-  @apply border-red-500 focus:border-red-500 focus:ring-red-500/30;
+  @apply border-red-500 focus:border-red-500;
+}
+
+.select-trigger-error:focus,
+.select-trigger-error.select-trigger-open {
+  box-shadow: none;
 }
 
 .select-trigger-disabled {
-  @apply cursor-not-allowed bg-gray-100 opacity-60 dark:bg-dark-900;
+  @apply cursor-not-allowed opacity-60;
+  background: var(--arqel-panel-muted);
 }
 
 .select-value {
@@ -459,30 +538,33 @@ onUnmounted(() => {
 }
 
 .select-icon {
-  @apply flex-shrink-0 text-gray-400 dark:text-dark-400;
+  @apply flex-shrink-0;
+  color: var(--arqel-soft);
 }
 </style>
 
 <style>
 .select-dropdown-portal {
   @apply w-max min-w-[200px];
-  @apply bg-white dark:bg-dark-800;
   @apply rounded-xl;
-  @apply border border-gray-200 dark:border-dark-700;
-  @apply shadow-lg shadow-black/10 dark:shadow-black/30;
+  @apply border;
   @apply overflow-hidden;
+  background: var(--arqel-panel);
+  border-color: var(--arqel-line-strong);
+  box-shadow: var(--arqel-shadow);
   pointer-events: auto !important;
 }
 
 .select-dropdown-portal .select-search {
   @apply flex items-center gap-2 px-3 py-2;
-  @apply border-b border-gray-100 dark:border-dark-700;
+  @apply border-b;
+  border-color: var(--arqel-line);
 }
 
 .select-dropdown-portal .select-search-input {
   @apply flex-1 bg-transparent text-sm;
-  @apply text-gray-900 dark:text-gray-100;
-  @apply placeholder:text-gray-400 dark:placeholder:text-dark-400;
+  color: var(--arqel-text);
+  @apply placeholder:text-gray-400;
   @apply focus:outline-none;
 }
 
@@ -493,19 +575,23 @@ onUnmounted(() => {
 .select-dropdown-portal .select-option {
   @apply flex items-center justify-between gap-2;
   @apply px-4 py-2.5 text-sm;
-  @apply text-gray-700 dark:text-gray-300;
   @apply cursor-pointer transition-colors duration-150;
-  @apply hover:bg-gray-50 dark:hover:bg-dark-700;
+  color: var(--arqel-muted);
   pointer-events: auto !important;
 }
 
+.select-dropdown-portal .select-option:hover {
+  background: var(--arqel-panel-muted);
+  color: var(--arqel-text);
+}
+
 .select-dropdown-portal .select-option-selected {
-  @apply bg-primary-50 dark:bg-primary-900/20;
-  @apply text-primary-700 dark:text-primary-300;
+  background: var(--arqel-accent-soft);
+  color: var(--arqel-accent-strong);
 }
 
 .select-dropdown-portal .select-option-focused {
-  @apply bg-gray-100 dark:bg-dark-700;
+  background: var(--arqel-panel-muted);
 }
 
 .select-dropdown-portal .select-option-disabled {
@@ -514,13 +600,13 @@ onUnmounted(() => {
 
 .select-dropdown-portal .select-option-group {
   @apply cursor-default select-none;
-  @apply bg-gray-50 dark:bg-dark-900;
   @apply text-[11px] font-bold uppercase tracking-wider;
-  @apply text-gray-500 dark:text-gray-400;
+  background: var(--arqel-panel-muted);
+  color: var(--arqel-soft);
 }
 
 .select-dropdown-portal .select-option-group:hover {
-  @apply bg-gray-50 dark:bg-dark-900;
+  background: var(--arqel-panel-muted);
 }
 
 .select-dropdown-portal .select-option-label {
@@ -529,7 +615,7 @@ onUnmounted(() => {
 
 .select-dropdown-portal .select-empty {
   @apply px-4 py-8 text-center text-sm;
-  @apply text-gray-500 dark:text-dark-400;
+  color: var(--arqel-muted);
 }
 
 .select-dropdown-enter-active,

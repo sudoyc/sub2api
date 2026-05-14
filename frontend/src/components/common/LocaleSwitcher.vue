@@ -3,7 +3,7 @@
     <button
       @click="toggleDropdown"
       :disabled="switching"
-      class="flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-dark-700"
+      class="flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-sm font-medium text-[var(--arqel-muted)] transition-colors hover:bg-[var(--arqel-panel-muted)] hover:text-[var(--arqel-text)]"
       :title="currentLocale?.name"
     >
       <span class="text-base">{{ currentLocale?.flag }}</span>
@@ -19,16 +19,16 @@
     <transition name="dropdown">
       <div
         v-if="isOpen"
-        class="absolute right-0 z-50 mt-1 w-32 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-lg dark:border-dark-700 dark:bg-dark-800"
+        class="dropdown absolute right-0 z-50 mt-1 w-32 overflow-hidden"
       >
         <button
           v-for="locale in availableLocales"
           :key="locale.code"
           :disabled="switching"
           @click="selectLocale(locale.code)"
-          class="flex w-full items-center gap-2 px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-dark-700"
+          class="flex w-full items-center gap-2 px-3 py-2 text-sm text-[var(--arqel-muted)] transition-colors hover:bg-[var(--arqel-panel-muted)] hover:text-[var(--arqel-text)]"
           :class="{
-            'bg-primary-50 text-primary-600 dark:bg-primary-900/20 dark:text-primary-400':
+            'bg-[var(--arqel-accent-soft)] text-[var(--arqel-accent-strong)]':
               locale.code === currentLocaleCode
           }"
         >

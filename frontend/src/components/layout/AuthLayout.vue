@@ -29,12 +29,13 @@
         <!-- Custom Logo or Default Logo -->
         <template v-if="settingsLoaded">
           <div v-if="settingsLoaded" class="auth-brand-mark mb-4 inline-flex h-16 w-16">
-            <img :src="siteLogo || '/logo.png'" alt="Logo" class="h-full w-full object-contain" />
+            <img v-if="siteLogo" :src="siteLogo" alt="Logo" class="h-full w-full object-contain" />
+            <span v-else class="arqel-default-mark text-3xl" aria-hidden="true">A</span>
           </div>
           <h1 class="text-gradient mb-2 text-3xl font-bold">
             {{ siteName }}
           </h1>
-          <p class="text-sm text-gray-500 dark:text-dark-400">
+          <p class="text-sm text-[var(--arqel-muted)]">
             {{ siteSubtitle }}
           </p>
         </template>
@@ -51,7 +52,7 @@
       </div>
 
       <!-- Copyright -->
-      <div class="mt-8 text-center text-xs text-gray-400 dark:text-dark-500">
+      <div class="mt-8 text-center text-xs text-[var(--arqel-soft)]">
         &copy; {{ currentYear }} {{ siteName }}. All rights reserved.
       </div>
     </div>
@@ -65,7 +66,7 @@ import { sanitizeUrl } from '@/utils/url'
 
 const appStore = useAppStore()
 
-const siteName = computed(() => appStore.siteName || 'Sub2API')
+const siteName = computed(() => appStore.siteName || 'Arqel')
 const siteLogo = computed(() => sanitizeUrl(appStore.siteLogo || '', { allowRelative: true, allowDataUrl: true }))
 const siteSubtitle = computed(() => appStore.cachedPublicSettings?.site_subtitle || 'Subscription to API Conversion Platform')
 const settingsLoaded = computed(() => appStore.publicSettingsLoaded)
@@ -101,7 +102,7 @@ onMounted(() => {
   overflow: hidden;
   border: 1px solid var(--arqel-line-strong);
   border-radius: 1rem;
-  background: var(--arqel-panel);
+  background: color-mix(in srgb, var(--arqel-panel) 86%, var(--arqel-accent-softer));
   box-shadow: var(--arqel-shadow);
 }
 

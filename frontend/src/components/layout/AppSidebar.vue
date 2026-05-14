@@ -10,7 +10,8 @@
     <div class="sidebar-header" :class="{ 'sidebar-header-collapsed': sidebarCollapsed }">
       <!-- Custom Logo or Default Logo -->
       <div v-if="settingsLoaded" class="auth-brand-mark flex h-9 w-9">
-        <img :src="siteLogo || '/logo.png'" alt="Logo" class="h-full w-full object-contain" />
+        <img v-if="siteLogo" :src="siteLogo" alt="Logo" class="h-full w-full object-contain" />
+        <span v-else class="arqel-default-mark text-lg" aria-hidden="true">A</span>
       </div>
       <div class="sidebar-brand" :class="{ 'sidebar-brand-collapsed': sidebarCollapsed }" :aria-hidden="sidebarCollapsed ? 'true' : 'false'">
         <span class="sidebar-brand-title text-lg font-bold">
@@ -54,7 +55,7 @@
                 </span>
               </button>
               <!-- Children -->
-              <div v-if="!sidebarCollapsed && isGroupExpanded(item)" class="mb-1 ml-4 border-l border-gray-200 pl-2 dark:border-dark-600">
+              <div v-if="!sidebarCollapsed && isGroupExpanded(item)" class="mb-1 ml-4 border-l border-[var(--arqel-line)] pl-2">
                 <router-link
                   v-for="child in item.children"
                   :key="child.path"
@@ -140,7 +141,7 @@
     </nav>
 
     <!-- Bottom Section -->
-    <div class="mt-auto border-t border-gray-100 p-3 dark:border-dark-800">
+    <div class="mt-auto border-t border-[var(--arqel-line)] p-3">
       <!-- Theme Toggle -->
       <button
         @click="toggleTheme"

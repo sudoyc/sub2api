@@ -14,6 +14,15 @@ const appStore = useAppStore()
 const authStore = useAuthStore()
 const subscriptionStore = useSubscriptionStore()
 const announcementStore = useAnnouncementStore()
+const DEFAULT_FAVICON = '/favicon.svg'
+
+function faviconMimeType(logoUrl: string) {
+  const path = logoUrl.split(/[?#]/, 1)[0]?.toLowerCase() || ''
+  if (path.endsWith('.svg')) return 'image/svg+xml'
+  if (path.endsWith('.png')) return 'image/png'
+  if (path.endsWith('.ico')) return 'image/x-icon'
+  return 'image/png'
+}
 
 /**
  * Update favicon dynamically
@@ -27,7 +36,7 @@ function updateFavicon(logoUrl: string) {
     link.rel = 'icon'
     document.head.appendChild(link)
   }
-  link.type = logoUrl.endsWith('.svg') ? 'image/svg+xml' : 'image/x-icon'
+  link.type = faviconMimeType(logoUrl)
   link.href = logoUrl
 }
 
@@ -35,9 +44,7 @@ function updateFavicon(logoUrl: string) {
 watch(
   () => appStore.siteLogo,
   (newLogo) => {
-    if (newLogo) {
-      updateFavicon(newLogo)
-    }
+    updateFavicon(newLogo || DEFAULT_FAVICON)
   },
   { immediate: true }
 )

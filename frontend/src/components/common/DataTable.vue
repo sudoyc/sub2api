@@ -1,14 +1,14 @@
 <template>
   <div v-if="!isDesktopViewport" class="space-y-3">
-    <template v-if="loading">
+    <template v-if="isLoadingState">
       <div v-for="i in 5" :key="i" class="arqel-mobile-row rounded-lg border p-4">
         <div class="space-y-3">
-          <div v-for="column in dataColumns" :key="column.key" class="flex justify-between">
-            <div class="h-4 w-20 animate-pulse rounded bg-gray-200 dark:bg-dark-700"></div>
-            <div class="h-4 w-32 animate-pulse rounded bg-gray-200 dark:bg-dark-700"></div>
-          </div>
-          <div v-if="hasActionsColumn" class="border-t border-gray-200 pt-3 dark:border-dark-700">
-            <div class="h-8 w-full animate-pulse rounded bg-gray-200 dark:bg-dark-700"></div>
+            <div v-for="column in dataColumns" :key="column.key" class="flex justify-between">
+              <div class="skeleton h-4 w-20"></div>
+              <div class="skeleton h-4 w-32"></div>
+            </div>
+          <div v-if="hasActionsColumn" class="border-t border-[var(--arqel-line)] pt-3">
+            <div class="skeleton h-8 w-full"></div>
           </div>
         </div>
       </div>
@@ -52,7 +52,7 @@
               </slot>
             </div>
           </div>
-          <div v-if="hasActionsColumn" class="border-t border-gray-200 pt-3 dark:border-dark-700">
+          <div v-if="hasActionsColumn" class="border-t border-[var(--arqel-line)] pt-3">
             <slot name="cell-actions" :row="row" :value="row['actions']" :expanded="actionsExpanded"></slot>
           </div>
         </div>
@@ -64,6 +64,7 @@
     v-else
     ref="tableWrapperRef"
     class="table-wrapper"
+    :style="tableWrapperStyle"
     :class="{
       'actions-expanded': actionsExpanded,
       'is-scrollable': isScrollable
@@ -79,7 +80,7 @@
             :class="[
               'sticky-header-cell py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-dark-400',
               getAdaptivePaddingClass(),
-              { 'cursor-pointer hover:bg-gray-100 dark:hover:bg-dark-700': column.sortable },
+              { 'cursor-pointer hover:bg-[var(--arqel-panel-raised)]': column.sortable },
               getStickyColumnClass(column, index),
               column.class
             ]"
@@ -120,10 +121,10 @@
       </thead>
       <tbody class="table-body divide-y divide-[var(--arqel-line)]">
         <!-- Loading skeleton -->
-        <tr v-if="loading" v-for="i in 5" :key="i">
+        <tr v-if="isLoadingState" v-for="i in 5" :key="i">
           <td v-for="column in columns" :key="column.key" :class="['whitespace-nowrap py-4', getAdaptivePaddingClass()]">
             <div class="animate-pulse">
-              <div class="h-4 w-3/4 rounded bg-gray-200 dark:bg-dark-700"></div>
+              <div class="skeleton h-4 w-3/4"></div>
             </div>
           </td>
         </tr>
@@ -216,7 +217,6 @@ const emit = defineEmits<{
 // 表格容器引用
 const tableWrapperRef = ref<HTMLElement | null>(null)
 const isScrollable = ref(false)
-const actionsColumnNeedsExpanding = ref(false)
 
 // 检查是否可滚动
 const checkScrollable = () => {
@@ -225,59 +225,34 @@ const checkScrollable = () => {
   }
 }
 
-// 检查操作列是否需要展开
-const checkActionsColumnWidth = () => {
-  if (!tableWrapperRef.value) return
-
-  // 查找第一行的操作列单元格
-  const firstActionCell = tableWrapperRef.value.querySelector('tbody tr:first-child td:last-child')
-  if (!firstActionCell) return
-
-  // 查找操作列内容的容器div
-  const actionsContainer = firstActionCell.querySelector('div')
-  if (!actionsContainer) return
-
-  // 临时展开以测量完整宽度
-  const wasExpanded = actionsExpanded.value
-  actionsExpanded.value = true
-
-  // 等待DOM更新
-  nextTick(() => {
-    // 测量所有按钮的总宽度
-    const actionItems = actionsContainer.querySelectorAll('button, a, [role="button"]')
-    if (actionItems.length <= 2) {
-      actionsColumnNeedsExpanding.value = false
-      actionsExpanded.value = wasExpanded
-      return
-    }
-
-    // 计算所有按钮的总宽度（包括gap）
-    let totalWidth = 0
-    actionItems.forEach((item, index) => {
-      totalWidth += (item as HTMLElement).offsetWidth
-      if (index < actionItems.length - 1) {
-        totalWidth += 4 // gap-1 = 4px
-      }
-    })
-
-    // 获取单元格可用宽度（减去padding）
-    const cellWidth = (firstActionCell as HTMLElement).clientWidth - 32 // 减去左右padding
-
-    // 如果总宽度超过可用宽度，需要展开功能
-    actionsColumnNeedsExpanding.value = totalWidth > cellWidth
-
-    // 恢复原来的展开状态
-    actionsExpanded.value = wasExpanded
-  })
-}
-
 // 监听尺寸变化
 let resizeObserver: ResizeObserver | null = null
 let resizeHandler: (() => void) | null = null
 let desktopViewportMediaQuery: MediaQueryList | null = null
 let desktopViewportListener: ((event: MediaQueryListEvent) => void) | null = null
+let tableMetricsFrame: number | null = null
+
+const cancelScheduledTableMetrics = () => {
+  if (tableMetricsFrame !== null && typeof window !== 'undefined') {
+    window.cancelAnimationFrame(tableMetricsFrame)
+  }
+  tableMetricsFrame = null
+}
+
+const scheduleTableMetrics = () => {
+  if (typeof window === 'undefined') {
+    checkScrollable()
+    return
+  }
+  cancelScheduledTableMetrics()
+  tableMetricsFrame = window.requestAnimationFrame(() => {
+    tableMetricsFrame = null
+    checkScrollable()
+  })
+}
 
 const detachDesktopTableTracking = () => {
+  cancelScheduledTableMetrics()
   resizeObserver?.disconnect()
   resizeObserver = null
   if (resizeHandler) {
@@ -287,19 +262,16 @@ const detachDesktopTableTracking = () => {
 }
 
 const attachDesktopTableTracking = () => {
-  checkScrollable()
-  checkActionsColumnWidth()
+  scheduleTableMetrics()
   if (tableWrapperRef.value && typeof ResizeObserver !== 'undefined') {
     resizeObserver = new ResizeObserver(() => {
-      checkScrollable()
-      checkActionsColumnWidth()
+      scheduleTableMetrics()
     })
     resizeObserver.observe(tableWrapperRef.value)
   } else {
     // 降级方案：不支持 ResizeObserver 时使用 window resize
     resizeHandler = () => {
-      checkScrollable()
-      checkActionsColumnWidth()
+      scheduleTableMetrics()
     }
     window.addEventListener('resize', resizeHandler)
   }
@@ -337,6 +309,7 @@ interface Props {
   columns: Column[]
   data: any[]
   loading?: boolean
+  initialLoading?: boolean
   stickyFirstColumn?: boolean
   stickyActionsColumn?: boolean
   expandableActions?: boolean
@@ -365,6 +338,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   loading: false,
+  initialLoading: false,
   stickyFirstColumn: true,
   stickyActionsColumn: true,
   expandableActions: true,
@@ -372,10 +346,10 @@ const props = withDefaults(defineProps<Props>(), {
   serverSideSort: false
 })
 
+const actionsExpanded = computed(() => props.expandableActions && (props.actionsCount ?? 0) > 4)
+
 const sortKey = ref<string>('')
 const sortOrder = ref<'asc' | 'desc'>('asc')
-const actionsExpanded = ref(false)
-
 type PersistedSortState = {
   key: string
   order: 'asc' | 'desc'
@@ -503,6 +477,12 @@ const resolveRowKey = (row: any, index: number) => {
 }
 
 const dataColumns = computed(() => props.columns.filter((column) => column.key !== 'actions'))
+const isLoadingState = computed(() => props.loading || props.initialLoading)
+const tableWrapperStyle = computed(() => {
+  const actionsCount = props.actionsCount ?? 3
+  const width = Math.min(Math.max(actionsCount * 2.5, 8), 18)
+  return { '--actions-col-width': `${width}rem` }
+})
 const columnsSignature = computed(() =>
   props.columns.map((column) => `${column.key}:${column.sortable ? '1' : '0'}`).join('|')
 )
@@ -519,22 +499,14 @@ watch(
 )
 
 // 数据/列变化时重新检查滚动状态
-// 注意：不能监听 actionsExpanded，因为 checkActionsColumnWidth 会临时修改它，会导致无限循环
 watch(
   [() => props.data.length, columnsSignature],
   async () => {
     await nextTick()
-    checkScrollable()
-    checkActionsColumnWidth()
+    scheduleTableMetrics()
   },
   { flush: 'post' }
 )
-
-// 单独监听展开状态变化，只更新滚动状态
-watch(actionsExpanded, async () => {
-  await nextTick()
-  checkScrollable()
-})
 
 const handleSort = (key: string) => {
   let newOrder: 'asc' | 'desc' = 'asc'
@@ -714,6 +686,7 @@ defineExpose({
   flex: 1;
   min-height: 0;
   isolation: isolate;
+  background: var(--arqel-panel);
 }
 
 /* 表头容器，确保在滚动时覆盖表体内容 */
@@ -721,7 +694,7 @@ defineExpose({
   position: sticky;
   top: 0;
   z-index: 200;
-  background: var(--arqel-panel-muted);
+  background: color-mix(in srgb, var(--arqel-panel-muted) 82%, var(--arqel-panel));
 }
 
 /* 表体保持在表头下方 */
@@ -735,7 +708,7 @@ defineExpose({
   position: sticky;
   top: 0;
   z-index: 210; /* 必须高于所有表体内容 */
-  background: var(--arqel-panel-muted);
+  background: color-mix(in srgb, var(--arqel-panel-muted) 82%, var(--arqel-panel));
 }
 
 /* Sticky 列基础样式 */
@@ -762,6 +735,11 @@ defineExpose({
 /* 操作列固定 */
 .sticky-col-right {
   right: 0;
+  min-width: var(--actions-col-width, 8rem);
+}
+
+.actions-expanded .sticky-col-right {
+  min-width: var(--actions-col-width, 12rem);
 }
 
 /* 表头 sticky 列 - 需要比普通表头单元格更高的 z-index */
@@ -776,10 +754,15 @@ tbody .sticky-col,
   border-color: var(--arqel-line);
 }
 
+.arqel-table-row {
+  background: var(--arqel-panel);
+  transition: background-color 0.15s ease;
+}
+
 /* hover 状态保持 */
 .arqel-table-row:hover,
 tbody tr:hover .sticky-col {
-  background: var(--arqel-panel-muted);
+  background: color-mix(in srgb, var(--arqel-panel-muted) 78%, var(--arqel-accent-softer));
 }
 
 /* 阴影只在可滚动时显示 */

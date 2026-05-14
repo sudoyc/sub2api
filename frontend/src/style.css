@@ -16,26 +16,45 @@
   --arqel-accent-strong: #5457df;
   --arqel-accent-soft: rgba(100, 103, 242, 0.1);
   --arqel-accent-softer: rgba(100, 103, 242, 0.06);
+  --arqel-success: #16a34a;
+  --arqel-success-soft: rgba(34, 197, 94, 0.12);
+  --arqel-warning: #d97706;
+  --arqel-warning-soft: rgba(245, 158, 11, 0.12);
+  --arqel-danger: #dc2626;
+  --arqel-danger-soft: rgba(239, 68, 68, 0.1);
   --arqel-shadow: 0 0 0 1px rgba(17, 17, 19, 0.05), 0 10px 30px -24px rgba(17, 17, 19, 0.22);
-  --arqel-focus: rgba(100, 103, 242, 0.3);
+  --arqel-focus: rgba(100, 103, 242, 0.16);
+  --arqel-focus-strong: rgba(100, 103, 242, 0.24);
+  --arqel-focus-border: color-mix(in srgb, var(--arqel-accent) 46%, var(--arqel-line-strong));
+  --arqel-focus-outline: color-mix(in srgb, var(--arqel-accent) 72%, transparent);
 }
 
 .dark {
-  --arqel-bg: #090a0b;
-  --arqel-panel: #0f1014;
-  --arqel-panel-muted: #14151a;
-  --arqel-panel-raised: #17181f;
+  --arqel-bg: #09090b;
+  --arqel-sidebar: #0b0b10;
+  --arqel-panel: #111113;
+  --arqel-panel-muted: #18181b;
+  --arqel-panel-raised: #171821;
   --arqel-text: #fafafa;
   --arqel-muted: #a1a1aa;
   --arqel-soft: #71717a;
-  --arqel-line: #2f3037;
-  --arqel-line-strong: #3d3d42;
+  --arqel-line: rgba(255, 255, 255, 0.07);
+  --arqel-line-strong: rgba(255, 255, 255, 0.11);
   --arqel-accent: #6467f2;
-  --arqel-accent-strong: #7b7df7;
-  --arqel-accent-soft: rgba(100, 103, 242, 0.16);
+  --arqel-accent-strong: #8b8df8;
+  --arqel-accent-soft: rgba(100, 103, 242, 0.14);
   --arqel-accent-softer: rgba(100, 103, 242, 0.08);
-  --arqel-shadow: 0 0 0 1px rgba(61, 61, 66, 0.72), 0 16px 44px -32px rgba(0, 0, 0, 0.92);
-  --arqel-focus: rgba(100, 103, 242, 0.42);
+  --arqel-success: #4ade80;
+  --arqel-success-soft: rgba(34, 197, 94, 0.1);
+  --arqel-warning: #fbbf24;
+  --arqel-warning-soft: rgba(245, 158, 11, 0.1);
+  --arqel-danger: #f87171;
+  --arqel-danger-soft: rgba(239, 68, 68, 0.1);
+  --arqel-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 16px 44px -32px rgba(0, 0, 0, 0.92);
+  --arqel-focus: rgba(100, 103, 242, 0.18);
+  --arqel-focus-strong: rgba(100, 103, 242, 0.26);
+  --arqel-focus-border: color-mix(in srgb, var(--arqel-accent) 52%, var(--arqel-line-strong));
+  --arqel-focus-outline: color-mix(in srgb, var(--arqel-accent-strong) 78%, transparent);
 }
 
 @layer base {
@@ -87,11 +106,11 @@
   }
 
   *:hover::-webkit-scrollbar-thumb {
-    @apply bg-gray-300/50 dark:bg-dark-600/50;
+    background: color-mix(in srgb, var(--arqel-muted) 45%, transparent);
   }
 
   *:hover::-webkit-scrollbar-thumb:hover {
-    @apply bg-gray-400 dark:bg-dark-500;
+    background: color-mix(in srgb, var(--arqel-muted) 65%, transparent);
   }
 
   /* 选中文本样式 */
@@ -107,21 +126,28 @@
   .btn {
     @apply inline-flex items-center justify-center gap-2;
     @apply rounded-lg px-4 py-2.5 text-sm font-semibold;
-    @apply transition-all duration-200 ease-out;
-    @apply focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:ring-offset-2;
+    @apply transition-colors duration-150 ease-out;
+    @apply focus:outline-none;
     @apply disabled:transform-none disabled:cursor-not-allowed disabled:opacity-50;
     @apply active:scale-[0.98];
+    --tw-ring-color: transparent;
+  }
+
+  .btn:focus-visible {
+    outline: 2px solid var(--arqel-focus-outline);
+    outline-offset: 2px;
   }
 
   .btn-primary {
     @apply border text-white shadow-none;
-    background: var(--arqel-accent);
+    background: linear-gradient(135deg, var(--arqel-accent) 0%, #5a5de8 100%);
     border-color: var(--arqel-accent);
+    box-shadow: 0 10px 28px -22px rgba(100, 103, 242, 0.72);
   }
 
   .btn-primary:hover {
-    background: var(--arqel-accent-strong);
-    border-color: var(--arqel-accent-strong);
+    background: linear-gradient(135deg, #7477ff 0%, var(--arqel-accent) 100%);
+    border-color: #7477ff;
   }
 
   .btn-secondary {
@@ -133,7 +159,7 @@
 
   .btn-secondary:hover {
     background: var(--arqel-panel-muted);
-    border-color: var(--arqel-line-strong);
+    border-color: color-mix(in srgb, var(--arqel-accent) 38%, var(--arqel-line-strong));
   }
 
   .btn-ghost {
@@ -213,12 +239,12 @@
   /* ============ 输入框样式 ============ */
   .input {
     @apply w-full rounded-xl px-4 py-2.5 text-sm;
-    @apply border transition-all duration-200;
-    @apply focus:outline-none focus:ring-2;
+    @apply border transition-colors duration-150;
+    @apply focus:outline-none;
     background: var(--arqel-panel);
     border-color: var(--arqel-line-strong);
     color: var(--arqel-text);
-    --tw-ring-color: var(--arqel-focus);
+    --tw-ring-color: transparent;
   }
 
   .input::placeholder {
@@ -226,7 +252,14 @@
   }
 
   .input:focus {
-    border-color: var(--arqel-accent);
+    border-color: var(--arqel-line-strong);
+    box-shadow: none;
+  }
+
+  .input:focus-visible {
+    border-color: var(--arqel-focus-border);
+    outline: 2px solid var(--arqel-focus-outline);
+    outline-offset: 1px;
   }
 
   .input:disabled {
@@ -236,7 +269,12 @@
   }
 
   .input-error {
-    @apply border-red-500 focus:border-red-500 focus:ring-red-500/30;
+    @apply border-red-500 focus:border-red-500;
+  }
+
+  .input-error:focus,
+  .input-error:focus-visible {
+    box-shadow: none;
   }
 
   .input-label {
@@ -332,19 +370,27 @@
   }
 
   .stat-icon-primary {
-    @apply bg-primary-100 text-primary-600 dark:bg-primary-900/30 dark:text-primary-400;
+    @apply bg-primary-100 text-primary-600;
+    background: var(--arqel-accent-soft);
+    color: var(--arqel-accent-strong);
   }
 
   .stat-icon-success {
-    @apply bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400;
+    @apply bg-emerald-100 text-emerald-600;
+    background: var(--arqel-success-soft, rgba(34, 197, 94, 0.12));
+    color: var(--arqel-success, #16a34a);
   }
 
   .stat-icon-warning {
-    @apply bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400;
+    @apply bg-amber-100 text-amber-600;
+    background: var(--arqel-warning-soft, rgba(245, 158, 11, 0.12));
+    color: var(--arqel-warning, #d97706);
   }
 
   .stat-icon-danger {
-    @apply bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400;
+    @apply bg-red-100 text-red-600;
+    background: var(--arqel-danger-soft, rgba(239, 68, 68, 0.12));
+    color: var(--arqel-danger, #dc2626);
   }
 
   .stat-value {
@@ -413,19 +459,27 @@
   }
 
   .badge-primary {
-    @apply bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400;
+    @apply bg-primary-100 text-primary-700;
+    background: var(--arqel-accent-soft);
+    color: var(--arqel-accent-strong);
   }
 
   .badge-success {
-    @apply bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400;
+    @apply bg-emerald-100 text-emerald-700;
+    background: var(--arqel-success-soft, rgba(34, 197, 94, 0.12));
+    color: var(--arqel-success, #16a34a);
   }
 
   .badge-warning {
-    @apply bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400;
+    @apply bg-amber-100 text-amber-700;
+    background: var(--arqel-warning-soft, rgba(245, 158, 11, 0.12));
+    color: var(--arqel-warning, #d97706);
   }
 
   .badge-danger {
-    @apply bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400;
+    @apply bg-red-100 text-red-700;
+    background: var(--arqel-danger-soft, rgba(239, 68, 68, 0.12));
+    color: var(--arqel-danger, #dc2626);
   }
 
   .badge-gray {
@@ -434,7 +488,9 @@
   }
 
   .badge-purple {
-    @apply bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400;
+    @apply bg-primary-100 text-primary-700;
+    background: var(--arqel-accent-soft);
+    color: var(--arqel-accent-strong);
   }
 
   /* ============ 下拉菜单 ============ */
@@ -478,14 +534,16 @@
   }
 
   .modal-header {
-    @apply border-b border-gray-200 px-4 py-3 dark:border-dark-700;
+    @apply border-b px-4 py-3;
+    border-color: var(--arqel-line);
     @apply sm:px-6 sm:py-4;
     @apply flex items-center justify-between;
     @apply flex-shrink-0;
   }
 
   .modal-title {
-    @apply text-lg font-semibold text-gray-900 dark:text-white;
+    @apply text-lg font-semibold;
+    color: var(--arqel-text);
   }
 
   .modal-body {
@@ -495,7 +553,8 @@
   }
 
   .modal-footer {
-    @apply border-t border-gray-200 px-4 py-3 dark:border-dark-700;
+    @apply border-t px-4 py-3;
+    border-color: var(--arqel-line);
     @apply sm:px-6 sm:py-4;
     @apply flex items-center justify-end gap-3;
     @apply flex-shrink-0;
@@ -571,7 +630,8 @@
   }
 
   .dialog-header {
-    @apply border-b border-gray-100 px-6 py-4 dark:border-dark-700;
+    @apply border-b px-6 py-4;
+    border-color: var(--arqel-line);
     @apply flex items-center justify-between;
   }
 
@@ -580,7 +640,8 @@
   }
 
   .dialog-footer {
-    @apply border-t border-gray-100 px-6 py-4 dark:border-dark-700;
+    @apply border-t px-6 py-4;
+    border-color: var(--arqel-line);
     background: var(--arqel-panel-muted);
     @apply flex items-center justify-end gap-3;
   }
@@ -619,7 +680,7 @@
     @apply w-64 border-r;
     @apply flex flex-col;
     @apply transition-transform duration-300;
-    background: var(--arqel-panel);
+    background: var(--arqel-sidebar, var(--arqel-panel));
     border-color: var(--arqel-line);
     transition-property: width, transform;
   }
@@ -646,15 +707,27 @@
     color: var(--arqel-muted);
     padding-left: 1.0625rem;
     padding-right: 0.875rem;
+    position: relative;
   }
 
-  .sidebar-link:hover {
-    background: var(--arqel-panel-muted);
+  .sidebar-link:not(.sidebar-link-active):hover {
+    background: color-mix(in srgb, var(--arqel-panel-muted) 88%, transparent);
     color: var(--arqel-text);
   }
 
   .sidebar-link-active {
-    background: var(--arqel-accent-soft);
+    background: color-mix(in srgb, var(--arqel-accent) 15%, transparent);
+    color: var(--arqel-accent-strong);
+    box-shadow: inset 2px 0 0 var(--arqel-accent);
+  }
+
+  .sidebar-link-active:hover {
+    background: color-mix(in srgb, var(--arqel-accent) 18%, transparent);
+    color: #a5a6ff;
+  }
+
+  .sidebar-link-active svg,
+  .sidebar-link-active .sidebar-svg-icon {
     color: var(--arqel-accent-strong);
   }
 
@@ -674,11 +747,13 @@
   }
 
   .page-title {
-    @apply text-2xl font-bold text-gray-900 dark:text-white;
+    @apply text-2xl font-bold;
+    color: var(--arqel-text);
   }
 
   .page-description {
-    @apply mt-1 text-sm text-gray-500 dark:text-dark-400;
+    @apply mt-1 text-sm;
+    color: var(--arqel-muted);
   }
 
   /* ============ 空状态 ============ */
@@ -707,12 +782,14 @@
   }
 
   .skeleton {
-    @apply animate-pulse rounded bg-gray-200 dark:bg-dark-700;
+    @apply animate-pulse rounded;
+    background: var(--arqel-panel-muted);
   }
 
   /* ============ 分隔线 ============ */
   .divider {
-    @apply my-4 h-px bg-gray-200 dark:bg-dark-700;
+    @apply my-4 h-px;
+    background: var(--arqel-line);
   }
 
   /* ============ 标签页 ============ */
@@ -737,7 +814,8 @@
 
   /* ============ 进度条 ============ */
   .progress {
-    @apply h-2 overflow-hidden rounded-full bg-gray-200 dark:bg-dark-700;
+    @apply h-2 overflow-hidden rounded-full;
+    background: var(--arqel-panel-muted);
   }
 
   .progress-bar {
@@ -748,8 +826,8 @@
   /* ============ 开关 ============ */
   .switch {
     @apply relative h-6 w-11 cursor-pointer rounded-full;
-    @apply bg-gray-300 dark:bg-dark-600;
     @apply transition-colors duration-200;
+    background: color-mix(in srgb, var(--arqel-muted) 24%, transparent);
   }
 
   .switch-active {
@@ -798,23 +876,27 @@
   }
 
   .tour-info-box {
-    @apply rounded-md border-l-4 border-blue-500 bg-blue-50 px-3 py-2 text-xs text-blue-900;
-    @apply dark:border-blue-400 dark:bg-blue-950/40 dark:text-blue-200;
+    @apply rounded-md border-l-4 border-primary-500 bg-primary-50 px-3 py-2 text-xs text-primary-900;
+    @apply dark:border-primary-400 dark:text-primary-200;
+    background: var(--arqel-accent-soft);
   }
 
   .tour-success-box {
     @apply rounded-md border-l-4 border-emerald-500 bg-emerald-50 px-3 py-2 text-xs text-emerald-900;
-    @apply dark:border-emerald-400 dark:bg-emerald-950/40 dark:text-emerald-200;
+    @apply dark:border-emerald-400 dark:text-emerald-200;
+    background: var(--arqel-success-soft, rgba(34, 197, 94, 0.12));
   }
 
   .tour-warning-box {
     @apply rounded-md border-l-4 border-amber-500 bg-amber-50 px-3 py-2 text-xs text-amber-900;
-    @apply dark:border-amber-400 dark:bg-amber-950/40 dark:text-amber-200;
+    @apply dark:border-amber-400 dark:text-amber-200;
+    background: var(--arqel-warning-soft, rgba(245, 158, 11, 0.12));
   }
 
   .tour-error-box {
     @apply rounded-md border-l-4 border-red-500 bg-red-50 px-3 py-2 text-xs text-red-900;
-    @apply dark:border-red-400 dark:bg-red-950/40 dark:text-red-200;
+    @apply dark:border-red-400 dark:text-red-200;
+    background: var(--arqel-danger-soft, rgba(239, 68, 68, 0.12));
   }
 
   /* ============ 表格页面布局优化 ============ */
@@ -872,6 +954,49 @@
 }
 
 
+/* Final focus normalization. Keep mouse focus quiet while preserving a visible
+   keyboard focus indicator across legacy focus:ring utilities. */
+:where(button, a, input, textarea, select, [role='button'], [tabindex]):focus:not(:focus-visible) {
+  --tw-ring-offset-shadow: 0 0 #0000 !important;
+  --tw-ring-shadow: 0 0 #0000 !important;
+  box-shadow: none !important;
+}
+
+:where(input, textarea, select, .input):focus:not(:focus-visible) {
+  border-color: var(--arqel-line-strong) !important;
+  outline: none;
+}
+
+:where(button, a, input, textarea, select, [role='button'], [tabindex]):focus-visible {
+  outline: 2px solid var(--arqel-focus-outline);
+  outline-offset: 2px;
+}
+
+:where(input, textarea, select, .input):focus-visible {
+  border-color: var(--arqel-focus-border) !important;
+  outline-offset: 1px;
+}
+
+:where(.focus\:ring-0, .focus\:ring-1, .focus\:ring-2, .focus\:ring-primary-500, .focus\:ring-blue-500, .focus\:ring-red-500):focus:not(:focus-visible),
+:where(.focus-within\:ring-1, .focus-within\:ring-2, .focus-within\:ring-primary-500, .focus-within\:ring-blue-500):focus-within:not(:has(:focus-visible)),
+:where(.peer:focus:not(:focus-visible) ~ .peer-focus\:ring-4, .peer:focus:not(:focus-visible) ~ .peer-focus\:ring-primary-300, .peer:focus:not(:focus-visible) ~ .dark\:peer-focus\:ring-primary-800) {
+  --tw-ring-offset-shadow: 0 0 #0000 !important;
+  --tw-ring-shadow: 0 0 #0000 !important;
+  box-shadow: none !important;
+}
+
+:where(.focus\:border-primary-300, .focus\:border-primary-500, .focus\:border-blue-500):focus:not(:focus-visible),
+:where(.focus-within\:border-primary-500):focus-within:not(:has(:focus-visible)) {
+  border-color: var(--arqel-line-strong) !important;
+}
+
+:where(.input-error, .ring-2.ring-red-500\/20):focus:not(:focus-visible) {
+  --tw-ring-offset-shadow: 0 0 #0000 !important;
+  --tw-ring-shadow: 0 0 #0000 !important;
+  box-shadow: none !important;
+}
+
+
 @layer components {
   .auth-brand-mark {
     align-items: center;
@@ -879,8 +1004,22 @@
     overflow: hidden;
     border: 1px solid var(--arqel-line-strong);
     border-radius: 1rem;
-    background: var(--arqel-panel);
+    background: color-mix(in srgb, var(--arqel-panel) 86%, var(--arqel-accent-softer));
     box-shadow: var(--arqel-shadow);
+  }
+
+  .arqel-default-mark {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    place-items: center;
+    border-radius: inherit;
+    background: linear-gradient(135deg, var(--arqel-accent) 0%, #4f52d7 100%);
+    color: #ffffff;
+    font-weight: 750;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
   }
 }
 

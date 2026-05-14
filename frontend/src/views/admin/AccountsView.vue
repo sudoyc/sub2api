@@ -189,6 +189,7 @@
           :columns="cols"
           :data="accounts"
           :loading="loading"
+          :initial-loading="!loaded"
           row-key="id"
           :server-side-sort="true"
           @sort="handleSort"
@@ -717,6 +718,7 @@ const isColumnVisible = (key: string) => !hiddenColumns.has(key)
 const {
   items: accounts,
   loading,
+  loaded,
   params,
   pagination,
   load: baseLoad,

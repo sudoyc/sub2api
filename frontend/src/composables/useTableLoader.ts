@@ -26,6 +26,7 @@ export function useTableLoader<T, P extends Record<string, any>>(options: TableL
 
   const items = ref<T[]>([])
   const loading = ref(false)
+  const loaded = ref(false)
   const params = reactive<P>({ ...(initialParams || {}) } as P)
   const pagination = reactive<PaginationState>({
     page: 1,
@@ -67,6 +68,7 @@ export function useTableLoader<T, P extends Record<string, any>>(options: TableL
     } finally {
       if (abortController === currentController) {
         loading.value = false
+        loaded.value = true
       }
     }
   }
@@ -99,6 +101,7 @@ export function useTableLoader<T, P extends Record<string, any>>(options: TableL
   return {
     items,
     loading,
+    loaded,
     params,
     pagination,
     load,
