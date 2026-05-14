@@ -134,5 +134,7 @@ docs/*
 .serena/
 .codex/
 frontend/coverage/
+# VitePress generated cache
+/docs-site/docs/.vitepress/cache/
 aicodex
 output/
