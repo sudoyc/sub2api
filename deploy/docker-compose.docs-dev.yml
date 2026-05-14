@@ -1,0 +1,46 @@
+# =============================================================================
+# Arqel Docs Hot-Reload Development
+# =============================================================================
+# Usage from repository root:
+#   docker compose -f deploy/docker-compose.docs-dev.yml up -d
+#
+# Docs: http://127.0.0.1:5174
+#
+# This is intentionally docs-only. It follows the same volume + pnpm store
+# pattern as docker-compose.frontend-dev.yml, but does not require backend
+# services because VitePress renders static documentation.
+# =============================================================================
+
+services:
+  docs:
+    image: node:24-alpine
+    container_name: arqel-docs-dev
+    working_dir: /app/docs-site
+    command: >
+      sh -c '
+        corepack enable &&
+        corepack prepare pnpm@9.15.4 --activate &&
+        pnpm install --frozen-lockfile --store-dir /pnpm/store &&
+        pnpm exec vitepress dev docs --host 0.0.0.0 --port "$${DOCS_DEV_INTERNAL_PORT:-5173}"
+      '
+    ports:
+      - "${DOCS_DEV_BIND_HOST:-127.0.0.1}:${DOCS_DEV_PORT:-5174}:${DOCS_DEV_INTERNAL_PORT:-5173}"
+    environment:
+      - CI=true
+      - DOCS_DEV_INTERNAL_PORT=${DOCS_DEV_INTERNAL_PORT:-5173}
+      - CHOKIDAR_USEPOLLING=${CHOKIDAR_USEPOLLING:-true}
+      - WATCHPACK_POLLING=${WATCHPACK_POLLING:-true}
+    volumes:
+      - ../docs-site:/app/docs-site
+      - docs_node_modules:/app/docs-site/node_modules
+      - docs_pnpm_store:/pnpm/store
+    networks:
+      - docs-dev
+
+networks:
+  docs-dev:
+    driver: bridge
+
+volumes:
+  docs_node_modules:
+  docs_pnpm_store:
