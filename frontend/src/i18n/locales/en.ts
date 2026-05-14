@@ -11,73 +11,84 @@ export default {
     getStarted: 'Get Started',
     goToDashboard: 'Go to Dashboard',
     // User-focused value proposition
-    heroSubtitle: 'One Key, All AI Models',
-    heroDescription: 'No need to manage multiple subscriptions. Access Claude, GPT, Gemini and more with a single API key',
+    heroSubtitle: 'One entry point for clearer AI model access',
+    heroDescription: 'Use one API address for Claude, GPT, Gemini, and more; configure the right key or credential for each model or service as needed.',
     arqel: {
-      eyebrow: 'Unified AI Gateway',
-      subtitle: 'One interface for leading AI models',
-      description: 'Arqel brings model access, reliable routing, and usage control into a clean console. No subscription juggling — just the API surface you need.',
+      eyebrow: 'Model access for AI coding tools',
+      subtitle: 'Connect Claude, GPT, and Gemini to your workflow',
+      description: 'Arqel gives you one API address, clear model configuration, and visible usage records. You still configure the right key or credential for each model or service; Arqel makes the access layer easier to manage.',
       keyUsage: 'Key Usage',
-      tutorial: 'AI model tutorial from zero',
+      tutorial: 'Read the setup guide',
       metrics: {
-        api: 'Unified API interface',
-        providers: 'Upstream model access',
-        subscriptions: 'No subscription juggling'
+        apiUrl: 'One API address',
+        configItems: 'Model credentials stay separate',
+        modelChoice: 'Choose models as needed'
       },
-      features: {
-        oneApi: {
-          title: 'One API for any model',
-          desc: 'Call Claude, GPT, Gemini, and more through the same interface with less integration overhead.'
+      quick: {
+        apiUrl: {
+          title: 'API address',
+          desc: 'The Base URL / API URL you paste into your tool.'
         },
-        routing: {
-          title: 'Reliable routing',
-          desc: 'Choose upstreams by availability and policy to reduce interruptions from outages or limits.'
+        modelKey: {
+          title: 'Model credentials',
+          desc: 'Configure keys or account credentials per model or service as needed.'
         },
-        usage: {
-          title: 'Clear usage',
-          desc: 'Keep quota, billing, and key consumption visible for both individuals and teams.'
-        }
+        modelName: {
+          title: 'Model name',
+          desc: 'Choose Claude, GPT, or Gemini in the client.'
+        },
+        note: '# Start with one working setup, then tune models for your use case',
+        ready: 'Copy address → configure credentials → choose model'
       },
-      info: {
-        provide: {
-          title: 'What we provide',
-          desc: 'A lighter AI API entry point: common models, key management, usage visibility, and basic routing in one place. You focus on what you want to build, not which provider or key to switch to today.'
-        },
-        notProvide: {
-          title: 'What we do not provide',
-          desc: 'We are not an official provider wrapper, and we do not promise ways around platform rules. Model capability, speed, and availability still depend on upstream status; treat Arqel as a clear and practical access layer.',
+      guide: {
+        prepare: {
+          title: 'What matters during setup',
+          desc: 'Most tools only need three things: the API address, usable model credentials, and the model name. Keep those separate and the setup stays understandable.',
           points: {
-            upstream: 'Official benefits, account policy, and model capability remain the upstream platform responsibility.',
-            role: 'We make access, routing, and error state easier to understand.'
+            apiUrl: 'API address: the entry point your tool uses to reach Arqel.',
+            modelKey: 'Model credentials: configured per model or service, not merged into one universal key.',
+            modelName: 'Model name: decides which model this request calls.'
           }
         },
-        guarantee: {
-          title: 'What we guarantee',
-          desc: 'We keep pricing, consumption, and availability as transparent as possible. When requests fail or upstreams fluctuate, the priority is traceable, explainable, recoverable behavior.',
+        models: {
+          title: 'Model choice stays explicit',
+          desc: 'Claude, GPT, and Gemini can live behind the same access layer, but their capabilities, prices, and availability are not the same. The homepage should help you start; the console and guide help you refine choices later.'
+        },
+        cost: {
+          title: 'Usage should be visible',
+          desc: 'Every call consumes credit, and different models may cost different amounts. Arqel should make balance, usage, and request records clear enough that you do not have to guess where spend went.'
+        },
+        error: {
+          title: 'Errors should be traceable',
+          desc: 'A failed call does not always mean the model is down. Common causes include a wrong address, invalid credential, mismatched model name, low balance, or temporary model unavailability. Status and error messages should narrow the cause.',
           points: {
-            usage: 'You can see key usage, balance, and request consumption.',
-            failures: 'Exceptions should expose locatable status, not only a failed result.'
+            key: 'Check configuration first: address, credential, model name.',
+            status: 'Then check status: balance, request log, error reason.'
           }
+        },
+        official: {
+          title: 'Arqel has clear boundaries',
+          desc: 'Arqel is not the official service for Claude, OpenAI, or Gemini, and it does not replace official account benefits. It is an organized access layer for model configuration, API calls, usage, and error status.'
         }
       },
       resources: {
         beginner: {
-          label: 'Vibe coding',
-          title: 'New to APIs? Start here.',
-          desc: 'You do not need to understand every parameter first. Create a key, copy the API endpoint, then connect Cursor, Claude Code, or your first small tool with the docs. Make the first request work, then tune it later.',
+          label: 'Guide',
+          title: 'Start from one working setup',
+          desc: 'The guide shows where to fill the API address, model credentials, and model name for each tool. Make it work first, then switch models, tune parameters, or add finer controls.',
           action: 'Start here',
           authedAction: 'Create or view keys'
         },
         docs: {
-          label: 'Docs',
-          title: 'Documentation',
-          desc: 'API endpoints, model names, client setup, and common errors live here. Open it when needed; no need to read everything upfront.',
-          action: 'Open docs'
+          label: 'Tutorial',
+          title: 'Setup guide',
+          desc: 'Configuration paths for Cursor, Claude Code, and common custom API clients, plus common error checks.',
+          action: 'Open guide'
         },
         community: {
-          label: 'Community',
-          title: 'Community group',
-          desc: 'If setup, model choice, or errors block you, ask in the group. We prioritize helping you get the first request through.',
+          label: 'Help',
+          title: 'When you need a second look',
+          desc: 'If you followed the guide but still cannot tell whether the issue is the tool, credential, or model, bring the error message and ask.',
           action: 'Join the group'
         }
       }

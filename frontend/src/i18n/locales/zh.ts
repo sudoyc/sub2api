@@ -11,73 +11,84 @@ export default {
     getStarted: '立即开始',
     goToDashboard: '进入控制台',
     // 新增：面向用户的价值主张
-    heroSubtitle: '一个密钥，畅用多个 AI 模型',
-    heroDescription: '无需管理多个订阅账号，一站式接入 Claude、GPT、Gemini 等主流 AI 服务',
+    heroSubtitle: '一个入口，清楚接入多个 AI 模型',
+    heroDescription: '用统一 API 地址接入 Claude、GPT、Gemini 等模型；不同模型的 Key 或凭证按需分别配置。',
     arqel: {
-      eyebrow: 'Unified AI Gateway',
-      subtitle: '一个入口，连接主流 AI 模型',
-      description: 'Arqel 将多模型接入、路由稳定性和用量控制收进一个干净的控制台。无需维护多个订阅，只保留 API 调用本身。',
+      eyebrow: '面向 AI 编程工具的模型接入',
+      subtitle: '把 Claude、GPT、Gemini 接入你的工作流',
+      description: 'Arqel 提供统一的 API 地址、清晰的模型配置和用量记录。你仍然按模型或服务配置对应的 Key / 凭证；Arqel 负责把接入过程整理得更顺手。',
       keyUsage: 'Key 用量查询',
-      tutorial: '从 0 开始的 AI 模型使用教程',
+      tutorial: '查看接入教程',
       metrics: {
-        api: '统一 API 入口',
-        providers: '上游模型接入',
-        subscriptions: '无需多份订阅'
+        apiUrl: '统一 API 地址',
+        configItems: '模型凭证分别配置',
+        modelChoice: '按需选择模型'
       },
-      features: {
-        oneApi: {
-          title: 'One API for any model',
-          desc: '用同一个接口访问 Claude、GPT、Gemini 等模型，减少接入和切换成本。'
+      quick: {
+        apiUrl: {
+          title: 'API 地址',
+          desc: '填到工具里的 Base URL / API URL。'
         },
-        routing: {
-          title: '稳定路由',
-          desc: '按可用性和策略自动选择上游，降低单点失败和频繁限流带来的中断。'
+        modelKey: {
+          title: '模型凭证',
+          desc: '不同模型可按需要分别配置 Key 或账号凭证。'
         },
-        usage: {
-          title: '清晰用量',
-          desc: '额度、账单和 Key 消耗集中展示，让个人和团队都能看懂成本。'
-        }
+        modelName: {
+          title: '模型名',
+          desc: '在客户端里选择 Claude、GPT 或 Gemini。'
+        },
+        note: '# 先完成一次可用配置，再根据场景调整模型',
+        ready: '复制地址 → 配置凭证 → 选择模型'
       },
-      info: {
-        provide: {
-          title: '我们提供什么',
-          desc: '一个更轻的 AI API 入口：把常用模型、Key 管理、用量查看和基础路由整理到一起。你只需要关心要做什么，而不是今天该切哪家、哪把 Key。'
-        },
-        notProvide: {
-          title: '我们不提供什么',
-          desc: '我们不包装成官方服务，也不承诺绕过任何平台规则。模型能力、速度和可用性仍会受到上游状态影响，适合把它当作清晰、好用的接入层。',
+      guide: {
+        prepare: {
+          title: '接入时真正需要关注什么',
+          desc: '大多数工具只需要三个信息：API 地址、可用的模型凭证，以及要调用的模型名。把这三件事分清楚，配置就不会乱。',
           points: {
-            upstream: '官方权益、账号策略和模型能力归上游平台负责。',
-            role: '我们负责把接入、路由和错误状态呈现得更清楚。'
+            apiUrl: 'API 地址：工具连接 Arqel 的入口。',
+            modelKey: '模型凭证：按模型或服务分别配置，不假装合成一个万能入口。',
+            modelName: '模型名：决定这次请求调用哪个模型。'
           }
         },
-        guarantee: {
-          title: '我们保证什么',
-          desc: '尽量把价格、消耗和可用状态说清楚；当请求失败或上游波动时，优先让问题可追踪、可解释、可恢复。',
+        models: {
+          title: '模型选择保持清晰',
+          desc: 'Claude、GPT、Gemini 可以放在同一个接入层里使用，但它们的能力、价格和可用性并不相同。首页只告诉你怎么开始，具体选择可以在教程和控制台里慢慢调整。'
+        },
+        cost: {
+          title: '用量和消耗要看得见',
+          desc: '每次调用都会产生消耗，不同模型价格也可能不同。Arqel 应该让余额、用量、请求记录这些信息尽量清楚，而不是让人猜钱花在哪里。'
+        },
+        error: {
+          title: '出错时能定位原因',
+          desc: '调用失败不一定是模型坏了。常见原因包括地址写错、凭证无效、模型名不匹配、余额不足，或者目标模型暂时不可用。状态和错误信息应该帮助你缩小范围。',
           points: {
-            usage: '你能看到 Key 用量、余额和调用消耗。',
-            failures: '异常优先给出可定位的状态，而不是只留一个失败结果。'
+            key: '先看配置：地址、凭证、模型名。',
+            status: '再看状态：余额、请求记录、错误原因。'
           }
+        },
+        official: {
+          title: 'Arqel 的边界',
+          desc: 'Arqel 不是 Claude、OpenAI 或 Gemini 的官方服务，也不替代官方权益。它更像一个整理好的接入层：把模型配置、调用入口、用量和错误状态放在同一个地方。'
         }
       },
       resources: {
         beginner: {
-          label: 'Vibe coding',
-          title: '第一次用 API，也可以从这里开始',
-          desc: '不用先理解所有参数。注册后创建一个 Key，复制 API 地址，再按文档接入 Cursor、Claude Code 或你的第一个小工具。先跑通，再慢慢调好。',
+          label: 'Guide',
+          title: '从第一套可用配置开始',
+          desc: '教程会按工具场景说明 API 地址、模型凭证和模型名分别填在哪里。先跑通，再考虑换模型、调参数或做更细的控制。',
           action: '开始上手',
           authedAction: '创建或查看 Key'
         },
         docs: {
-          label: 'Docs',
-          title: '文档入口',
-          desc: '接口地址、模型写法、客户端配置和常见错误都放在这里。需要时打开，不需要从头读完。',
-          action: '打开文档'
+          label: 'Tutorial',
+          title: '接入教程',
+          desc: '覆盖 Cursor、Claude Code 和常见自定义 API 客户端的配置方式，以及常见错误的排查路径。',
+          action: '打开教程'
         },
         community: {
-          label: 'Community',
-          title: '交流群',
-          desc: '如果你卡在接入、模型选择或报错排查，可以来群里问。我们会优先帮你把第一条请求跑通。',
+          label: 'Help',
+          title: '需要人工确认时',
+          desc: '如果你已经按教程配置，但仍然不确定问题出在工具、凭证还是模型，可以带着错误信息来问。',
           action: '加入交流群'
         }
       }

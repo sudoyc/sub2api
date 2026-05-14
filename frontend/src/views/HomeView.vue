@@ -96,20 +96,31 @@
               <span class="home-terminal-title">quick start</span>
             </div>
             <div class="home-terminal-body">
-              <div class="home-terminal-line">
-                <span class="terminal-prompt">$</span>
-                <span class="terminal-command">export</span>
-                <span class="terminal-url">ARQEL_API_KEY</span><span>=sk-...</span>
+              <div class="home-setup-step">
+                <span class="home-setup-index">1</span>
+                <div>
+                  <strong>{{ t('home.arqel.quick.apiUrl.title') }}</strong>
+                  <span>{{ t('home.arqel.quick.apiUrl.desc') }}</span>
+                </div>
               </div>
-              <div class="home-terminal-line">
-                <span class="terminal-prompt">$</span>
-                <span class="terminal-command">curl</span>
-                <span class="terminal-flag">https://api.arqel.dev/v1/chat/completions</span>
+              <div class="home-setup-step">
+                <span class="home-setup-index">2</span>
+                <div>
+                  <strong>{{ t('home.arqel.quick.modelKey.title') }}</strong>
+                  <span>{{ t('home.arqel.quick.modelKey.desc') }}</span>
+                </div>
               </div>
-              <div class="home-terminal-line terminal-muted"># choose model: claude / gpt / gemini / auto</div>
+              <div class="home-setup-step">
+                <span class="home-setup-index">3</span>
+                <div>
+                  <strong>{{ t('home.arqel.quick.modelName.title') }}</strong>
+                  <span>{{ t('home.arqel.quick.modelName.desc') }}</span>
+                </div>
+              </div>
+              <div class="home-terminal-line terminal-muted">{{ t('home.arqel.quick.note') }}</div>
               <div class="home-terminal-line">
                 <span class="terminal-ok">ready</span>
-                <span class="terminal-json">copy base url → start building</span><span class="terminal-cursor"></span>
+                <span class="terminal-json">{{ t('home.arqel.quick.ready') }}</span><span class="terminal-cursor"></span>
               </div>
             </div>
           </div>
@@ -124,7 +135,7 @@
             </svg>
           </div>
           <strong>1</strong>
-          <span>{{ t('home.arqel.metrics.api') }}</span>
+          <span>{{ t('home.arqel.metrics.apiUrl') }}</span>
         </div>
         <div class="home-metric">
           <div class="home-metric-icon" aria-hidden="true">
@@ -132,8 +143,8 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" />
             </svg>
           </div>
-          <strong>3+</strong>
-          <span>{{ t('home.arqel.metrics.providers') }}</span>
+          <strong>2</strong>
+          <span>{{ t('home.arqel.metrics.configItems') }}</span>
         </div>
         <div class="home-metric">
           <div class="home-metric-icon" aria-hidden="true">
@@ -141,17 +152,30 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
             </svg>
           </div>
-          <strong>0</strong>
-          <span>{{ t('home.arqel.metrics.subscriptions') }}</span>
+          <strong>?</strong>
+          <span>{{ t('home.arqel.metrics.modelChoice') }}</span>
         </div>
       </section>
 
-      <section class="home-story home-reveal-target" aria-label="Arqel overview">
+      <section class="home-story home-reveal-target" aria-label="Arqel beginner guide">
         <article class="home-story-row home-story-row-large home-reveal-target">
           <p class="home-story-index">01</p>
           <div class="home-reveal-text">
-            <h2 class="home-reveal-title">{{ t('home.arqel.info.provide.title') }}</h2>
-            <p class="home-reveal-body">{{ t('home.arqel.info.provide.desc') }}</p>
+            <h2 class="home-reveal-title">{{ t('home.arqel.guide.prepare.title') }}</h2>
+            <p class="home-reveal-body">{{ t('home.arqel.guide.prepare.desc') }}</p>
+            <div class="home-responsibility home-responsibility-three">
+              <span>{{ t('home.arqel.guide.prepare.points.apiUrl') }}</span>
+              <span>{{ t('home.arqel.guide.prepare.points.modelKey') }}</span>
+              <span>{{ t('home.arqel.guide.prepare.points.modelName') }}</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="home-story-row home-reveal-target">
+          <p class="home-story-index">02</p>
+          <div class="home-reveal-text">
+            <h2 class="home-reveal-title">{{ t('home.arqel.guide.models.title') }}</h2>
+            <p class="home-reveal-body">{{ t('home.arqel.guide.models.desc') }}</p>
             <div class="home-model-strip" aria-label="Supported models">
               <span class="home-model-chip">
                 <span class="home-model-icon home-model-icon-claude" aria-hidden="true"><svg role="img" viewBox="0 0 24 24" fill="currentColor" focusable="false"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z" /></svg></span>
@@ -165,22 +189,6 @@
                 <span class="home-model-icon home-model-icon-gemini" aria-hidden="true"><svg role="img" viewBox="0 0 24 24" fill="currentColor" focusable="false"><path d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81" /></svg></span>
                 Gemini
               </span>
-              <span class="home-model-chip">
-                <span class="home-model-icon home-model-icon-auto" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><line x1="6" y1="3" x2="6" y2="15" /><circle cx="18" cy="6" r="3" /><circle cx="6" cy="18" r="3" /><path d="M18 9a9 9 0 0 1-9 9" /></svg></span>
-                Auto route
-              </span>
-            </div>
-          </div>
-        </article>
-
-        <article class="home-story-row home-reveal-target">
-          <p class="home-story-index">02</p>
-          <div class="home-reveal-text">
-            <h2 class="home-reveal-title">{{ t('home.arqel.info.notProvide.title') }}</h2>
-            <p class="home-reveal-body">{{ t('home.arqel.info.notProvide.desc') }}</p>
-            <div class="home-responsibility">
-              <span>{{ t('home.arqel.info.notProvide.points.upstream') }}</span>
-              <span>{{ t('home.arqel.info.notProvide.points.role') }}</span>
             </div>
           </div>
         </article>
@@ -188,12 +196,28 @@
         <article class="home-story-row home-reveal-target">
           <p class="home-story-index">03</p>
           <div class="home-reveal-text">
-            <h2 class="home-reveal-title">{{ t('home.arqel.info.guarantee.title') }}</h2>
-            <p class="home-reveal-body">{{ t('home.arqel.info.guarantee.desc') }}</p>
+            <h2 class="home-reveal-title">{{ t('home.arqel.guide.cost.title') }}</h2>
+            <p class="home-reveal-body">{{ t('home.arqel.guide.cost.desc') }}</p>
+          </div>
+        </article>
+
+        <article class="home-story-row home-reveal-target">
+          <p class="home-story-index">04</p>
+          <div class="home-reveal-text">
+            <h2 class="home-reveal-title">{{ t('home.arqel.guide.error.title') }}</h2>
+            <p class="home-reveal-body">{{ t('home.arqel.guide.error.desc') }}</p>
             <div class="home-responsibility">
-              <span>{{ t('home.arqel.info.guarantee.points.usage') }}</span>
-              <span>{{ t('home.arqel.info.guarantee.points.failures') }}</span>
+              <span>{{ t('home.arqel.guide.error.points.key') }}</span>
+              <span>{{ t('home.arqel.guide.error.points.status') }}</span>
             </div>
+          </div>
+        </article>
+
+        <article class="home-story-row home-reveal-target">
+          <p class="home-story-index">05</p>
+          <div class="home-reveal-text">
+            <h2 class="home-reveal-title">{{ t('home.arqel.guide.official.title') }}</h2>
+            <p class="home-reveal-body">{{ t('home.arqel.guide.official.desc') }}</p>
           </div>
         </article>
       </section>
@@ -526,8 +550,7 @@ onBeforeUnmount(() => {
   transition:
     border-color 0.18s ease,
     background-color 0.18s ease,
-    color 0.18s ease,
-    transform 0.18s ease;
+    color 0.18s ease;
 }
 
 .home-icon-button {
@@ -558,12 +581,10 @@ onBeforeUnmount(() => {
   background: var(--home-text);
   border-color: var(--home-text);
   color: var(--home-bg);
-  transform: translateY(-1px);
 }
 
 .home-button-primary:hover {
-  box-shadow: 0 6px 20px rgba(100, 103, 242, 0.4), 0 0 0 1px rgba(100, 103, 242, 0.6);
-  transform: translateY(-2px);
+  box-shadow: 0 0 0 1px rgba(100, 103, 242, 0.42), 0 10px 28px -22px rgba(100, 103, 242, 0.48);
 }
 
 .home-main {
@@ -669,14 +690,12 @@ onBeforeUnmount(() => {
   backdrop-filter: blur(12px);
   transition:
     box-shadow 0.25s ease,
-    transform 0.25s ease,
     border-color 0.25s ease;
 }
 
 .home-terminal-card:hover {
-  border-color: color-mix(in srgb, var(--home-accent) 45%, var(--home-line-strong));
-  box-shadow: 0 0 0 1px rgba(100, 103, 242, 0.25), 0 24px 70px -30px rgba(100, 103, 242, 0.6);
-  transform: translateY(-4px) scale(1.01);
+  border-color: color-mix(in srgb, var(--home-accent) 38%, var(--home-line-strong));
+  box-shadow: 0 0 0 1px rgba(100, 103, 242, 0.22), 0 18px 52px -34px rgba(100, 103, 242, 0.45);
 }
 
 .home-shell-dark .home-terminal-card {
@@ -731,6 +750,48 @@ onBeforeUnmount(() => {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: 13px;
   line-height: 1.7;
+}
+
+
+.home-setup-step {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  opacity: 0;
+  animation: home-code-fade-in 0.4s ease forwards;
+}
+
+.home-setup-step:nth-child(1) { animation-delay: 0.6s; }
+.home-setup-step:nth-child(2) { animation-delay: 1s; }
+.home-setup-step:nth-child(3) { animation-delay: 1.4s; }
+
+.home-setup-index {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border: 1px solid rgba(100, 103, 242, 0.35);
+  border-radius: 999px;
+  background: rgba(100, 103, 242, 0.16);
+  color: #d8d8ff;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.home-setup-step strong {
+  display: block;
+  color: #f8fafc;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.home-setup-step span:not(.home-setup-index) {
+  display: block;
+  margin-top: 3px;
+  color: #94a3b8;
+  font-size: 12px;
+  line-height: 1.55;
 }
 
 .home-terminal-line {
@@ -871,7 +932,6 @@ onBeforeUnmount(() => {
 .home-shell-dark .home-button-secondary:hover {
   border-color: #555555;
   background: rgba(255, 255, 255, 0.08);
-  transform: translateY(-2px);
 }
 
 .home-metrics {
@@ -894,15 +954,13 @@ onBeforeUnmount(() => {
   transition:
     background 0.2s ease,
     border-color 0.2s ease,
-    box-shadow 0.2s ease,
-    transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+    box-shadow 0.2s ease;
 }
 
 .home-metric:hover {
   border-color: color-mix(in srgb, var(--home-accent) 34%, var(--home-line));
   background: linear-gradient(180deg, color-mix(in srgb, var(--home-panel) 94%, transparent), color-mix(in srgb, var(--home-panel-muted) 62%, transparent));
-  box-shadow: 0 16px 32px -18px rgba(0, 0, 0, 0.25), 0 0 20px -12px rgba(100, 103, 242, 0.28);
-  transform: translateY(-6px);
+  box-shadow: 0 10px 26px -22px rgba(0, 0, 0, 0.22), 0 0 18px -14px rgba(100, 103, 242, 0.24);
 }
 
 .home-shell-dark .home-metric {
@@ -913,7 +971,7 @@ onBeforeUnmount(() => {
 .home-shell-dark .home-metric:hover {
   border-color: rgba(100, 103, 242, 0.3);
   background: linear-gradient(180deg, rgba(30, 30, 36, 0.7), rgba(15, 15, 18, 0.4));
-  box-shadow: 0 16px 32px -16px rgba(0, 0, 0, 0.8), 0 0 20px -10px rgba(100, 103, 242, 0.15);
+  box-shadow: 0 10px 26px -20px rgba(0, 0, 0, 0.7), 0 0 18px -12px rgba(100, 103, 242, 0.14);
 }
 
 .home-metric-icon {
@@ -922,8 +980,7 @@ onBeforeUnmount(() => {
   margin-bottom: 16px;
   color: var(--home-soft);
   transition:
-    color 0.2s ease,
-    transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+    color 0.2s ease;
 }
 
 .home-metric-icon svg {
@@ -934,7 +991,6 @@ onBeforeUnmount(() => {
 
 .home-metric:hover .home-metric-icon {
   color: var(--home-accent);
-  transform: scale(1.1);
 }
 
 .home-metric strong {
@@ -1074,15 +1130,13 @@ onBeforeUnmount(() => {
   transition:
     background 0.2s ease,
     border-color 0.2s ease,
-    color 0.2s ease,
-    transform 0.2s ease;
+    color 0.2s ease;
 }
 
 .home-model-chip:hover {
   border-color: var(--home-soft);
   background: color-mix(in srgb, var(--home-panel-muted) 78%, transparent);
   color: var(--home-text);
-  transform: translateY(-2px);
 }
 
 .home-model-icon {
@@ -1114,6 +1168,10 @@ onBeforeUnmount(() => {
   margin-top: 20px;
 }
 
+.home-responsibility-three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .home-responsibility span {
   border: 1px solid var(--home-line);
   border-radius: 12px;
@@ -1125,15 +1183,13 @@ onBeforeUnmount(() => {
   transition:
     background 0.2s ease,
     border-color 0.2s ease,
-    color 0.2s ease,
-    transform 0.2s ease;
+    color 0.2s ease;
 }
 
 .home-responsibility span:hover {
   border-color: var(--home-soft);
   background: color-mix(in srgb, var(--home-panel-muted) 78%, transparent);
   color: var(--home-text);
-  transform: translateY(-2px);
 }
 
 .home-shell-dark .home-responsibility span {
@@ -1184,14 +1240,12 @@ onBeforeUnmount(() => {
   padding: 22px;
   transition:
     border-color 0.2s ease,
-    box-shadow 0.2s ease,
-    transform 0.2s ease;
+    box-shadow 0.2s ease;
 }
 
 .home-resource-links article:hover {
   border-color: var(--home-line-strong);
-  box-shadow: 0 16px 32px -18px rgba(0, 0, 0, 0.36);
-  transform: translateY(-4px);
+  box-shadow: 0 10px 28px -24px rgba(0, 0, 0, 0.32);
 }
 
 .home-resource-links small {
@@ -1268,6 +1322,7 @@ onBeforeUnmount(() => {
 .home-story-row.is-visible .home-model-chip:nth-child(4) { animation-delay: 0.34s; }
 .home-story-row.is-visible .home-responsibility span:nth-child(1) { animation-delay: 0.14s; }
 .home-story-row.is-visible .home-responsibility span:nth-child(2) { animation-delay: 0.24s; }
+.home-story-row.is-visible .home-responsibility span:nth-child(3) { animation-delay: 0.34s; }
 .home-resource-flow.is-visible .home-resource-lead { animation-delay: 0s; }
 .home-resource-flow.is-visible .home-resource-links article:nth-child(1) { animation-delay: 0.14s; }
 .home-resource-flow.is-visible .home-resource-links article:nth-child(2) { animation-delay: 0.26s; }
@@ -1422,7 +1477,8 @@ onBeforeUnmount(() => {
     gap: 12px;
   }
 
-  .home-responsibility {
+  .home-responsibility,
+  .home-responsibility-three {
     grid-template-columns: 1fr;
   }
 }

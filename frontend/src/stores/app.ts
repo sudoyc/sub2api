@@ -13,14 +13,12 @@ import {
   type ReleaseInfo
 } from '@/api/admin/system'
 import { getPublicSettings as fetchPublicSettingsAPI } from '@/api/auth'
+import {
+  DEFAULT_PUBLIC_SITE_NAME,
+  normalizePublicSiteName
+} from '@/utils/publicBrand'
 
-const DEFAULT_SITE_NAME = 'Arqel'
-
-function normalizePublicSiteName(name?: string): string {
-  const trimmed = typeof name === 'string' ? name.trim() : ''
-  if (!trimmed || trimmed.toLowerCase() === 'sub2api') return DEFAULT_SITE_NAME
-  return trimmed
-}
+const DEFAULT_SITE_NAME = DEFAULT_PUBLIC_SITE_NAME
 
 export const useAppStore = defineStore('app', () => {
   // ==================== State ====================
