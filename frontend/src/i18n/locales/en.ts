@@ -13,6 +13,75 @@ export default {
     // User-focused value proposition
     heroSubtitle: 'One Key, All AI Models',
     heroDescription: 'No need to manage multiple subscriptions. Access Claude, GPT, Gemini and more with a single API key',
+    arqel: {
+      eyebrow: 'Unified AI Gateway',
+      subtitle: 'One interface for leading AI models',
+      description: 'Arqel brings model access, reliable routing, and usage control into a clean console. No subscription juggling — just the API surface you need.',
+      keyUsage: 'Key Usage',
+      tutorial: 'AI model tutorial from zero',
+      metrics: {
+        api: 'Unified API interface',
+        providers: 'Upstream model access',
+        subscriptions: 'No subscription juggling'
+      },
+      features: {
+        oneApi: {
+          title: 'One API for any model',
+          desc: 'Call Claude, GPT, Gemini, and more through the same interface with less integration overhead.'
+        },
+        routing: {
+          title: 'Reliable routing',
+          desc: 'Choose upstreams by availability and policy to reduce interruptions from outages or limits.'
+        },
+        usage: {
+          title: 'Clear usage',
+          desc: 'Keep quota, billing, and key consumption visible for both individuals and teams.'
+        }
+      },
+      info: {
+        provide: {
+          title: 'What we provide',
+          desc: 'A lighter AI API entry point: common models, key management, usage visibility, and basic routing in one place. You focus on what you want to build, not which provider or key to switch to today.'
+        },
+        notProvide: {
+          title: 'What we do not provide',
+          desc: 'We are not an official provider wrapper, and we do not promise ways around platform rules. Model capability, speed, and availability still depend on upstream status; treat Arqel as a clear and practical access layer.',
+          points: {
+            upstream: 'Official benefits, account policy, and model capability remain the upstream platform responsibility.',
+            role: 'We make access, routing, and error state easier to understand.'
+          }
+        },
+        guarantee: {
+          title: 'What we guarantee',
+          desc: 'We keep pricing, consumption, and availability as transparent as possible. When requests fail or upstreams fluctuate, the priority is traceable, explainable, recoverable behavior.',
+          points: {
+            usage: 'You can see key usage, balance, and request consumption.',
+            failures: 'Exceptions should expose locatable status, not only a failed result.'
+          }
+        }
+      },
+      resources: {
+        beginner: {
+          label: 'Vibe coding',
+          title: 'New to APIs? Start here.',
+          desc: 'You do not need to understand every parameter first. Create a key, copy the API endpoint, then connect Cursor, Claude Code, or your first small tool with the docs. Make the first request work, then tune it later.',
+          action: 'Start here',
+          authedAction: 'Create or view keys'
+        },
+        docs: {
+          label: 'Docs',
+          title: 'Documentation',
+          desc: 'API endpoints, model names, client setup, and common errors live here. Open it when needed; no need to read everything upfront.',
+          action: 'Open docs'
+        },
+        community: {
+          label: 'Community',
+          title: 'Community group',
+          desc: 'If setup, model choice, or errors block you, ask in the group. We prioritize helping you get the first request through.',
+          action: 'Join the group'
+        }
+      }
+    },
     tags: {
       subscriptionToApi: 'Subscription to API',
       stickySession: 'Session Persistence',

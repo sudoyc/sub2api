@@ -7,10 +7,18 @@
 | 项目 | 说明 |
 |------|------|
 | **上游仓库** | Wei-Shaw/sub2api |
-| **Fork 仓库** | bayma888/sub2api-bmai |
+| **当前本机主开发仓库** | `/home/ycyc/projects/sub2api` |
+| **Fork 仓库** | `sudoyc/sub2api` |
 | **技术栈** | Go 后端 (Ent ORM + Gin) + Vue3 前端 (pnpm) |
 | **数据库** | PostgreSQL 16 + Redis |
 | **包管理** | 后端: go modules, 前端: **pnpm**（不是 npm） |
+
+## 一点工作流约定
+
+- `~/projects/sub2api` 是当前本机主开发仓库。
+- `~/code/projects/sub2api` 只是旧的上游对照/测试克隆，不是主开发仓库。
+- VPS `/www/sub2api` 只用于部署和运行。
+- 前端改动优先在 `frontend/` 下完成，验证后再部署到 VPS。
 
 ## 二、本地环境配置
 

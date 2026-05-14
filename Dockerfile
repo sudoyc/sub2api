@@ -21,7 +21,9 @@ FROM ${NODE_IMAGE} AS frontend-builder
 WORKDIR /app/frontend
 
 # Install pnpm
-RUN corepack enable && corepack prepare pnpm@latest --activate
+# Pin to pnpm 9.x so the container build keeps running dependency build scripts
+# without pnpm 10's interactive approve-builds flow.
+RUN corepack enable && corepack prepare pnpm@9.15.4 --activate
 
 # Install dependencies first (better caching)
 COPY frontend/package.json frontend/pnpm-lock.yaml ./

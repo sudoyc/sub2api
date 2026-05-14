@@ -1,7 +1,7 @@
 <template>
-  <div class="min-h-screen bg-gray-50 dark:bg-dark-950">
+  <div class="app-shell min-h-screen">
     <!-- Background Decoration -->
-    <div class="pointer-events-none fixed inset-0 bg-mesh-gradient"></div>
+    <div class="pointer-events-none fixed inset-0 app-shell-bg"></div>
 
     <!-- Sidebar -->
     <AppSidebar />
@@ -50,3 +50,16 @@ onMounted(() => {
 
 defineExpose({ replayTour })
 </script>
+
+<style scoped>
+.app-shell {
+  background: var(--arqel-bg);
+  color: var(--arqel-text);
+}
+
+.app-shell-bg {
+  background:
+    radial-gradient(circle at 50% -20%, rgba(100, 103, 242, 0.1), transparent 28rem),
+    var(--arqel-bg);
+}
+</style>

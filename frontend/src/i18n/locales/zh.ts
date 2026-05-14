@@ -13,6 +13,75 @@ export default {
     // 新增：面向用户的价值主张
     heroSubtitle: '一个密钥，畅用多个 AI 模型',
     heroDescription: '无需管理多个订阅账号，一站式接入 Claude、GPT、Gemini 等主流 AI 服务',
+    arqel: {
+      eyebrow: 'Unified AI Gateway',
+      subtitle: '一个入口，连接主流 AI 模型',
+      description: 'Arqel 将多模型接入、路由稳定性和用量控制收进一个干净的控制台。无需维护多个订阅，只保留 API 调用本身。',
+      keyUsage: 'Key 用量查询',
+      tutorial: '从 0 开始的 AI 模型使用教程',
+      metrics: {
+        api: '统一 API 入口',
+        providers: '上游模型接入',
+        subscriptions: '无需多份订阅'
+      },
+      features: {
+        oneApi: {
+          title: 'One API for any model',
+          desc: '用同一个接口访问 Claude、GPT、Gemini 等模型，减少接入和切换成本。'
+        },
+        routing: {
+          title: '稳定路由',
+          desc: '按可用性和策略自动选择上游，降低单点失败和频繁限流带来的中断。'
+        },
+        usage: {
+          title: '清晰用量',
+          desc: '额度、账单和 Key 消耗集中展示，让个人和团队都能看懂成本。'
+        }
+      },
+      info: {
+        provide: {
+          title: '我们提供什么',
+          desc: '一个更轻的 AI API 入口：把常用模型、Key 管理、用量查看和基础路由整理到一起。你只需要关心要做什么，而不是今天该切哪家、哪把 Key。'
+        },
+        notProvide: {
+          title: '我们不提供什么',
+          desc: '我们不包装成官方服务，也不承诺绕过任何平台规则。模型能力、速度和可用性仍会受到上游状态影响，适合把它当作清晰、好用的接入层。',
+          points: {
+            upstream: '官方权益、账号策略和模型能力归上游平台负责。',
+            role: '我们负责把接入、路由和错误状态呈现得更清楚。'
+          }
+        },
+        guarantee: {
+          title: '我们保证什么',
+          desc: '尽量把价格、消耗和可用状态说清楚；当请求失败或上游波动时，优先让问题可追踪、可解释、可恢复。',
+          points: {
+            usage: '你能看到 Key 用量、余额和调用消耗。',
+            failures: '异常优先给出可定位的状态，而不是只留一个失败结果。'
+          }
+        }
+      },
+      resources: {
+        beginner: {
+          label: 'Vibe coding',
+          title: '第一次用 API，也可以从这里开始',
+          desc: '不用先理解所有参数。注册后创建一个 Key，复制 API 地址，再按文档接入 Cursor、Claude Code 或你的第一个小工具。先跑通，再慢慢调好。',
+          action: '开始上手',
+          authedAction: '创建或查看 Key'
+        },
+        docs: {
+          label: 'Docs',
+          title: '文档入口',
+          desc: '接口地址、模型写法、客户端配置和常见错误都放在这里。需要时打开，不需要从头读完。',
+          action: '打开文档'
+        },
+        community: {
+          label: 'Community',
+          title: '交流群',
+          desc: '如果你卡在接入、模型选择或报错排查，可以来群里问。我们会优先帮你把第一条请求跑通。',
+          action: '加入交流群'
+        }
+      }
+    },
     tags: {
       subscriptionToApi: '订阅转 API',
       stickySession: '会话保持',

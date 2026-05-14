@@ -9,11 +9,11 @@
     <!-- Logo/Brand -->
     <div class="sidebar-header" :class="{ 'sidebar-header-collapsed': sidebarCollapsed }">
       <!-- Custom Logo or Default Logo -->
-      <div class="sidebar-logo flex h-9 w-9 items-center justify-center overflow-hidden rounded-xl shadow-glow">
-        <img v-if="settingsLoaded" :src="siteLogo || '/logo.png'" alt="Logo" class="h-full w-full object-contain" />
+      <div v-if="settingsLoaded" class="auth-brand-mark flex h-9 w-9">
+        <img :src="siteLogo || '/logo.png'" alt="Logo" class="h-full w-full object-contain" />
       </div>
       <div class="sidebar-brand" :class="{ 'sidebar-brand-collapsed': sidebarCollapsed }" :aria-hidden="sidebarCollapsed ? 'true' : 'false'">
-        <span class="sidebar-brand-title text-lg font-bold text-gray-900 dark:text-white">
+        <span class="sidebar-brand-title text-lg font-bold">
           {{ siteName }}
         </span>
         <!-- Version Badge -->
@@ -187,6 +187,7 @@ import { useAdminSettingsStore, useAppStore, useAuthStore, useOnboardingStore } 
 import VersionBadge from '@/components/common/VersionBadge.vue'
 import { sanitizeSvg } from '@/utils/sanitize'
 import { FeatureFlags, makeSidebarFlag } from '@/utils/featureFlags'
+import { initThemePreference, toggleThemePreference } from '@/utils/theme'
 
 interface NavItem {
   path: string
@@ -792,9 +793,7 @@ function toggleSidebar() {
 }
 
 function toggleTheme() {
-  isDark.value = !isDark.value
-  document.documentElement.classList.toggle('dark', isDark.value)
-  localStorage.setItem('theme', isDark.value ? 'dark' : 'light')
+  isDark.value = toggleThemePreference(isDark.value) === 'dark'
 }
 
 function closeMobile() {
@@ -864,17 +863,10 @@ function handleGroupClick(item: NavItem) {
   }
 }
 
-// Initialize theme
-const savedTheme = localStorage.getItem('theme')
-if (
-  savedTheme === 'dark' ||
-  (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)
-) {
-  isDark.value = true
-  document.documentElement.classList.add('dark')
+function initTheme() {
+  isDark.value = initThemePreference() === 'dark'
 }
 
-// Fetch admin settings (for feature-gated nav items like Ops).
 watch(
   isAdmin,
   (v) => {
@@ -886,6 +878,7 @@ watch(
 )
 
 onMounted(() => {
+  initTheme()
   if (isAdmin.value) {
     adminSettingsStore.fetch()
   }
@@ -962,14 +955,14 @@ onMounted(() => {
   right: 0.75rem;
   top: 50%;
   height: 1px;
-  background: rgb(229 231 235);
+  background: var(--arqel-line);
   opacity: 0;
   transform: translateY(-50%);
   transition: opacity 0.18s ease;
 }
 
 .dark .sidebar-section-title::after {
-  background: rgb(55 65 81);
+  background: var(--arqel-line);
 }
 
 .sidebar-section-title-text-collapsed {

@@ -11,8 +11,12 @@ describe('resolveDocumentTitle', () => {
   })
 
   it('站点名为空时，回退默认站点名', () => {
-    expect(resolveDocumentTitle('Dashboard', '')).toBe('Dashboard - Sub2API')
-    expect(resolveDocumentTitle(undefined, '   ')).toBe('Sub2API')
+    expect(resolveDocumentTitle('Dashboard', '')).toBe('Dashboard - Arqel')
+    expect(resolveDocumentTitle(undefined, '   ')).toBe('Arqel')
+  })
+
+  it('旧默认品牌名会归一化为 arqel', () => {
+    expect(resolveDocumentTitle('Dashboard', 'Sub2API')).toBe('Dashboard - Arqel')
   })
 
   it('站点名变更时仅影响后续路由标题计算', () => {

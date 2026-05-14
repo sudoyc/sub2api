@@ -49,6 +49,10 @@ function onVisibilityChange() {
   }
 }
 
+function updateDocumentTitle() {
+  document.title = resolveDocumentTitle(route.meta.title, appStore.siteName, route.meta.titleKey as string)
+}
+
 watch(
   () => authStore.isAuthenticated,
   (isAuthenticated, oldValue) => {
@@ -89,6 +93,7 @@ router.afterEach(() => {
 
 onBeforeUnmount(() => {
   document.removeEventListener('visibilitychange', onVisibilityChange)
+  window.removeEventListener('app:locale-changed', updateDocumentTitle)
 })
 
 onMounted(async () => {
@@ -107,7 +112,8 @@ onMounted(async () => {
   await appStore.fetchPublicSettings()
 
   // Re-resolve document title now that siteName is available
-  document.title = resolveDocumentTitle(route.meta.title, appStore.siteName, route.meta.titleKey as string)
+  updateDocumentTitle()
+  window.addEventListener('app:locale-changed', updateDocumentTitle)
 })
 </script>
 

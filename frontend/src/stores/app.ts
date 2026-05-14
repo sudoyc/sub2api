@@ -14,6 +14,14 @@ import {
 } from '@/api/admin/system'
 import { getPublicSettings as fetchPublicSettingsAPI } from '@/api/auth'
 
+const DEFAULT_SITE_NAME = 'Arqel'
+
+function normalizePublicSiteName(name?: string): string {
+  const trimmed = typeof name === 'string' ? name.trim() : ''
+  if (!trimmed || trimmed.toLowerCase() === 'sub2api') return DEFAULT_SITE_NAME
+  return trimmed
+}
+
 export const useAppStore = defineStore('app', () => {
   // ==================== State ====================
 
@@ -25,7 +33,7 @@ export const useAppStore = defineStore('app', () => {
   // Public settings cache state
   const publicSettingsLoaded = ref<boolean>(false)
   const publicSettingsLoading = ref<boolean>(false)
-  const siteName = ref<string>('Sub2API')
+  const siteName = ref<string>(DEFAULT_SITE_NAME)
   const siteLogo = ref<string>('')
   const siteVersion = ref<string>('')
   const contactInfo = ref<string>('')
@@ -291,8 +299,9 @@ export const useAppStore = defineStore('app', () => {
     if (typeof window !== 'undefined') {
       window.__APP_CONFIG__ = { ...config }
     }
-    cachedPublicSettings.value = config
-    siteName.value = config.site_name || 'Sub2API'
+    const normalizedSiteName = normalizePublicSiteName(config.site_name)
+    cachedPublicSettings.value = { ...config, site_name: normalizedSiteName }
+    siteName.value = normalizedSiteName
     siteLogo.value = config.site_logo || ''
     siteVersion.value = config.version || ''
     contactInfo.value = config.contact_info || ''

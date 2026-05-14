@@ -1,7 +1,7 @@
 <template>
   <div v-if="!isDesktopViewport" class="space-y-3">
     <template v-if="loading">
-      <div v-for="i in 5" :key="i" class="rounded-lg border border-gray-200 bg-white p-4 dark:border-dark-700 dark:bg-dark-900">
+      <div v-for="i in 5" :key="i" class="arqel-mobile-row rounded-lg border p-4">
         <div class="space-y-3">
           <div v-for="column in dataColumns" :key="column.key" class="flex justify-between">
             <div class="h-4 w-20 animate-pulse rounded bg-gray-200 dark:bg-dark-700"></div>
@@ -15,7 +15,7 @@
     </template>
 
     <template v-else-if="!data || data.length === 0">
-      <div class="rounded-lg border border-gray-200 bg-white p-12 text-center dark:border-dark-700 dark:bg-dark-900">
+      <div class="arqel-mobile-row rounded-lg border p-12 text-center">
         <slot name="empty">
           <div class="flex flex-col items-center">
             <Icon
@@ -35,7 +35,7 @@
       <div
         v-for="(row, index) in sortedData"
         :key="resolveRowKey(row, index)"
-        class="rounded-lg border border-gray-200 bg-white p-4 dark:border-dark-700 dark:bg-dark-900"
+        class="arqel-mobile-row rounded-lg border p-4"
       >
         <div class="space-y-3">
           <div
@@ -69,8 +69,8 @@
       'is-scrollable': isScrollable
     }"
   >
-    <table class="w-full min-w-max divide-y divide-gray-200 dark:divide-dark-700">
-      <thead class="table-header bg-gray-50 dark:bg-dark-800">
+    <table class="w-full min-w-max divide-y divide-[var(--arqel-line)]">
+      <thead class="table-header">
         <tr>
           <th
             v-for="(column, index) in columns"
@@ -118,7 +118,7 @@
           </th>
         </tr>
       </thead>
-      <tbody class="table-body divide-y divide-gray-200 bg-white dark:divide-dark-700 dark:bg-dark-900">
+      <tbody class="table-body divide-y divide-[var(--arqel-line)]">
         <!-- Loading skeleton -->
         <tr v-if="loading" v-for="i in 5" :key="i">
           <td v-for="column in columns" :key="column.key" :class="['whitespace-nowrap py-4', getAdaptivePaddingClass()]">
@@ -162,7 +162,7 @@
             :data-row-id="resolveRowKey(sortedData[virtualRow.index], virtualRow.index)"
             :data-index="virtualRow.index"
             :ref="measureElement"
-            class="hover:bg-gray-50 dark:hover:bg-dark-800"
+            class="arqel-table-row"
           >
             <td
               v-for="(column, colIndex) in columns"
@@ -721,11 +721,7 @@ defineExpose({
   position: sticky;
   top: 0;
   z-index: 200;
-  background-color: rgb(249 250 251);
-}
-
-.dark .table-wrapper .table-header {
-  background-color: rgb(31 41 55);
+  background: var(--arqel-panel-muted);
 }
 
 /* 表体保持在表头下方 */
@@ -739,11 +735,7 @@ defineExpose({
   position: sticky;
   top: 0;
   z-index: 210; /* 必须高于所有表体内容 */
-  background-color: rgb(249 250 251);
-}
-
-.dark .sticky-header-cell {
-  background-color: rgb(31 41 55);
+  background: var(--arqel-panel-muted);
 }
 
 /* Sticky 列基础样式 */
@@ -778,21 +770,16 @@ defineExpose({
 }
 
 /* 表体 sticky 列背景 */
-tbody .sticky-col {
-  background-color: white;
-}
-
-.dark tbody .sticky-col {
-  background-color: rgb(17 24 39);
+tbody .sticky-col,
+.arqel-mobile-row {
+  background: var(--arqel-panel);
+  border-color: var(--arqel-line);
 }
 
 /* hover 状态保持 */
+.arqel-table-row:hover,
 tbody tr:hover .sticky-col {
-  background-color: rgb(249 250 251);
-}
-
-.dark tbody tr:hover .sticky-col {
-  background-color: rgb(31 41 55);
+  background: var(--arqel-panel-muted);
 }
 
 /* 阴影只在可滚动时显示 */
@@ -847,17 +834,11 @@ tbody tr:hover .sticky-col {
 </style>
 
 <style>
-/* ==========================================================================
-   终极悬浮滚动条防丢器 (Sledgehammer Override)
-   绕过 style.css 中 `* { scrollbar-color: transparent }` 的全局悬停隐身诅咒！
-   ========================================================================== */
-
-/* 1. 废除全局针对所有元素的 scrollbar-width 设定，拿回 Chrome/Safari 下 Webkit 滚动条规则的控制权！ */
+/* Keep wide tables discoverable by showing a persistent horizontal scrollbar. */
 .table-wrapper {
-  scrollbar-width: auto !important; /* 阻止 Chrome 121 退化到原生 Mac 闪隐滚动条 */
+  scrollbar-width: auto !important;
 }
 
-/* 2. 重写 Webkit 滚动层，全部加上 !important 强制覆盖透明悬停陷阱 */
 .table-wrapper::-webkit-scrollbar {
   height: 12px !important;
   width: 12px !important;
@@ -866,41 +847,39 @@ tbody tr:hover .sticky-col {
 }
 
 .table-wrapper::-webkit-scrollbar-track {
-  background-color: rgba(0, 0, 0, 0.03) !important;
+  background-color: color-mix(in srgb, var(--arqel-line) 40%, transparent) !important;
   border-radius: 6px !important;
   margin: 0 4px !important;
 }
 .dark .table-wrapper::-webkit-scrollbar-track {
-  background-color: rgba(255, 255, 255, 0.05) !important;
+  background-color: color-mix(in srgb, var(--arqel-line) 55%, transparent) !important;
 }
 
-/* 常驻、不透明的滑块，无视鼠标是否 hover 都在那！ */
 .table-wrapper::-webkit-scrollbar-thumb {
-  background-color: rgba(107, 114, 128, 0.75) !important; 
+  background-color: color-mix(in srgb, var(--arqel-muted) 72%, transparent) !important;
   border-radius: 6px !important;
   border: 2px solid transparent !important;
   background-clip: padding-box !important;
   -webkit-appearance: none !important;
 }
 .table-wrapper::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(75, 85, 99, 0.9) !important;
+  background-color: color-mix(in srgb, var(--arqel-muted) 88%, transparent) !important;
 }
 
 .dark .table-wrapper::-webkit-scrollbar-thumb {
-  background-color: rgba(156, 163, 175, 0.75) !important;
+  background-color: color-mix(in srgb, var(--arqel-muted) 76%, transparent) !important;
 }
 .dark .table-wrapper::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(209, 213, 219, 0.9) !important;
+  background-color: color-mix(in srgb, var(--arqel-muted) 92%, transparent) !important;
 }
 
-/* 3. 仅给真正的 Firefox 留的后路 */
 @supports (-moz-appearance:none) {
   .table-wrapper {
     scrollbar-width: thin !important;
-    scrollbar-color: rgba(156, 163, 175, 0.5) rgba(0, 0, 0, 0.03) !important;
+    scrollbar-color: var(--arqel-muted) color-mix(in srgb, var(--arqel-line) 40%, transparent) !important;
   }
   .dark .table-wrapper {
-    scrollbar-color: rgba(75, 85, 99, 0.5) rgba(255, 255, 255, 0.05) !important;
+    scrollbar-color: var(--arqel-muted) color-mix(in srgb, var(--arqel-line) 55%, transparent) !important;
   }
 }
 </style>

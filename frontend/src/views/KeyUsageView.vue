@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex min-h-screen flex-col bg-gray-50 dark:bg-dark-950">
+  <div class="key-usage-shell relative flex min-h-screen flex-col bg-gray-50 dark:bg-dark-950">
     <!-- Header (same pattern as HomeView) -->
     <header class="relative z-20 px-6 py-4">
       <nav class="mx-auto flex max-w-6xl items-center justify-between">
@@ -366,6 +366,7 @@ import { useI18n } from 'vue-i18n'
 import { useAppStore } from '@/stores'
 import LocaleSwitcher from '@/components/common/LocaleSwitcher.vue'
 import Icon from '@/components/icons/Icon.vue'
+import { initThemePreference, toggleThemePreference } from '@/utils/theme'
 
 const { t, locale } = useI18n()
 const appStore = useAppStore()
@@ -382,9 +383,7 @@ const githubUrl = 'https://github.com/Wei-Shaw/sub2api'
 const isDark = ref(document.documentElement.classList.contains('dark'))
 
 function toggleTheme() {
-  isDark.value = !isDark.value
-  document.documentElement.classList.toggle('dark', isDark.value)
-  localStorage.setItem('theme', isDark.value ? 'dark' : 'light')
+  isDark.value = toggleThemePreference(isDark.value) === 'dark'
 }
 
 const currentYear = computed(() => new Date().getFullYear())
@@ -449,8 +448,8 @@ function getDateParams(): string {
 
 const CIRCUMFERENCE = 2 * Math.PI * 68
 const RING_GRADIENTS = [
-  { from: '#14b8a6', to: '#5eead4' },
-  { from: '#6366F1', to: '#A5B4FC' },
+  { from: '#6467f2', to: '#a78bfa' },
+  { from: '#7c3aed', to: '#c4b5fd' },
   { from: '#10B981', to: '#6EE7B7' },
   { from: '#F59E0B', to: '#FCD34D' },
 ]
@@ -458,7 +457,7 @@ const RING_GRADIENTS = [
 const ringAnimated = ref(false)
 const displayPcts = ref<number[]>([])
 
-const ringTrackColor = computed(() => isDark.value ? '#222222' : '#F0F0EE')
+const ringTrackColor = computed(() => isDark.value ? '#2f3037' : '#e5e6ea')
 
 interface RingItem {
   title: string
@@ -803,11 +802,7 @@ async function queryKey() {
 // ==================== Lifecycle ====================
 
 function initTheme() {
-  const savedTheme = localStorage.getItem('theme')
-  if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-    isDark.value = true
-    document.documentElement.classList.add('dark')
-  }
+  isDark.value = initThemePreference() === 'dark'
 }
 
 function formatResetTime(resetAt: string | null | undefined): string {
@@ -836,13 +831,93 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.key-usage-shell {
+  --ku-bg: var(--arqel-bg);
+  --ku-panel: var(--arqel-panel);
+  --ku-panel-muted: var(--arqel-panel-muted);
+  --ku-text: var(--arqel-text);
+  --ku-muted: var(--arqel-muted);
+  --ku-soft: var(--arqel-soft);
+  --ku-line: var(--arqel-line);
+  --ku-line-strong: var(--arqel-line-strong);
+  --ku-accent: var(--arqel-accent);
+  --ku-accent-strong: var(--arqel-accent-strong);
+  --ku-shadow: var(--arqel-shadow);
+  background:
+    radial-gradient(circle at 50% -16%, rgba(100, 103, 242, 0.12), transparent 30rem),
+    var(--ku-bg);
+  color: var(--ku-text);
+}
+
+.key-usage-shell :deep(header),
+.key-usage-shell :deep(footer) {
+  border-color: color-mix(in srgb, var(--ku-line) 72%, transparent);
+}
+
+.key-usage-shell :deep(.text-gray-900),
+.key-usage-shell :deep(.dark\:text-white),
+.key-usage-shell :deep(.dark\:text-gray-100) {
+  color: var(--ku-text);
+}
+
+.key-usage-shell :deep(.text-gray-700),
+.key-usage-shell :deep(.dark\:text-dark-200) {
+  color: color-mix(in srgb, var(--ku-text) 76%, var(--ku-muted));
+}
+
+.key-usage-shell :deep(.text-gray-500),
+.key-usage-shell :deep(.text-gray-400),
+.key-usage-shell :deep(.dark\:text-dark-400),
+.key-usage-shell :deep(.dark\:text-dark-500),
+.key-usage-shell :deep(.dark\:text-gray-500) {
+  color: var(--ku-muted);
+}
+
+.key-usage-shell :deep(.bg-white),
+.key-usage-shell :deep(.bg-white\/90),
+.key-usage-shell :deep(.dark\:bg-dark-900),
+.key-usage-shell :deep(.dark\:bg-dark-900\/90) {
+  background-color: color-mix(in srgb, var(--ku-panel) 94%, transparent);
+}
+
+.key-usage-shell :deep(.bg-gray-50),
+.key-usage-shell :deep(.bg-gray-100),
+.key-usage-shell :deep(.dark\:bg-dark-950),
+.key-usage-shell :deep(.dark\:bg-dark-800) {
+  background-color: var(--ku-panel-muted);
+}
+
+.key-usage-shell :deep(.border-gray-200),
+.key-usage-shell :deep(.border-gray-100),
+.key-usage-shell :deep(.dark\:border-dark-700),
+.key-usage-shell :deep(.dark\:border-dark-800),
+.key-usage-shell :deep(.divide-gray-100 > :not([hidden]) ~ :not([hidden])),
+.key-usage-shell :deep(.dark\:divide-dark-800 > :not([hidden]) ~ :not([hidden])) {
+  border-color: var(--ku-line);
+}
+
+.key-usage-shell :deep(.hover\:bg-gray-100:hover),
+.key-usage-shell :deep(.dark\:hover\:bg-dark-800:hover) {
+  background-color: var(--ku-panel-muted);
+}
+
+.key-usage-shell :deep(.input-ring) {
+  background: var(--ku-panel);
+  border-color: var(--ku-line-strong);
+  color: var(--ku-text);
+}
+
+.key-usage-shell :deep(.input-ring::placeholder) {
+  color: var(--ku-soft);
+}
+
 /* Input focus ring */
 .input-ring {
   transition: box-shadow 0.2s ease, border-color 0.2s ease;
 }
 .input-ring:focus {
-  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.2);
-  border-color: #14b8a6;
+  box-shadow: 0 0 0 3px var(--arqel-focus);
+  border-color: var(--arqel-accent);
   outline: none;
 }
 
@@ -859,13 +934,13 @@ onUnmounted(() => {
   100% { background-position: 200% 0; }
 }
 .skeleton {
-  background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%);
+  background: linear-gradient(90deg, var(--ku-line) 25%, var(--ku-panel-muted) 50%, var(--ku-line) 75%);
   background-size: 200% 100%;
   animation: shimmer-kv 1.8s ease-in-out infinite;
   border-radius: 8px;
 }
 :global(.dark) .skeleton {
-  background: linear-gradient(90deg, #334155 25%, #1e293b 50%, #334155 75%);
+  background: linear-gradient(90deg, #2f3037 25%, #18181b 50%, #2f3037 75%);
   background-size: 200% 100%;
 }
 

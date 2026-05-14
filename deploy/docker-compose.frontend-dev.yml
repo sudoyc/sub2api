@@ -1,0 +1,51 @@
+# =============================================================================
+# Sub2API Frontend Hot-Reload Development
+# =============================================================================
+# Usage from repository root:
+#   docker compose -f deploy/docker-compose.frontend-dev.yml up -d
+#
+# Frontend: http://127.0.0.1:3000
+# Backend proxy target by default: http://sub2api-preview-app:8080
+#
+# This is intentionally frontend-only. Keep the normal Docker backend/preview
+# running, and let Vite proxy /api, /v1 and /setup to that backend container.
+# =============================================================================
+
+services:
+  frontend:
+    image: node:24-alpine
+    container_name: sub2api-frontend-dev
+    working_dir: /app/frontend
+    command: >
+      sh -c '
+        corepack enable &&
+        corepack prepare pnpm@9.15.4 --activate &&
+        pnpm install --frozen-lockfile --store-dir /pnpm/store &&
+        pnpm dev --host 0.0.0.0
+      '
+    ports:
+      - "${FRONTEND_DEV_BIND_HOST:-127.0.0.1}:${FRONTEND_DEV_PORT:-3000}:${FRONTEND_DEV_PORT:-3000}"
+    environment:
+      - CI=true
+      - VITE_DEV_PROXY_TARGET=${VITE_DEV_PROXY_TARGET:-http://sub2api-preview-app:8080}
+      - VITE_DEV_PORT=${FRONTEND_DEV_PORT:-3000}
+      - CHOKIDAR_USEPOLLING=${CHOKIDAR_USEPOLLING:-true}
+      - WATCHPACK_POLLING=${WATCHPACK_POLLING:-true}
+    volumes:
+      - ../frontend:/app/frontend
+      - frontend_node_modules:/app/frontend/node_modules
+      - frontend_pnpm_store:/pnpm/store
+    networks:
+      - frontend-dev
+      - preview-backend
+
+networks:
+  frontend-dev:
+    driver: bridge
+  preview-backend:
+    external: true
+    name: sub2api-preview-net
+
+volumes:
+  frontend_node_modules:
+  frontend_pnpm_store:

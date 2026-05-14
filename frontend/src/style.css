@@ -2,9 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --arqel-bg: #f7f7f8;
+  --arqel-panel: #ffffff;
+  --arqel-panel-muted: #f3f4f6;
+  --arqel-panel-raised: #ffffff;
+  --arqel-text: #111113;
+  --arqel-muted: #666a73;
+  --arqel-soft: #8a8f99;
+  --arqel-line: #dedfe3;
+  --arqel-line-strong: #c9cbd1;
+  --arqel-accent: #6467f2;
+  --arqel-accent-strong: #5457df;
+  --arqel-accent-soft: rgba(100, 103, 242, 0.1);
+  --arqel-accent-softer: rgba(100, 103, 242, 0.06);
+  --arqel-shadow: 0 0 0 1px rgba(17, 17, 19, 0.05), 0 10px 30px -24px rgba(17, 17, 19, 0.22);
+  --arqel-focus: rgba(100, 103, 242, 0.3);
+}
+
+.dark {
+  --arqel-bg: #090a0b;
+  --arqel-panel: #0f1014;
+  --arqel-panel-muted: #14151a;
+  --arqel-panel-raised: #17181f;
+  --arqel-text: #fafafa;
+  --arqel-muted: #a1a1aa;
+  --arqel-soft: #71717a;
+  --arqel-line: #2f3037;
+  --arqel-line-strong: #3d3d42;
+  --arqel-accent: #6467f2;
+  --arqel-accent-strong: #7b7df7;
+  --arqel-accent-soft: rgba(100, 103, 242, 0.16);
+  --arqel-accent-softer: rgba(100, 103, 242, 0.08);
+  --arqel-shadow: 0 0 0 1px rgba(61, 61, 66, 0.72), 0 16px 44px -32px rgba(0, 0, 0, 0.92);
+  --arqel-focus: rgba(100, 103, 242, 0.42);
+}
+
 @layer base {
   * {
-    @apply border-gray-200 dark:border-dark-700;
+    border-color: var(--arqel-line);
   }
 
   html {
@@ -12,8 +48,11 @@
   }
 
   body {
-    @apply bg-gray-50 text-gray-900 dark:bg-dark-950 dark:text-gray-100;
     @apply min-h-screen;
+    background:
+      radial-gradient(circle at 50% -20%, rgba(100, 103, 242, 0.12), transparent 28rem),
+      var(--arqel-bg);
+    color: var(--arqel-text);
   }
 
   /* 自定义滚动条 - 仅针对 Firefox，避免 Chrome 取消 webkit 的全局定制 */
@@ -67,7 +106,7 @@
   /* ============ 按钮样式 ============ */
   .btn {
     @apply inline-flex items-center justify-center gap-2;
-    @apply rounded-xl px-4 py-2.5 text-sm font-medium;
+    @apply rounded-lg px-4 py-2.5 text-sm font-semibold;
     @apply transition-all duration-200 ease-out;
     @apply focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:ring-offset-2;
     @apply disabled:transform-none disabled:cursor-not-allowed disabled:opacity-50;
@@ -75,23 +114,36 @@
   }
 
   .btn-primary {
-    @apply bg-gradient-to-r from-primary-500 to-primary-600;
-    @apply text-white shadow-md shadow-primary-500/25;
-    @apply hover:from-primary-600 hover:to-primary-700 hover:shadow-lg hover:shadow-primary-500/30;
-    @apply dark:shadow-primary-500/20;
+    @apply border text-white shadow-none;
+    background: var(--arqel-accent);
+    border-color: var(--arqel-accent);
+  }
+
+  .btn-primary:hover {
+    background: var(--arqel-accent-strong);
+    border-color: var(--arqel-accent-strong);
   }
 
   .btn-secondary {
-    @apply bg-white dark:bg-dark-800;
-    @apply text-gray-700 dark:text-gray-200;
-    @apply border border-gray-200 dark:border-dark-600;
-    @apply shadow-sm hover:bg-gray-50 dark:hover:bg-dark-700;
-    @apply hover:border-gray-300 dark:hover:border-dark-500;
+    @apply border text-gray-700 dark:text-gray-200;
+    background: var(--arqel-panel);
+    border-color: var(--arqel-line-strong);
+    box-shadow: none;
+  }
+
+  .btn-secondary:hover {
+    background: var(--arqel-panel-muted);
+    border-color: var(--arqel-line-strong);
   }
 
   .btn-ghost {
-    @apply bg-transparent text-gray-600 dark:text-gray-300;
-    @apply hover:bg-gray-100 dark:hover:bg-dark-800;
+    background: transparent;
+    color: var(--arqel-muted);
+  }
+
+  .btn-ghost:hover {
+    background: var(--arqel-panel-muted);
+    color: var(--arqel-text);
   }
 
   .btn-danger {
@@ -161,13 +213,26 @@
   /* ============ 输入框样式 ============ */
   .input {
     @apply w-full rounded-xl px-4 py-2.5 text-sm;
-    @apply bg-white dark:bg-dark-800;
-    @apply border border-gray-200 dark:border-dark-600;
-    @apply text-gray-900 dark:text-gray-100;
-    @apply placeholder:text-gray-400 dark:placeholder:text-dark-400;
-    @apply transition-all duration-200;
-    @apply focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/30;
-    @apply disabled:cursor-not-allowed disabled:bg-gray-100 dark:disabled:bg-dark-900;
+    @apply border transition-all duration-200;
+    @apply focus:outline-none focus:ring-2;
+    background: var(--arqel-panel);
+    border-color: var(--arqel-line-strong);
+    color: var(--arqel-text);
+    --tw-ring-color: var(--arqel-focus);
+  }
+
+  .input::placeholder {
+    color: var(--arqel-soft);
+  }
+
+  .input:focus {
+    border-color: var(--arqel-accent);
+  }
+
+  .input:disabled {
+    @apply cursor-not-allowed;
+    background: var(--arqel-panel-muted);
+    color: var(--arqel-soft);
   }
 
   .input-error {
@@ -175,11 +240,13 @@
   }
 
   .input-label {
-    @apply mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300;
+    @apply mb-1.5 block text-sm font-medium;
+    color: var(--arqel-muted);
   }
 
   .input-hint {
-    @apply mt-1 text-xs text-gray-500 dark:text-dark-400;
+    @apply mt-1 text-xs;
+    color: var(--arqel-soft);
   }
 
   .input-error-text {
@@ -199,41 +266,46 @@
 
   /* ============ 玻璃效果 ============ */
   .glass {
-    @apply bg-white/80 backdrop-blur-xl dark:bg-dark-800/80;
+    @apply backdrop-blur-sm;
+    background: color-mix(in srgb, var(--arqel-bg) 92%, transparent);
   }
 
   .glass-card {
-    @apply bg-white/70 dark:bg-dark-800/70;
-    @apply backdrop-blur-xl;
-    @apply rounded-2xl;
-    @apply border border-white/20 dark:border-dark-700/50;
-    @apply shadow-glass;
+    @apply rounded-xl border backdrop-blur-sm;
     @apply transition-all duration-300;
+    background: color-mix(in srgb, var(--arqel-panel) 90%, transparent);
+    border-color: var(--arqel-line);
+    box-shadow: var(--arqel-shadow);
   }
 
   /* ============ 卡片样式 ============ */
   .card {
-    @apply bg-white dark:bg-dark-800/50;
-    @apply rounded-2xl;
-    @apply border border-gray-100 dark:border-dark-700/50;
-    @apply shadow-card;
+    @apply rounded-xl border;
     @apply transition-all duration-300;
+    background: var(--arqel-panel);
+    border-color: var(--arqel-line);
+    box-shadow: var(--arqel-shadow);
   }
 
   .card-hover {
-    @apply hover:-translate-y-0.5 hover:shadow-card-hover;
-    @apply hover:border-gray-200 dark:hover:border-dark-600;
+    @apply hover:-translate-y-0.5;
+    box-shadow: var(--arqel-shadow);
+  }
+
+  .card-hover:hover {
+    border-color: var(--arqel-line-strong);
   }
 
   .card-glass {
-    @apply bg-white/70 dark:bg-dark-800/70;
-    @apply backdrop-blur-xl;
-    @apply border border-white/20 dark:border-dark-700/50;
-    @apply shadow-glass;
+    @apply border backdrop-blur-sm;
+    background: color-mix(in srgb, var(--arqel-panel) 90%, transparent);
+    border-color: var(--arqel-line);
+    box-shadow: var(--arqel-shadow);
   }
 
   .card-header {
-    @apply border-b border-gray-100 dark:border-dark-700;
+    @apply border-b;
+    border-color: var(--arqel-line);
     @apply px-6 py-4;
   }
 
@@ -242,7 +314,8 @@
   }
 
   .card-footer {
-    @apply border-t border-gray-100 dark:border-dark-700;
+    @apply border-t;
+    border-color: var(--arqel-line);
     @apply px-6 py-4;
   }
 
@@ -296,7 +369,10 @@
 
   /* ============ 表格样式 ============ */
   .table-container {
-    @apply overflow-x-auto rounded-xl border border-gray-200 dark:border-dark-700;
+    @apply overflow-x-auto rounded-xl border;
+    background: var(--arqel-panel);
+    border-color: var(--arqel-line);
+    box-shadow: var(--arqel-shadow);
   }
 
   .table {
@@ -305,15 +381,17 @@
 
   .table th {
     @apply px-4 py-3 text-left font-medium;
-    @apply text-gray-600 dark:text-dark-300;
-    @apply bg-gray-50 dark:bg-dark-800/50;
-    @apply border-b border-gray-200 dark:border-dark-700;
+    @apply border-b;
+    color: var(--arqel-muted);
+    background: var(--arqel-panel-muted);
+    border-color: var(--arqel-line);
   }
 
   .table td {
     @apply px-4 py-3;
-    @apply text-gray-700 dark:text-gray-300;
-    @apply border-b border-gray-100 dark:border-dark-800;
+    @apply border-b;
+    color: var(--arqel-text);
+    border-color: var(--arqel-line);
   }
 
   .table tr:last-child td {
@@ -322,7 +400,10 @@
 
   .table tbody tr {
     @apply transition-colors duration-150;
-    @apply hover:bg-gray-50 dark:hover:bg-dark-800/30;
+  }
+
+  .table tbody tr:hover {
+    background: var(--arqel-panel-muted);
   }
 
   /* ============ 徽章样式 ============ */
@@ -348,7 +429,8 @@
   }
 
   .badge-gray {
-    @apply bg-gray-100 text-gray-700 dark:bg-dark-700 dark:text-dark-300;
+    background: var(--arqel-panel-muted);
+    color: var(--arqel-muted);
   }
 
   .badge-purple {
@@ -358,20 +440,24 @@
   /* ============ 下拉菜单 ============ */
   .dropdown {
     @apply absolute z-50;
-    @apply bg-white dark:bg-dark-800;
-    @apply rounded-xl;
-    @apply border border-gray-200 dark:border-dark-700;
-    @apply shadow-lg;
+    @apply rounded-xl border;
     @apply py-1;
     @apply origin-top-right animate-scale-in;
+    background: var(--arqel-panel);
+    border-color: var(--arqel-line-strong);
+    box-shadow: var(--arqel-shadow);
   }
 
   .dropdown-item {
     @apply px-4 py-2 text-sm;
-    @apply text-gray-700 dark:text-gray-300;
-    @apply hover:bg-gray-100 dark:hover:bg-dark-700;
     @apply cursor-pointer transition-colors;
     @apply flex items-center gap-2;
+    color: var(--arqel-muted);
+  }
+
+  .dropdown-item:hover {
+    background: var(--arqel-panel-muted);
+    color: var(--arqel-text);
   }
 
   /* ============ 模态框 ============ */
@@ -384,10 +470,11 @@
   .modal-content {
     @apply w-full;
     @apply max-h-[95vh] sm:max-h-[90vh];
-    @apply bg-white dark:bg-dark-800;
-    @apply rounded-2xl shadow-2xl;
-    @apply border border-gray-200 dark:border-dark-700;
+    @apply rounded-2xl border;
     @apply flex flex-col;
+    background: var(--arqel-panel);
+    border-color: var(--arqel-line-strong);
+    box-shadow: var(--arqel-shadow);
   }
 
   .modal-header {
@@ -477,8 +564,10 @@
   .dialog-container {
     @apply flex w-full flex-col;
     @apply max-h-[90vh];
-    @apply rounded-2xl bg-white dark:bg-dark-800;
-    @apply shadow-xl;
+    @apply rounded-2xl border;
+    background: var(--arqel-panel);
+    border-color: var(--arqel-line-strong);
+    box-shadow: var(--arqel-shadow);
   }
 
   .dialog-header {
@@ -492,7 +581,7 @@
 
   .dialog-footer {
     @apply border-t border-gray-100 px-6 py-4 dark:border-dark-700;
-    @apply bg-gray-50/60 dark:bg-dark-900/40;
+    background: var(--arqel-panel-muted);
     @apply flex items-center justify-end gap-3;
   }
 
@@ -500,11 +589,12 @@
   .toast {
     @apply fixed right-4 top-4 z-[100];
     @apply min-w-[320px] max-w-md;
-    @apply bg-white dark:bg-dark-800;
-    @apply rounded-xl shadow-lg;
+    @apply rounded-xl;
     @apply border-l-4;
     @apply p-4;
     @apply animate-slide-in-right;
+    background: var(--arqel-panel);
+    box-shadow: var(--arqel-shadow);
   }
 
   .toast-success {
@@ -526,17 +616,19 @@
   /* ============ 侧边栏 ============ */
   .sidebar {
     @apply fixed inset-y-0 left-0 z-40;
-    @apply w-64 bg-white dark:bg-dark-900;
-    @apply border-r border-gray-200 dark:border-dark-800;
+    @apply w-64 border-r;
     @apply flex flex-col;
     @apply transition-transform duration-300;
+    background: var(--arqel-panel);
+    border-color: var(--arqel-line);
     transition-property: width, transform;
   }
 
   .sidebar-header {
     @apply h-16 px-6;
     @apply flex items-center gap-3;
-    @apply border-b border-gray-100 dark:border-dark-800;
+    @apply border-b;
+    border-color: var(--arqel-line);
     transition:
       padding 0.2s ease,
       gap 0.2s ease;
@@ -547,21 +639,23 @@
   }
 
   .sidebar-link {
-    @apply flex items-center gap-3 rounded-xl py-2.5;
+    @apply flex items-center gap-3 rounded-lg py-2.5;
     @apply overflow-hidden;
     @apply text-sm font-medium;
-    @apply text-gray-600 dark:text-dark-300;
     @apply transition-all duration-200;
-    @apply hover:bg-gray-100 dark:hover:bg-dark-800;
-    @apply hover:text-gray-900 dark:hover:text-white;
+    color: var(--arqel-muted);
     padding-left: 1.0625rem;
     padding-right: 0.875rem;
   }
 
+  .sidebar-link:hover {
+    background: var(--arqel-panel-muted);
+    color: var(--arqel-text);
+  }
+
   .sidebar-link-active {
-    @apply bg-primary-50 dark:bg-primary-900/20;
-    @apply text-primary-600 dark:text-primary-400;
-    @apply hover:bg-primary-100 dark:hover:bg-primary-900/30;
+    background: var(--arqel-accent-soft);
+    color: var(--arqel-accent-strong);
   }
 
   .sidebar-section {
@@ -571,7 +665,7 @@
   .sidebar-section-title {
     @apply mb-2 px-3;
     @apply text-xs font-semibold uppercase tracking-wider;
-    @apply text-gray-400 dark:text-dark-500;
+    color: var(--arqel-soft);
   }
 
   /* ============ 页面头部 ============ */
@@ -624,7 +718,8 @@
   /* ============ 标签页 ============ */
   .tabs {
     @apply flex gap-1 p-1;
-    @apply rounded-xl bg-gray-100 dark:bg-dark-800;
+    @apply rounded-xl;
+    background: var(--arqel-panel-muted);
   }
 
   .tab {
@@ -635,9 +730,9 @@
   }
 
   .tab-active {
-    @apply bg-white dark:bg-dark-700;
     @apply text-gray-900 dark:text-white;
-    @apply shadow-sm;
+    background: var(--arqel-panel);
+    box-shadow: none;
   }
 
   /* ============ 进度条 ============ */
@@ -674,9 +769,9 @@
   /* ============ 代码块 ============ */
   .code {
     @apply font-mono text-sm;
-    @apply bg-gray-100 dark:bg-dark-800;
     @apply rounded px-1.5 py-0.5;
     @apply text-primary-600 dark:text-primary-400;
+    background: var(--arqel-panel-muted);
   }
 
   .code-block {
@@ -734,6 +829,61 @@
   }
 }
 
+
+/* Arqel global theme overrides for legacy utility-heavy views. Keep these
+   low-specificity enough to coexist with semantic status colors, but strong
+   enough to make admin/user surfaces share the same neutral shell. */
+@layer components {
+  .glass :where(.border-gray-100, .border-gray-200, .dark\:border-dark-700, .dark\:border-dark-800),
+  .dropdown :where(.border-gray-100, .border-gray-200, .dark\:border-dark-700, .dark\:border-dark-800),
+  .card :where(.border-gray-100, .border-gray-200, .dark\:border-dark-700, .dark\:border-dark-800) {
+    border-color: var(--arqel-line);
+  }
+
+  .glass :where(.bg-gray-50, .dark\:bg-dark-800\/50, .dark\:bg-dark-900),
+  .dropdown :where(.bg-gray-50, .dark\:bg-dark-800\/50, .dark\:bg-dark-900),
+  .card :where(.bg-gray-50, .dark\:bg-dark-800\/50, .dark\:bg-dark-900) {
+    background: var(--arqel-panel-muted);
+  }
+
+  .glass :where(.hover\:bg-gray-100:hover, .dark\:hover\:bg-dark-800:hover),
+  .dropdown :where(.hover\:bg-gray-100:hover, .dark\:hover\:bg-dark-800:hover),
+  .card :where(.hover\:bg-gray-100:hover, .dark\:hover\:bg-dark-800:hover) {
+    background: color-mix(in srgb, var(--arqel-panel-muted) 72%, var(--arqel-accent-softer));
+  }
+
+  .glass :where(.text-gray-900, .dark\:text-white, .dark\:text-gray-100),
+  .dropdown :where(.text-gray-900, .dark\:text-white, .dark\:text-gray-100),
+  .card :where(.text-gray-900, .dark\:text-white, .dark\:text-gray-100) {
+    color: var(--arqel-text);
+  }
+
+  .glass :where(.text-gray-500, .text-gray-400, .dark\:text-dark-400, .dark\:text-gray-400),
+  .dropdown :where(.text-gray-500, .text-gray-400, .dark\:text-dark-400, .dark\:text-gray-400),
+  .card :where(.text-gray-500, .text-gray-400, .dark\:text-dark-400, .dark\:text-gray-400) {
+    color: var(--arqel-muted);
+  }
+
+  .glass :where(.text-gray-700, .dark\:text-gray-300),
+  .dropdown :where(.text-gray-700, .dark\:text-gray-300),
+  .card :where(.text-gray-700, .dark\:text-gray-300) {
+    color: var(--arqel-muted);
+  }
+}
+
+
+@layer components {
+  .auth-brand-mark {
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 1px solid var(--arqel-line-strong);
+    border-radius: 1rem;
+    background: var(--arqel-panel);
+    box-shadow: var(--arqel-shadow);
+  }
+}
+
 @layer utilities {
   /* 文字渐变 */
   .text-gradient {
@@ -742,7 +892,8 @@
 
   /* 玻璃效果 */
   .glass {
-    @apply bg-white/80 backdrop-blur-xl dark:bg-dark-800/80;
+    @apply backdrop-blur-sm;
+    background: color-mix(in srgb, var(--arqel-bg) 92%, transparent);
   }
 
   /* 隐藏滚动条 */
