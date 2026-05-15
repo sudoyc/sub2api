@@ -22,10 +22,9 @@
         </router-link>
 
         <div class="home-nav-links">
-          <a v-if="docUrl" :href="docUrl" target="_blank" rel="noopener noreferrer">
+          <a :href="tutorialUrl" target="_blank" rel="noopener noreferrer">
             {{ t('home.arqel.tutorial') }}
           </a>
-          <router-link v-else to="/key-usage">{{ t('home.arqel.tutorial') }}</router-link>
           <a v-if="docUrl" :href="docUrl" target="_blank" rel="noopener noreferrer">
             {{ t('home.docs') }}
           </a>
@@ -71,17 +70,13 @@
               <Icon name="arrowRight" size="md" :stroke-width="2" />
             </router-link>
             <a
-              v-if="docUrl"
-              :href="docUrl"
+              :href="tutorialUrl"
               target="_blank"
               rel="noopener noreferrer"
               class="home-button home-button-secondary home-hero-element home-d-5"
             >
               {{ t('home.arqel.tutorial') }}
             </a>
-            <router-link v-else to="/key-usage" class="home-button home-button-secondary home-hero-element home-d-5">
-              {{ t('home.arqel.tutorial') }}
-            </router-link>
           </div>
         </div>
 
@@ -238,7 +233,7 @@
             <small>{{ t('home.arqel.resources.docs.label') }}</small>
             <h3>{{ t('home.arqel.resources.docs.title') }}</h3>
             <p>{{ t('home.arqel.resources.docs.desc') }}</p>
-            <a v-if="docUrl" :href="docUrl" target="_blank" rel="noopener noreferrer" class="home-text-link">
+            <a :href="tutorialUrl" target="_blank" rel="noopener noreferrer" class="home-text-link">
               {{ t('home.arqel.resources.docs.action') }}
             </a>
           </article>
@@ -280,8 +275,12 @@ const appStore = useAppStore()
 
 const brandName = 'Arqel'
 
+const DEFAULT_DOC_URL = 'https://docs.arqel.net/'
+const TUTORIAL_PATH = 'tools/'
+
 // Site settings - directly from appStore (already initialized from injected config)
-const docUrl = computed(() => appStore.cachedPublicSettings?.doc_url || appStore.docUrl || '')
+const docUrl = computed(() => appStore.cachedPublicSettings?.doc_url || appStore.docUrl || DEFAULT_DOC_URL)
+const tutorialUrl = computed(() => new URL(TUTORIAL_PATH, docUrl.value || DEFAULT_DOC_URL).toString())
 const contactText = computed(() => (appStore.cachedPublicSettings?.contact_info || appStore.contactInfo || '').trim())
 const contactHref = computed(() => {
   const value = contactText.value
