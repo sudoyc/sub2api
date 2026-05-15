@@ -6186,14 +6186,14 @@ function localText(zh: string, en: string): string {
 
 const paymentGuideHref = computed(() =>
   locale.value.startsWith("zh")
-    ? "https://github.com/Wei-Shaw/sub2api/blob/main/docs/PAYMENT_CN.md"
-    : "https://github.com/Wei-Shaw/sub2api/blob/main/docs/PAYMENT.md",
+    ? "https://docs.arqel.net/concepts/usage-and-billing"
+    : "https://docs.arqel.net/concepts/usage-and-billing",
 );
 
 const paymentMethodsHref = computed(() =>
   locale.value.startsWith("zh")
-    ? "https://github.com/Wei-Shaw/sub2api/blob/main/docs/PAYMENT_CN.md#支持的支付方式"
-    : "https://github.com/Wei-Shaw/sub2api/blob/main/docs/PAYMENT.md#supported-payment-methods",
+    ? "https://docs.arqel.net/concepts/usage-and-billing#推荐做法"
+    : "https://docs.arqel.net/concepts/usage-and-billing#推荐做法",
 );
 
 type SettingsTab =

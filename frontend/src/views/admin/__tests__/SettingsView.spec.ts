@@ -557,13 +557,13 @@ describe("admin SettingsView payment visible method controls", () => {
 
     expect(paymentLinks).toHaveLength(2);
     expect(paymentLinks[0]?.attributes("href")).toBe(
-      "https://github.com/Wei-Shaw/sub2api/blob/main/docs/PAYMENT_CN.md",
+      "https://docs.arqel.net/concepts/usage-and-billing",
     );
     expect(paymentLinks[1]?.attributes("href")).toBe(
-      "https://github.com/Wei-Shaw/sub2api/blob/main/docs/PAYMENT_CN.md#支持的支付方式",
+      "https://docs.arqel.net/concepts/usage-and-billing#推荐做法",
     );
     for (const link of paymentLinks) {
-      expect(link.attributes("href")).toContain("docs/PAYMENT");
+      expect(link.attributes("href")).toContain("docs.arqel.net");
     }
   });
 

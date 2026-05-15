@@ -14,7 +14,7 @@ Remote:
 git@github.com:sudoyc/arqel-docs.git
 ```
 
-The docs site is now a standalone VitePress project intended for Cloudflare Pages hosting at:
+The docs site is now a standalone VitePress project deployed via Cloudflare Workers static assets at:
 
 ```text
 docs.arqel.net
