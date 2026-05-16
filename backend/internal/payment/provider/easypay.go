@@ -162,7 +162,9 @@ func (e *EasyPay) createAPIPayment(ctx context.Context, req payment.CreatePaymen
 	if req.IsMobile {
 		params["device"] = deviceMobile
 	}
-	params["sign"] = easyPaySign(params, e.config["pkey"])
+	signParams := cloneStringMap(params)
+	delete(signParams, "clientip")
+	params["sign"] = easyPaySign(signParams, e.config["pkey"])
 	params["sign_type"] = signTypeMD5
 
 	body, err := e.post(ctx, e.apiBase()+"/mapi.php", params)
