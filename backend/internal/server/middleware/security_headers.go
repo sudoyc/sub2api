@@ -124,7 +124,11 @@ func isAPIRoutePath(c *gin.Context) bool {
 		strings.HasPrefix(path, "/v1beta/") ||
 		strings.HasPrefix(path, "/antigravity/") ||
 		strings.HasPrefix(path, "/responses") ||
-		strings.HasPrefix(path, "/images")
+		isRootImagesGatewayPath(path)
+}
+
+func isRootImagesGatewayPath(path string) bool {
+	return path == "/images/generations" || path == "/images/edits"
 }
 
 // enhanceCSPPolicy 确保 CSP 策略包含 nonce 支持和支付 SDK 必需域名。

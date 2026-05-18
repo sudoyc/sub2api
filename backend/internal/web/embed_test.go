@@ -453,6 +453,8 @@ func TestFrontendServer_Middleware(t *testing.T) {
 			"/health",
 			"/responses",
 			"/responses/compact",
+			"/images/generations",
+			"/images/edits",
 		}
 
 		for _, path := range apiPaths {
@@ -545,13 +547,24 @@ func TestFrontendServer_Middleware(t *testing.T) {
 		router := gin.New()
 		router.Use(server.Middleware())
 
-		// Request for existing static file
-		w := httptest.NewRecorder()
-		req := httptest.NewRequest(http.MethodGet, "/logo.png", nil)
-		router.ServeHTTP(w, req)
+		staticPaths := []struct {
+			path        string
+			contentType string
+		}{
+			{path: "/logo.png", contentType: "image/png"},
+			{path: "/images/arqel-agents/claude-code.webp", contentType: "image/webp"},
+		}
 
-		assert.Equal(t, http.StatusOK, w.Code)
-		assert.Contains(t, w.Header().Get("Content-Type"), "image/png")
+		for _, tc := range staticPaths {
+			t.Run(tc.path, func(t *testing.T) {
+				w := httptest.NewRecorder()
+				req := httptest.NewRequest(http.MethodGet, tc.path, nil)
+				router.ServeHTTP(w, req)
+
+				assert.Equal(t, http.StatusOK, w.Code)
+				assert.Contains(t, w.Header().Get("Content-Type"), tc.contentType)
+			})
+		}
 	})
 }
 
@@ -600,12 +613,24 @@ func TestServeEmbeddedFrontend(t *testing.T) {
 		router := gin.New()
 		router.Use(middleware)
 
-		w := httptest.NewRecorder()
-		req := httptest.NewRequest(http.MethodGet, "/logo.png", nil)
-		router.ServeHTTP(w, req)
+		staticPaths := []struct {
+			path        string
+			contentType string
+		}{
+			{path: "/logo.png", contentType: "image/png"},
+			{path: "/images/arqel-agents/claude-code.webp", contentType: "image/webp"},
+		}
 
-		assert.Equal(t, http.StatusOK, w.Code)
-		assert.Contains(t, w.Header().Get("Content-Type"), "image/png")
+		for _, tc := range staticPaths {
+			t.Run(tc.path, func(t *testing.T) {
+				w := httptest.NewRecorder()
+				req := httptest.NewRequest(http.MethodGet, tc.path, nil)
+				router.ServeHTTP(w, req)
+
+				assert.Equal(t, http.StatusOK, w.Code)
+				assert.Contains(t, w.Header().Get("Content-Type"), tc.contentType)
+			})
+		}
 	})
 
 	t.Run("serves_index_html_for_root", func(t *testing.T) {
@@ -657,6 +682,8 @@ func TestServeEmbeddedFrontend(t *testing.T) {
 			"/health",
 			"/responses",
 			"/responses/compact",
+			"/images/generations",
+			"/images/edits",
 		}
 
 		for _, path := range apiPaths {

@@ -138,17 +138,40 @@ func TestSecurityHeaders(t *testing.T) {
 		}
 		middleware := SecurityHeaders(cfg, nil)
 
+		apiPaths := []string{"/v1/messages", "/images/generations", "/images/edits"}
+
+		for _, path := range apiPaths {
+			t.Run(path, func(t *testing.T) {
+				w := httptest.NewRecorder()
+				c, _ := gin.CreateTestContext(w)
+				c.Request = httptest.NewRequest(http.MethodPost, path, nil)
+
+				middleware(c)
+
+				assert.Equal(t, "nosniff", w.Header().Get("X-Content-Type-Options"))
+				assert.Equal(t, "DENY", w.Header().Get("X-Frame-Options"))
+				assert.Equal(t, "strict-origin-when-cross-origin", w.Header().Get("Referrer-Policy"))
+				assert.Empty(t, w.Header().Get("Content-Security-Policy"))
+				assert.Empty(t, GetNonceFromContext(c))
+			})
+		}
+	})
+
+	t.Run("image_static_assets_receive_csp", func(t *testing.T) {
+		cfg := config.CSPConfig{
+			Enabled: true,
+			Policy:  "default-src 'self'; script-src 'self' __CSP_NONCE__",
+		}
+		middleware := SecurityHeaders(cfg, nil)
+
 		w := httptest.NewRecorder()
 		c, _ := gin.CreateTestContext(w)
-		c.Request = httptest.NewRequest(http.MethodPost, "/v1/messages", nil)
+		c.Request = httptest.NewRequest(http.MethodGet, "/images/arqel-agents/claude-code.webp", nil)
 
 		middleware(c)
 
-		assert.Equal(t, "nosniff", w.Header().Get("X-Content-Type-Options"))
-		assert.Equal(t, "DENY", w.Header().Get("X-Frame-Options"))
-		assert.Equal(t, "strict-origin-when-cross-origin", w.Header().Get("Referrer-Policy"))
-		assert.Empty(t, w.Header().Get("Content-Security-Policy"))
-		assert.Empty(t, GetNonceFromContext(c))
+		assert.NotEmpty(t, w.Header().Get("Content-Security-Policy"))
+		assert.NotEmpty(t, GetNonceFromContext(c))
 	})
 
 	t.Run("csp_enabled_with_nonce_placeholder", func(t *testing.T) {

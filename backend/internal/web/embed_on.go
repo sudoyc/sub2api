@@ -318,7 +318,11 @@ func shouldBypassEmbeddedFrontend(path string) bool {
 		trimmed == "/health" ||
 		trimmed == "/responses" ||
 		strings.HasPrefix(trimmed, "/responses/") ||
-		strings.HasPrefix(trimmed, "/images/")
+		isRootImagesGatewayPath(trimmed)
+}
+
+func isRootImagesGatewayPath(path string) bool {
+	return path == "/images/generations" || path == "/images/edits"
 }
 
 func serveIndexHTML(c *gin.Context, fsys fs.FS) {
