@@ -59,15 +59,13 @@
           <p class="home-description home-hero-element home-d-4">{{ t('home.arqel.description') }}</p>
 
           <div class="home-hero-actions">
-            <a
-              :href="docsHomeUrl"
-              target="_blank"
-              rel="noopener noreferrer"
+            <router-link
+              :to="isAuthenticated ? dashboardPath : '/login'"
               class="home-button home-button-primary home-hero-element home-d-4"
             >
-              {{ t('home.arqel.docsEntry') }}
+              {{ isAuthenticated ? t('home.goToDashboard') : t('home.getStarted') }}
               <Icon name="arrowRight" size="md" :stroke-width="2" />
-            </a>
+            </router-link>
             <a
               :href="docsHomeUrl"
               target="_blank"
