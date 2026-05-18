@@ -76,6 +76,12 @@ func RegisterUserRoutes(
 			channels.GET("/available", h.AvailableChannel.List)
 		}
 
+		// 模型默认计费基准（非管理员接口）
+		models := authenticated.Group("/models")
+		{
+			models.GET("/pricing", h.ModelPricing.List)
+		}
+
 		// 使用记录
 		usage := authenticated.Group("/usage")
 		{
