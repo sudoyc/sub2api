@@ -15,14 +15,70 @@ export default {
     heroDescription: 'Use one API address for Claude, GPT, Gemini, and more; configure the right key or credential for each model or service as needed.',
     arqel: {
       eyebrow: 'Model access for AI coding tools',
-      subtitle: 'Connect Claude, GPT, and Gemini to your workflow',
-      description: 'Arqel gives you one API address, clear model configuration, and visible usage records. You still configure the right key or credential for each model or service; Arqel makes the access layer easier to manage.',
+      subtitle: 'A multi-model API entry point for AI agents and coding tools',
+      description: 'Give Claude Code, Cursor, Gemini CLI, and other developer tools a standard Base URL. Manage credentials, routing, and request logs in one place.',
       keyUsage: 'Key Usage',
       tutorial: 'Read the setup guide',
+      docsEntry: 'Docs entry',
+      nav: {
+        models: 'Models',
+      },
+      code: {
+        comment: 'Swap in Arqel endpoint and credentials; keep the rest of your code unchanged',
+      },
       metrics: {
-        apiUrl: 'One API address',
-        configItems: 'Model credentials stay separate',
-        modelChoice: 'Choose models as needed'
+        apiUrl: 'One endpoint, all models',
+        configItems: 'Credentials per model',
+        modelChoice: 'Usage always visible',
+      },
+      clients: {
+        title: 'Tools and agents you can connect',
+        desc: 'Use environment variables or config overrides to connect clients that support custom APIs. One setup, multiple model families.',
+        docAction: 'View setup guide',
+        items: {
+          claudeCode: 'Anthropic\'s official CLI agent. Connect Claude models for project-level coding and context-heavy tasks.',
+          cursor: 'A mainstream AI code editor. Use an OpenAI-compatible endpoint to reach Claude, GPT, or Gemini.',
+          geminiCli: 'A terminal assistant. Configure a custom endpoint to call Gemini Pro, Flash, and related models.',
+          opencode: 'An open-source AI coding tool. Configure a provider with Arqel\'s Base URL and model names.',
+          codex: 'OpenAI\'s coding agent. Use the local Codex App, CLI, or IDE extension configuration path.',
+          hermes: 'An engineering-oriented agent tool for plans, configuration workflows, and read-only validation.',
+        },
+      },
+      models: {
+        title: 'Model families behind one call path',
+        desc: 'Follow mainstream model capabilities and call them by passing the model name from your client.',
+        items: {
+          claude: 'claude-sonnet-4-5\nclaude-opus-4-1\nclaude-haiku-4-5',
+          gpt: 'gpt-5.5\ngpt-5.4-mini\ngpt-5.3-codex',
+          gemini: 'gemini-3-pro-preview\ngemini-2.5-flash\ngemini-2.0-flash-thinking',
+        },
+      },
+      capabilities: {
+        title: 'Practical debugging tools',
+        desc: 'A tool failure does not always mean the model is down. Arqel gives you enough context to locate the cause.',
+        items: {
+          credentials: {
+            title: 'Separate credentials',
+            desc: 'Configure and revoke keys by provider or agent scenario instead of relying on one risky global credential.',
+          },
+          logs: {
+            title: 'Request logs',
+            desc: 'Track model, status, tokens, and error reasons for each call when a tool fails.',
+          },
+          routing: {
+            title: 'Group routing',
+            desc: 'Route completion, review, and chat tasks to the model or account group that fits them best.',
+          },
+          usage: {
+            title: 'Visible usage',
+            desc: 'Review token usage and cost by key, model, and time range.',
+          },
+        },
+      },
+      community: {
+        title: 'Community placeholder',
+        desc: 'Reserved for QQ groups, community channels, or other discussion links when they are ready.',
+        placeholder: 'QQ group / community link pending',
       },
       quick: {
         apiUrl: {
@@ -52,15 +108,15 @@ export default {
         },
         models: {
           title: 'Model choice stays explicit',
-          desc: 'Claude, GPT, and Gemini can live behind the same access layer, but their capabilities, prices, and availability are not the same. The homepage should help you start; the console and guide help you refine choices later.'
+          desc: 'Claude, GPT, and Gemini can live behind the same access layer, but their capabilities, prices, and availability differ. This page covers how to start — refine your choices in the guide and dashboard.',
         },
         cost: {
           title: 'Usage should be visible',
-          desc: 'Every call consumes credit, and different models may cost different amounts. Arqel should make balance, usage, and request records clear enough that you do not have to guess where spend went.'
+          desc: 'Every call costs something, and different models have different prices. Arqel shows your balance, usage records, and request logs so you always know where your credits are going.',
         },
         error: {
           title: 'Errors should be traceable',
-          desc: 'A failed call does not always mean the model is down. Common causes include a wrong address, invalid credential, mismatched model name, low balance, or temporary model unavailability. Status and error messages should narrow the cause.',
+          desc: 'A failed call doesn\'t always mean the model is down. Check your config first (address, credentials, model name), then check status (balance, request logs, error details) to narrow it down.',
           points: {
             key: 'Check configuration first: address, credential, model name.',
             status: 'Then check status: balance, request log, error reason.'
@@ -74,8 +130,8 @@ export default {
       resources: {
         beginner: {
           label: 'Guide',
-          title: 'Start from one working setup',
-          desc: 'The guide shows where to fill the API address, model credentials, and model name for each tool. Make it work first, then switch models, tune parameters, or add finer controls.',
+          title: 'Get one setup working, then refine',
+          desc: 'The guide shows where to put the API address, credentials, and model name for tools like Cursor and Claude Code. Get it working first, then switch models or tune parameters.',
           action: 'Start here',
           authedAction: 'Create or view keys'
         },
@@ -87,9 +143,9 @@ export default {
         },
         community: {
           label: 'Help',
-          title: 'When you need a second look',
-          desc: 'If you followed the guide but still cannot tell whether the issue is the tool, credential, or model, bring the error message and ask.',
-          action: 'Join the group'
+          title: 'Still stuck?',
+          desc: 'If you followed the guide and something still isn\'t working, bring the error details and ask.',
+          action: 'Get support',
         }
       }
     },

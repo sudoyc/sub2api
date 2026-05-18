@@ -15,14 +15,70 @@ export default {
     heroDescription: '用统一 API 地址接入 Claude、GPT、Gemini 等模型；不同模型的 Key 或凭证按需分别配置。',
     arqel: {
       eyebrow: '面向 AI 编程工具的模型接入',
-      subtitle: '把 Claude、GPT、Gemini 接入你的工作流',
-      description: 'Arqel 提供统一的 API 地址、清晰的模型配置和用量记录。你仍然按模型或服务配置对应的 Key / 凭证；Arqel 负责把接入过程整理得更顺手。',
+      subtitle: 'AI Agent 和编程工具的多模型 API 入口',
+      description: '为 Claude Code、Cursor、Gemini CLI 等开发工具提供标准化 Base URL。统一管理独立凭证、路由分发与请求日志。',
       keyUsage: 'Key 用量查询',
       tutorial: '查看接入教程',
+      docsEntry: '文档入口',
+      nav: {
+        models: '支持模型',
+      },
+      code: {
+        comment: '替换为 Arqel 的入口与凭证，代码无需其他修改',
+      },
       metrics: {
-        apiUrl: '统一 API 地址',
-        configItems: '模型凭证分别配置',
-        modelChoice: '按需选择模型'
+        apiUrl: '一个入口，全部模型',
+        configItems: '凭证按模型独立管理',
+        modelChoice: '用量和消耗透明可查',
+      },
+      clients: {
+        title: '支持接入的工具与 Agent',
+        desc: '通过覆盖默认配置或环境变量，直接接入各类支持自定义 API 的客户端。一行配置，多模型可用。',
+        docAction: '查看接入文档',
+        items: {
+          claudeCode: 'Anthropic 官方 CLI Agent。支持接入 Claude 模型进行项目级代码生成与上下文任务。',
+          cursor: '主流 AI 代码编辑器。通过自定义 OpenAI Compatible 接口接入 Claude、GPT 或 Gemini。',
+          geminiCli: '终端辅助工具。配置自定义 Endpoint 后调用 Gemini Pro、Flash 等模型。',
+          opencode: '开源 AI 编程工具。可通过 provider 配置使用 Arqel 的 Base URL 与模型名。',
+          codex: 'OpenAI 的编程 Agent。Codex App、CLI 或 IDE 扩展可按本地配置路径接入。',
+          hermes: '面向工程任务的 Agent 工具。适合配合配置管理、计划执行和只读验证流程。',
+        },
+      },
+      models: {
+        title: '统一调用的模型族',
+        desc: '跟进主流模型能力，只需在客户端传入对应模型名即可调用。',
+        items: {
+          claude: 'claude-sonnet-4-5\nclaude-opus-4-1\nclaude-haiku-4-5',
+          gpt: 'gpt-5.5\ngpt-5.4-mini\ngpt-5.3-codex',
+          gemini: 'gemini-3-pro-preview\ngemini-2.5-flash\ngemini-2.0-flash-thinking',
+        },
+      },
+      capabilities: {
+        title: '完善的排查工具',
+        desc: '工具层出错不一定是模型挂了。Arqel 提供完整面板帮你快速定位问题所在。',
+        items: {
+          credentials: {
+            title: '独立凭证管理',
+            desc: '可按模型服务商或 Agent 场景分别配置和撤销 Key，无需维护单一高风险全局凭证。',
+          },
+          logs: {
+            title: '完整请求日志',
+            desc: '记录每次调用的模型、状态、Token 和错误原因，工具调用报错时一查便知。',
+          },
+          routing: {
+            title: '分组路由规则',
+            desc: '支持将不同补全、审查、问答任务分配到更匹配的底层模型或账号分组。',
+          },
+          usage: {
+            title: '用量消耗透明',
+            desc: '统计各模型 Token 消耗和费用，支持按 Key、模型、时间维度核对。',
+          },
+        },
+      },
+      community: {
+        title: '交流入口占位',
+        desc: '这里预留给 QQ 群、交流群或其他社区入口，后续可直接替换为真实链接。',
+        placeholder: 'QQ群 / 社区链接待补充',
       },
       quick: {
         apiUrl: {
@@ -52,15 +108,15 @@ export default {
         },
         models: {
           title: '模型选择保持清晰',
-          desc: 'Claude、GPT、Gemini 可以放在同一个接入层里使用，但它们的能力、价格和可用性并不相同。首页只告诉你怎么开始，具体选择可以在教程和控制台里慢慢调整。'
+          desc: 'Claude、GPT、Gemini 可以在同一个接入层使用，但能力、价格和可用性不同。怎么开始看这里，具体选择在教程和控制台里慢慢调整。',
         },
         cost: {
           title: '用量和消耗要看得见',
-          desc: '每次调用都会产生消耗，不同模型价格也可能不同。Arqel 应该让余额、用量、请求记录这些信息尽量清楚，而不是让人猜钱花在哪里。'
+          desc: '每次调用都产生消耗，不同模型价格也不同。Arqel 提供余额面板、用量记录和请求日志，让消耗有据可查。',
         },
         error: {
           title: '出错时能定位原因',
-          desc: '调用失败不一定是模型坏了。常见原因包括地址写错、凭证无效、模型名不匹配、余额不足，或者目标模型暂时不可用。状态和错误信息应该帮助你缩小范围。',
+          desc: '调用失败不一定是模型坏了。先查配置（地址、凭证、模型名），再看状态（余额、请求记录、错误原因），逐步缩小范围。',
           points: {
             key: '先看配置：地址、凭证、模型名。',
             status: '再看状态：余额、请求记录、错误原因。'
@@ -68,14 +124,14 @@ export default {
         },
         official: {
           title: 'Arqel 的边界',
-          desc: 'Arqel 不是 Claude、OpenAI 或 Gemini 的官方服务，也不替代官方权益。它更像一个整理好的接入层：把模型配置、调用入口、用量和错误状态放在同一个地方。'
+          desc: 'Arqel 不是 Claude、OpenAI 或 Gemini 的官方服务，也不替代官方权益。它是一个接入层工具：把模型配置、调用入口、用量和错误状态放在同一个地方。',
         }
       },
       resources: {
         beginner: {
           label: 'Guide',
-          title: '从第一套可用配置开始',
-          desc: '教程会按工具场景说明 API 地址、模型凭证和模型名分别填在哪里。先跑通，再考虑换模型、调参数或做更细的控制。',
+          title: '先跑通一套，再慢慢调整',
+          desc: '教程按工具场景（Cursor、Claude Code）说明 API 地址、凭证和模型名怎么填。跑通之后，再换模型或调参数。',
           action: '开始上手',
           authedAction: '创建或查看 Key'
         },
@@ -87,9 +143,9 @@ export default {
         },
         community: {
           label: 'Help',
-          title: '需要人工确认时',
-          desc: '如果你已经按教程配置，但仍然不确定问题出在工具、凭证还是模型，可以带着错误信息来问。',
-          action: '加入交流群'
+          title: '还是没跑通？',
+          desc: '按教程配置后仍不确定问题出在哪，可以带着错误信息来问。',
+          action: '获取支持',
         }
       }
     },

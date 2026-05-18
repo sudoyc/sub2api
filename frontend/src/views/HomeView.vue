@@ -1,7 +1,6 @@
 <template>
   <!-- Custom Home Content: Full Page Mode -->
   <div v-if="homeContent" class="min-h-screen">
-    <!-- iframe mode -->
     <iframe
       v-if="isHomeContentUrl"
       :src="homeContent.trim()"
@@ -14,7 +13,7 @@
 
   <!-- Default Home Page -->
   <div v-else class="home-shell" :class="{ 'home-shell-dark': isDark }">
-    <header class="home-header">
+    <header class="home-header home-hero-element home-d-0">
       <nav class="home-nav" aria-label="Primary navigation">
         <router-link to="/" class="home-brand" aria-label="Arqel home">
           <span class="home-brand-mark">A</span>
@@ -22,6 +21,7 @@
         </router-link>
 
         <div class="home-nav-links">
+          <a href="#models">{{ t('home.arqel.nav.models') }}</a>
           <a :href="tutorialUrl" target="_blank" rel="noopener noreferrer">
             {{ t('home.arqel.tutorial') }}
           </a>
@@ -43,10 +43,7 @@
             <Icon v-else name="moon" size="md" />
           </button>
 
-          <router-link
-            :to="isAuthenticated ? dashboardPath : '/login'"
-            class="home-login-button"
-          >
+          <router-link :to="isAuthenticated ? dashboardPath : '/login'" class="home-login-button">
             {{ isAuthenticated ? t('home.dashboard') : t('home.login') }}
           </router-link>
         </div>
@@ -62,191 +59,119 @@
           <p class="home-description home-hero-element home-d-4">{{ t('home.arqel.description') }}</p>
 
           <div class="home-hero-actions">
-            <router-link
-              :to="isAuthenticated ? dashboardPath : '/login'"
-              class="home-button home-button-primary home-hero-element home-d-4"
-            >
-              {{ isAuthenticated ? t('home.goToDashboard') : t('home.getStarted') }}
-              <Icon name="arrowRight" size="md" :stroke-width="2" />
-            </router-link>
             <a
-              :href="tutorialUrl"
+              :href="docsHomeUrl"
               target="_blank"
               rel="noopener noreferrer"
-              class="home-button home-button-secondary home-hero-element home-d-5"
+              class="home-button home-button-primary home-hero-element home-d-4"
             >
-              {{ t('home.arqel.tutorial') }}
+              {{ t('home.arqel.docsEntry') }}
+              <Icon name="arrowRight" size="md" :stroke-width="2" />
+            </a>
+            <a
+              :href="docsHomeUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="home-button home-button-secondary home-hero-element home-d-4"
+            >
+              {{ t('home.arqel.docsEntry') }}
             </a>
           </div>
         </div>
 
-        <aside class="home-hero-visual" aria-hidden="true">
-          <div class="home-terminal-card home-hero-element home-d-3">
-            <div class="home-terminal-header">
-              <div class="home-terminal-dots">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-              <span class="home-terminal-title">quick start</span>
-            </div>
-            <div class="home-terminal-body">
-              <div class="home-setup-step">
-                <span class="home-setup-index">1</span>
-                <div>
-                  <strong>{{ t('home.arqel.quick.apiUrl.title') }}</strong>
-                  <span>{{ t('home.arqel.quick.apiUrl.desc') }}</span>
+        <aside class="home-hero-visual" aria-label="Arqel Python SDK example">
+          <div class="home-code-rise">
+            <div class="home-code-motion">
+              <div class="home-code-tilt">
+                <div class="home-code-card">
+                  <div class="home-code-header">
+                    <div class="home-code-dots"><span></span><span></span><span></span></div>
+                    <span class="home-code-title">app.py - OpenAI SDK</span>
+                  </div>
+                  <div class="home-code-body">
+                    <div class="home-code-line home-code-d-2"><span class="syntax-keyword">from</span> openai <span class="syntax-keyword">import</span> OpenAI</div>
+                    <div class="home-code-spacer"></div>
+                    <div class="home-code-line home-code-d-3"><span class="syntax-comment"># {{ t('home.arqel.code.comment') }}</span></div>
+                    <div class="home-code-line home-code-d-4">client = <span class="syntax-func">OpenAI</span>(</div>
+                    <div class="home-code-line home-code-d-5">&nbsp;&nbsp;base_url=<span class="syntax-string">"https://api.arqel.net/v1"</span>,</div>
+                    <div class="home-code-line home-code-d-6">&nbsp;&nbsp;api_key=<span class="syntax-string">"arq-sk-xxxxxxxxxxxxxxxx"</span>,</div>
+                    <div class="home-code-line home-code-d-7">)</div>
+                    <div class="home-code-spacer"></div>
+                    <div class="home-code-line home-code-d-8">response = client.chat.completions.<span class="syntax-func">create</span>(</div>
+                    <div class="home-code-line home-code-d-9">&nbsp;&nbsp;model=<span class="syntax-string">"gpt-5.5"</span>,</div>
+                    <div class="home-code-line home-code-d-10">&nbsp;&nbsp;messages=[{<span class="syntax-string">"role"</span>: <span class="syntax-string">"user"</span>, <span class="syntax-string">"content"</span>: <span class="syntax-string">"Hello, Arqel!"</span>}],</div>
+                    <div class="home-code-line home-code-d-11">)</div>
+                  </div>
                 </div>
-              </div>
-              <div class="home-setup-step">
-                <span class="home-setup-index">2</span>
-                <div>
-                  <strong>{{ t('home.arqel.quick.modelKey.title') }}</strong>
-                  <span>{{ t('home.arqel.quick.modelKey.desc') }}</span>
-                </div>
-              </div>
-              <div class="home-setup-step">
-                <span class="home-setup-index">3</span>
-                <div>
-                  <strong>{{ t('home.arqel.quick.modelName.title') }}</strong>
-                  <span>{{ t('home.arqel.quick.modelName.desc') }}</span>
-                </div>
-              </div>
-              <div class="home-terminal-line terminal-muted">{{ t('home.arqel.quick.note') }}</div>
-              <div class="home-terminal-line">
-                <span class="terminal-ok">ready</span>
-                <span class="terminal-json">{{ t('home.arqel.quick.ready') }}</span><span class="terminal-cursor"></span>
               </div>
             </div>
           </div>
         </aside>
       </section>
 
-      <section class="home-metrics home-reveal-target" aria-label="Arqel highlights">
-        <div class="home-metric">
-          <div class="home-metric-icon" aria-hidden="true">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 0 0-5.656 0l-4 4a4 4 0 1 0 5.656 5.656l1.102-1.101m-.758-4.899a4 4 0 0 0 5.656 0l4-4a4 4 0 0 0-5.656-5.656l-1.1 1.1" />
-            </svg>
-          </div>
-          <strong>1</strong>
-          <span>{{ t('home.arqel.metrics.apiUrl') }}</span>
+      <section class="home-section" aria-labelledby="clients-title">
+        <div class="home-section-heading home-scroll-reveal">
+          <h2 id="clients-title" class="home-section-title">{{ t('home.arqel.clients.title') }}</h2>
+          <p class="home-section-desc">{{ t('home.arqel.clients.desc') }}</p>
         </div>
-        <div class="home-metric">
-          <div class="home-metric-icon" aria-hidden="true">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" />
-            </svg>
-          </div>
-          <strong>2</strong>
-          <span>{{ t('home.arqel.metrics.configItems') }}</span>
-        </div>
-        <div class="home-metric">
-          <div class="home-metric-icon" aria-hidden="true">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
-            </svg>
-          </div>
-          <strong>?</strong>
-          <span>{{ t('home.arqel.metrics.modelChoice') }}</span>
+
+        <div class="home-client-grid">
+          <article v-for="client in clients" :key="client.key" class="home-agent-card home-scroll-reveal">
+            <div class="home-agent-visual" :class="`home-agent-visual-${client.key}`">
+              <img class="home-agent-image" :src="client.image" :alt="`${client.name} interface`" loading="lazy" />
+            </div>
+            <div class="home-agent-content">
+              <h3>{{ client.name }}</h3>
+              <p>{{ client.desc }}</p>
+              <a :href="client.docUrl" target="_blank" rel="noopener noreferrer" class="home-doc-link">
+                {{ t('home.arqel.clients.docAction') }} <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </article>
         </div>
       </section>
 
-      <section class="home-story home-reveal-target" aria-label="Arqel beginner guide">
-        <article class="home-story-row home-story-row-large home-reveal-target">
-          <p class="home-story-index">01</p>
-          <div class="home-reveal-text">
-            <h2 class="home-reveal-title">{{ t('home.arqel.guide.prepare.title') }}</h2>
-            <p class="home-reveal-body">{{ t('home.arqel.guide.prepare.desc') }}</p>
-            <div class="home-responsibility home-responsibility-three">
-              <span>{{ t('home.arqel.guide.prepare.points.apiUrl') }}</span>
-              <span>{{ t('home.arqel.guide.prepare.points.modelKey') }}</span>
-              <span>{{ t('home.arqel.guide.prepare.points.modelName') }}</span>
+      <section id="models" class="home-section home-capabilities" aria-labelledby="models-title">
+        <div class="home-capability-grid">
+          <div>
+            <div class="home-section-heading home-section-heading-compact home-scroll-reveal">
+              <h2 id="models-title" class="home-section-title">{{ t('home.arqel.models.title') }}</h2>
+              <p class="home-section-desc">{{ t('home.arqel.models.desc') }}</p>
+            </div>
+
+            <div class="home-model-list home-scroll-reveal-group">
+              <article v-for="model in modelGroups" :key="model.key" class="home-model-group home-group-child">
+                <h3>
+                  <span class="home-model-icon" :class="`home-model-icon-${model.key}`" aria-hidden="true">
+                    <svg v-if="model.key === 'claude'" viewBox="0 0 24 24" fill="currentColor"><path d="M17.3041 3.541h-3.6718l6.696 16.918H24Zm-10.6082 0L0 20.459h3.7442l1.3693-3.5527h7.0052l1.3693 3.5528h3.7442L10.5363 3.5409Zm-.3712 10.2232 2.2914-5.9456 2.2914 5.9456Z" /></svg>
+                    <svg v-else-if="model.key === 'gpt'" viewBox="0 0 24 24" fill="currentColor"><path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z" /></svg>
+                    <svg v-else viewBox="0 0 24 24" fill="currentColor"><path d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81" /></svg>
+                  </span>
+                  {{ model.name }}
+                </h3>
+                <p>{{ model.models }}</p>
+              </article>
             </div>
           </div>
-        </article>
 
-        <article class="home-story-row home-reveal-target">
-          <p class="home-story-index">02</p>
-          <div class="home-reveal-text">
-            <h2 class="home-reveal-title">{{ t('home.arqel.guide.models.title') }}</h2>
-            <p class="home-reveal-body">{{ t('home.arqel.guide.models.desc') }}</p>
-            <div class="home-model-strip" aria-label="Supported models">
-              <span class="home-model-chip">
-                <span class="home-model-icon home-model-icon-claude" aria-hidden="true"><svg role="img" viewBox="0 0 24 24" fill="currentColor" focusable="false"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z" /></svg></span>
-                Claude
-              </span>
-              <span class="home-model-chip">
-                <span class="home-model-icon home-model-icon-gpt" aria-hidden="true"><svg role="img" viewBox="0 0 24 24" fill="currentColor" focusable="false"><path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z" /></svg></span>
-                GPT
-              </span>
-              <span class="home-model-chip">
-                <span class="home-model-icon home-model-icon-gemini" aria-hidden="true"><svg role="img" viewBox="0 0 24 24" fill="currentColor" focusable="false"><path d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81" /></svg></span>
-                Gemini
-              </span>
+          <div>
+            <div class="home-section-heading home-section-heading-compact home-scroll-reveal">
+              <h2 class="home-section-title">{{ t('home.arqel.capabilities.title') }}</h2>
+              <p class="home-section-desc">{{ t('home.arqel.capabilities.desc') }}</p>
+            </div>
+
+            <div class="home-feature-grid home-scroll-reveal-group">
+              <article v-for="feature in features" :key="feature.key" class="home-feature-item home-group-child">
+                <h3>{{ feature.title }}</h3>
+                <p>{{ feature.desc }}</p>
+              </article>
+              <article class="home-community-card home-group-child">
+                <h3>{{ t('home.arqel.community.title') }}</h3>
+                <p>{{ t('home.arqel.community.desc') }}</p>
+                <span>{{ t('home.arqel.community.placeholder') }}</span>
+              </article>
             </div>
           </div>
-        </article>
-
-        <article class="home-story-row home-reveal-target">
-          <p class="home-story-index">03</p>
-          <div class="home-reveal-text">
-            <h2 class="home-reveal-title">{{ t('home.arqel.guide.cost.title') }}</h2>
-            <p class="home-reveal-body">{{ t('home.arqel.guide.cost.desc') }}</p>
-          </div>
-        </article>
-
-        <article class="home-story-row home-reveal-target">
-          <p class="home-story-index">04</p>
-          <div class="home-reveal-text">
-            <h2 class="home-reveal-title">{{ t('home.arqel.guide.error.title') }}</h2>
-            <p class="home-reveal-body">{{ t('home.arqel.guide.error.desc') }}</p>
-            <div class="home-responsibility">
-              <span>{{ t('home.arqel.guide.error.points.key') }}</span>
-              <span>{{ t('home.arqel.guide.error.points.status') }}</span>
-            </div>
-          </div>
-        </article>
-
-        <article class="home-story-row home-reveal-target">
-          <p class="home-story-index">05</p>
-          <div class="home-reveal-text">
-            <h2 class="home-reveal-title">{{ t('home.arqel.guide.official.title') }}</h2>
-            <p class="home-reveal-body">{{ t('home.arqel.guide.official.desc') }}</p>
-          </div>
-        </article>
-      </section>
-
-      <section class="home-resource-flow home-reveal-target" aria-label="Arqel resources">
-        <div class="home-resource-lead">
-          <p class="home-kicker">{{ t('home.arqel.resources.beginner.label') }}</p>
-          <h2>{{ t('home.arqel.resources.beginner.title') }}</h2>
-          <p>{{ t('home.arqel.resources.beginner.desc') }}</p>
-          <router-link :to="isAuthenticated ? '/keys' : '/login'" class="home-button home-button-primary home-resource-action">
-            {{ isAuthenticated ? t('home.arqel.resources.beginner.authedAction') : t('home.arqel.resources.beginner.action') }}
-            <Icon name="arrowRight" size="sm" :stroke-width="2" />
-          </router-link>
-        </div>
-
-        <div class="home-resource-links">
-          <article>
-            <small>{{ t('home.arqel.resources.docs.label') }}</small>
-            <h3>{{ t('home.arqel.resources.docs.title') }}</h3>
-            <p>{{ t('home.arqel.resources.docs.desc') }}</p>
-            <a :href="tutorialUrl" target="_blank" rel="noopener noreferrer" class="home-text-link">
-              {{ t('home.arqel.resources.docs.action') }}
-            </a>
-          </article>
-
-          <article>
-            <small>{{ t('home.arqel.resources.community.label') }}</small>
-            <h3>{{ t('home.arqel.resources.community.title') }}</h3>
-            <p>{{ t('home.arqel.resources.community.desc') }}</p>
-            <a v-if="contactHref" :href="contactHref" target="_blank" rel="noopener noreferrer" class="home-text-link">
-              {{ t('home.arqel.resources.community.action') }}
-            </a>
-            <span v-else-if="contactText" class="home-resource-note">{{ contactText }}</span>
-          </article>
         </div>
       </section>
     </main>
@@ -278,51 +203,95 @@ const brandName = 'Arqel'
 const DEFAULT_DOC_URL = 'https://docs.arqel.net/'
 const TUTORIAL_PATH = 'tools/'
 
-// Site settings - directly from appStore (already initialized from injected config)
 const docUrl = computed(() => appStore.cachedPublicSettings?.doc_url || appStore.docUrl || DEFAULT_DOC_URL)
+const docsHomeUrl = computed(() => new URL('/', docUrl.value || DEFAULT_DOC_URL).toString())
 const tutorialUrl = computed(() => new URL(TUTORIAL_PATH, docUrl.value || DEFAULT_DOC_URL).toString())
-const contactText = computed(() => (appStore.cachedPublicSettings?.contact_info || appStore.contactInfo || '').trim())
-const contactHref = computed(() => {
-  const value = contactText.value
-  if (!value) return ''
-  if (/^https?:\/\//i.test(value) || /^mailto:/i.test(value) || /^tg:\/\//i.test(value)) return value
-  if (/^@/.test(value)) return `https://t.me/${value.slice(1)}`
-  return ''
-})
+const docsUrl = (path: string) => new URL(path.replace(/^\//, ''), docsHomeUrl.value).toString()
 const homeContent = computed(() => appStore.cachedPublicSettings?.home_content || '')
 
-// Check if homeContent is a URL (for iframe display)
 const isHomeContentUrl = computed(() => {
   const content = homeContent.value.trim()
   return content.startsWith('http://') || content.startsWith('https://')
 })
 
-// Theme
 const isDark = ref(document.documentElement.classList.contains('dark'))
 
-// Auth state
 const isAuthenticated = computed(() => authStore.isAuthenticated)
 const isAdmin = computed(() => authStore.isAdmin)
 const dashboardPath = computed(() => isAdmin.value ? '/admin/dashboard' : '/dashboard')
-
-// Current year for footer
 const currentYear = computed(() => new Date().getFullYear())
 const revealObserver = ref<IntersectionObserver | null>(null)
 
-// Toggle theme
+const clients = computed(() => [
+  {
+    key: 'claudeCode',
+    name: 'Claude Code',
+    desc: t('home.arqel.clients.items.claudeCode'),
+    docUrl: docsUrl('/tools/agents/claude-code'),
+    image: '/images/arqel-agents/claude-code.webp',
+  },
+  {
+    key: 'cursor',
+    name: 'Cursor',
+    desc: t('home.arqel.clients.items.cursor'),
+    docUrl: docsUrl('/tools/agents/cursor'),
+    image: '/images/arqel-agents/cursor.webp',
+  },
+  {
+    key: 'geminiCli',
+    name: 'Gemini CLI',
+    desc: t('home.arqel.clients.items.geminiCli'),
+    docUrl: docsUrl('/tools/agents/gemini-cli'),
+    image: '/images/arqel-agents/gemini.webp',
+  },
+  {
+    key: 'opencode',
+    name: 'OpenCode',
+    desc: t('home.arqel.clients.items.opencode'),
+    docUrl: docsUrl('/tools/cc-switch/provider'),
+    image: '/images/arqel-agents/opencode.webp',
+  },
+  {
+    key: 'codex',
+    name: 'Codex',
+    desc: t('home.arqel.clients.items.codex'),
+    docUrl: docsUrl('/tools/agents/codex-cli'),
+    image: '/images/arqel-agents/codex.webp',
+  },
+  {
+    key: 'hermes',
+    name: 'Hermes Agent',
+    desc: t('home.arqel.clients.items.hermes'),
+    docUrl: docsUrl('/tools/agents/hermes'),
+    image: '/images/arqel-agents/hermes.webp',
+  },
+])
+
+const modelGroups = computed(() => [
+  { key: 'claude', name: 'Claude', models: t('home.arqel.models.items.claude') },
+  { key: 'gpt', name: 'GPT / OpenAI-compatible', models: t('home.arqel.models.items.gpt') },
+  { key: 'gemini', name: 'Gemini', models: t('home.arqel.models.items.gemini') },
+])
+
+const features = computed(() => [
+  { key: 'credentials', title: t('home.arqel.capabilities.items.credentials.title'), desc: t('home.arqel.capabilities.items.credentials.desc') },
+  { key: 'logs', title: t('home.arqel.capabilities.items.logs.title'), desc: t('home.arqel.capabilities.items.logs.desc') },
+  { key: 'routing', title: t('home.arqel.capabilities.items.routing.title'), desc: t('home.arqel.capabilities.items.routing.desc') },
+  { key: 'usage', title: t('home.arqel.capabilities.items.usage.title'), desc: t('home.arqel.capabilities.items.usage.desc') },
+])
+
 function toggleTheme() {
   isDark.value = toggleThemePreference(isDark.value) === 'dark'
 }
 
-// Initialize theme
 function initTheme() {
   isDark.value = initThemePreference() === 'dark'
 }
 
 function initRevealAnimations() {
   if (homeContent.value || !('IntersectionObserver' in window)) {
-    document.querySelectorAll<HTMLElement>('.home-reveal-target').forEach((el) => {
-      el.classList.add('is-visible', 'in-view')
+    document.querySelectorAll<HTMLElement>('.home-scroll-reveal, .home-scroll-reveal-group').forEach((el) => {
+      el.classList.add('is-visible')
     })
     return
   }
@@ -332,29 +301,26 @@ function initRevealAnimations() {
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible', 'in-view')
+          entry.target.classList.add('is-visible')
           revealObserver.value?.unobserve(entry.target)
         }
       })
     },
     {
-      threshold: 0.15,
-      rootMargin: '0px 0px -10% 0px'
+      threshold: 0.12,
+      rootMargin: '0px 0px -50px 0px'
     }
   )
 
-  document.querySelectorAll<HTMLElement>('.home-reveal-target').forEach((el) => {
+  document.querySelectorAll<HTMLElement>('.home-scroll-reveal, .home-scroll-reveal-group').forEach((el) => {
     revealObserver.value?.observe(el)
   })
 }
 
 onMounted(() => {
   initTheme()
-
-  // Check auth state
   authStore.checkAuth()
 
-  // Ensure public settings are loaded (will use cache if already loaded from injected config)
   if (!appStore.publicSettingsLoaded) {
     appStore.fetchPublicSettings()
   }
@@ -378,50 +344,32 @@ onBeforeUnmount(() => {
   --home-line: #e5e6ea;
   --home-line-strong: #d0d2d8;
   --home-accent: #6467f2;
-  --home-accent-soft: rgba(100, 103, 242, 0.1);
+  --home-accent-hover: #7b7ef4;
+  --home-accent-glow: rgba(100, 103, 242, 0.25);
   --home-shadow: 0 0 0 1px rgba(17, 17, 19, 0.06), 0 18px 48px -34px rgba(17, 17, 19, 0.25);
-  --home-glow: rgba(100, 103, 242, 0.1);
   min-height: 100vh;
   overflow-x: hidden;
   background-color: var(--home-bg);
   background-image:
-    radial-gradient(circle at 50% -10%, rgba(100, 103, 242, 0.14), transparent 38rem),
+    radial-gradient(circle at 50% -10%, rgba(100, 103, 242, 0.14), transparent 45rem),
     linear-gradient(to right, rgba(17, 17, 19, 0.025) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(17, 17, 19, 0.025) 1px, transparent 1px);
-  background-size: 100% 100%, 40px 40px, 40px 40px;
+  background-size: 100% 100%, 32px 32px, 32px 32px;
   color: var(--home-text);
-}
-
-.home-shell::before {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  background: radial-gradient(circle at 85% 60%, var(--home-glow), transparent 35vw);
-  animation: home-ambient-pulse 10s ease-in-out infinite alternate;
-  content: '';
-  pointer-events: none;
-}
-
-.home-shell > * {
-  position: relative;
-  z-index: 1;
 }
 
 .home-shell.home-shell-dark {
   --home-bg: #09090b;
-  --home-panel: #111113;
+  --home-panel: #111114;
   --home-panel-muted: #18181b;
   --home-text: #fafafa;
   --home-muted: #a1a1aa;
   --home-soft: #71717a;
-  --home-line: #2f3037;
-  --home-line-strong: #3d3d42;
-  --home-accent: #6467f2;
-  --home-accent-soft: rgba(100, 103, 242, 0.16);
-  --home-shadow: 0 0 0 1px rgba(61, 61, 66, 0.86), 0 16px 44px -30px rgba(0, 0, 0, 0.9);
-  --home-glow: rgba(167, 139, 250, 0.12);
+  --home-line: #27272a;
+  --home-line-strong: #3f3f46;
+  --home-shadow: 0 0 0 1px rgba(61, 61, 66, 0.4) inset, 0 24px 54px -20px rgba(0, 0, 0, 0.9);
   background-image:
-    radial-gradient(circle at 50% -10%, rgba(100, 103, 242, 0.2), transparent 40rem),
+    radial-gradient(circle at 50% -10%, rgba(100, 103, 242, 0.25), transparent 45rem),
     linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
 }
@@ -431,9 +379,9 @@ onBeforeUnmount(() => {
   top: 0;
   z-index: 20;
   border-bottom: 1px solid color-mix(in srgb, var(--home-line) 70%, transparent);
-  background: color-mix(in srgb, var(--home-bg) 85%, transparent);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: color-mix(in srgb, var(--home-bg) 78%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 .home-nav {
@@ -441,8 +389,8 @@ onBeforeUnmount(() => {
   align-items: center;
   justify-content: space-between;
   gap: 18px;
-  max-width: 1120px;
-  height: 56px;
+  max-width: 1160px;
+  height: 60px;
   margin: 0 auto;
   padding: 0 24px;
 }
@@ -453,7 +401,6 @@ onBeforeUnmount(() => {
 .home-button,
 .home-icon-button,
 .home-login-button,
-.home-metrics,
 .home-footer {
   display: flex;
   align-items: center;
@@ -475,7 +422,7 @@ onBeforeUnmount(() => {
   background: var(--home-panel);
   color: var(--home-text);
   font-size: 16px;
-  font-weight: 750;
+  font-weight: 800;
   line-height: 1;
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
@@ -484,19 +431,19 @@ onBeforeUnmount(() => {
   border-color: var(--home-accent);
   background: var(--home-accent);
   color: #ffffff;
-  box-shadow: 0 0 15px rgba(100, 103, 242, 0.3);
+  box-shadow: 0 0 15px rgba(100, 103, 242, 0.4);
   transform: rotate(9deg) scale(1.05);
 }
 
 .home-brand-name {
   color: var(--home-text);
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 700;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
 }
 
 .home-nav-links {
-  gap: 4px;
+  gap: 8px;
   color: var(--home-muted);
   font-size: 14px;
   font-weight: 500;
@@ -506,23 +453,18 @@ onBeforeUnmount(() => {
 .home-footer a {
   border-radius: 6px;
   color: inherit;
-  padding: 8px 10px;
+  padding: 6px 12px;
   text-decoration: none;
-  transition:
-    background-color 0.18s ease,
-    color 0.18s ease;
+  transition: background-color 0.18s ease, color 0.18s ease;
 }
 
 .home-nav-links a:hover,
 .home-footer a:hover {
   background: var(--home-panel-muted);
   color: var(--home-text);
-  text-shadow: 0 0 8px color-mix(in srgb, var(--home-text) 22%, transparent);
 }
 
-.home-actions {
-  gap: 8px;
-}
+.home-actions { gap: 8px; }
 
 .home-actions :deep(button) {
   border-radius: 999px;
@@ -546,10 +488,7 @@ onBeforeUnmount(() => {
   border: 1px solid var(--home-line-strong);
   border-radius: 999px;
   text-decoration: none;
-  transition:
-    border-color 0.18s ease,
-    background-color 0.18s ease,
-    color 0.18s ease;
+  transition: all 0.3s ease;
 }
 
 .home-icon-button {
@@ -561,61 +500,49 @@ onBeforeUnmount(() => {
 
 .home-login-button {
   min-height: 36px;
-  padding: 0 14px;
-  background: var(--home-panel);
-  border-color: var(--home-line-strong);
+  padding: 0 16px;
+  background: rgba(255, 255, 255, 0.03);
   color: var(--home-text);
   font-size: 14px;
   font-weight: 600;
 }
 
 .home-icon-button:hover,
-.home-button-secondary:hover {
+.home-button-secondary:hover,
+.home-login-button:hover {
   border-color: var(--home-line-strong);
-  background: var(--home-panel-muted);
+  background: rgba(255, 255, 255, 0.08);
   color: var(--home-text);
 }
 
-.home-login-button:hover {
-  background: var(--home-text);
-  border-color: var(--home-text);
-  color: var(--home-bg);
-}
-
-.home-button-primary:hover {
-  box-shadow: 0 0 0 1px rgba(100, 103, 242, 0.42), 0 10px 28px -22px rgba(100, 103, 242, 0.48);
-}
-
 .home-main {
-  max-width: 1120px;
+  max-width: 1160px;
   margin: 0 auto;
-  padding: clamp(42px, 6vw, 72px) 24px 0;
+  padding: 0 24px;
 }
 
 .home-hero {
   display: grid;
-  grid-template-columns: minmax(0, 0.92fr) minmax(320px, 0.76fr);
+  grid-template-columns: minmax(0, 0.95fr) minmax(400px, 1fr);
   align-items: center;
-  gap: clamp(36px, 7vw, 84px);
-  min-height: 450px;
-  padding-top: 0;
-  text-align: left;
+  gap: 64px;
+  padding: 120px 0 80px;
 }
 
-.home-hero-copy {
-  max-width: 590px;
-}
+.home-hero-copy { max-width: 590px; }
 
 .home-hero-element {
   opacity: 0;
-  animation: home-reveal-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  filter: blur(12px);
+  transform: translateY(40px);
+  animation: home-reveal-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+.home-d-0 { animation-delay: 0s; }
 .home-d-1 { animation-delay: 0.1s; }
-.home-d-2 { animation-delay: 0.2s; }
+.home-d-2 { animation-delay: 0.18s; }
 .home-d-3 { animation-delay: 0.3s; }
-.home-d-4 { animation-delay: 0.4s; }
-.home-d-5 { animation-delay: 0.48s; }
+.home-d-4 { animation-delay: 0.44s; }
 
 .home-kicker {
   margin: 0 0 18px;
@@ -628,38 +555,32 @@ onBeforeUnmount(() => {
 }
 
 .home-title {
-  margin: 0;
+  margin: 0 0 24px;
   background: linear-gradient(to right, var(--home-text) 20%, #a78bfa 50%, var(--home-text) 80%);
   background-clip: text;
   background-size: 200% auto;
   color: transparent;
-  font-size: clamp(44px, 5.8vw, 68px);
-  font-weight: 800;
-  letter-spacing: -0.06em;
-  line-height: 0.98;
+  font-size: clamp(56px, 8vw, 96px);
+  font-weight: 820;
+  letter-spacing: -0.075em;
+  line-height: 0.92;
   -webkit-background-clip: text;
-  animation: home-text-shine 5s linear infinite;
-}
-
-.home-title.home-hero-element {
-  animation:
-    home-reveal-up 0.8s 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards,
-    home-text-shine 5s linear infinite;
+  animation: home-reveal-up 0.9s 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards, home-text-shine 5s linear infinite;
 }
 
 .home-subtitle {
   max-width: 560px;
-  margin: 18px 0 0;
+  margin: 0 0 18px;
   color: var(--home-text);
-  font-size: clamp(22px, 3.1vw, 34px);
-  font-weight: 750;
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 760;
   letter-spacing: -0.045em;
   line-height: 1.12;
 }
 
 .home-description {
   max-width: 570px;
-  margin: 18px 0 0;
+  margin: 0;
   color: var(--home-muted);
   font-size: clamp(16px, 1.8vw, 18px);
   line-height: 1.7;
@@ -668,203 +589,577 @@ onBeforeUnmount(() => {
 .home-hero-actions {
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
-  gap: 12px;
-  margin-top: 30px;
+  gap: 16px;
+  margin-top: 36px;
+}
+
+.home-button {
+  position: relative;
+  overflow: hidden;
+  gap: 9px;
+  min-height: 42px;
+  padding: 0 20px;
+  font-size: 14px;
+  font-weight: 700;
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+}
+
+.home-button-primary {
+  background: var(--home-accent);
+  border-color: var(--home-accent);
+  color: #ffffff;
+  box-shadow: 0 0 15px rgba(100, 103, 242, 0.3);
+}
+
+.home-button-primary::before {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  content: '';
+  transform: skewX(-20deg);
+  transition: left 0.6s ease;
+}
+
+.home-button-primary:hover {
+  box-shadow: 0 0 0 1px rgba(100, 103, 242, 0.42), 0 12px 28px -10px rgba(100, 103, 242, 0.6);
+}
+
+.home-button-primary:hover::before { left: 150%; }
+
+.home-button-secondary {
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--home-text);
+  backdrop-filter: blur(10px);
 }
 
 .home-hero-visual {
-  width: 100%;
-  padding-top: clamp(10px, 3vw, 36px);
+  position: relative;
+  perspective: 1000px;
 }
 
-.home-terminal-card {
+.home-code-rise {
+  position: relative;
+  z-index: 1;
+}
+
+.home-code-motion {
+  position: relative;
+  opacity: 0;
+  transform: translateY(96px);
+  transform-origin: 50% 65%;
+  animation: home-code-card-rise 1.05s 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: opacity, transform;
+}
+
+.home-code-motion::before {
+  position: absolute;
+  inset: -20px;
+  z-index: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(100, 103, 242, 0.4), transparent 60%);
+  content: '';
+  filter: blur(40px);
+  opacity: 0.6;
+}
+
+.home-code-tilt {
+  position: relative;
+  z-index: 1;
+  transform: rotateY(-4deg) rotateX(2deg);
+  transition: transform 0.5s ease;
+  transform-style: preserve-3d;
+}
+
+.home-code-rise:hover .home-code-tilt {
+  transform: rotateY(0deg) rotateX(0deg) translateY(-5px);
+}
+
+.home-code-card {
+  position: relative;
   overflow: hidden;
-  width: min(100%, 420px);
-  margin-left: auto;
-  border: 1px solid var(--home-line-strong);
-  border-radius: 18px;
-  background: rgba(15, 23, 42, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  background: rgba(13, 13, 15, 0.85);
   box-shadow: var(--home-shadow);
-  backdrop-filter: blur(12px);
-  transition:
-    box-shadow 0.25s ease,
-    border-color 0.25s ease;
+  backdrop-filter: blur(20px);
+  transition: box-shadow 0.5s ease, border-color 0.5s ease;
 }
 
-.home-terminal-card:hover {
-  border-color: color-mix(in srgb, var(--home-accent) 38%, var(--home-line-strong));
-  box-shadow: 0 0 0 1px rgba(100, 103, 242, 0.22), 0 18px 52px -34px rgba(100, 103, 242, 0.45);
+.home-code-rise:hover .home-code-card {
+  border-color: rgba(100, 103, 242, 0.4);
+  box-shadow: 0 0 0 1px rgba(100, 103, 242, 0.2) inset, 0 32px 64px -20px rgba(0, 0, 0, 0.9), 0 0 40px -10px rgba(100, 103, 242, 0.25);
 }
 
-.home-shell-dark .home-terminal-card {
-  background: rgba(15, 23, 42, 0.6);
-}
-
-.home-terminal-header {
-  display: grid;
-  grid-template-columns: 58px 1fr 58px;
-  align-items: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(30, 41, 59, 0.5);
-  padding: 12px 14px;
-}
-
-.home-terminal-dots {
+.home-code-header {
   display: flex;
-  gap: 7px;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 14px 18px;
 }
 
-.home-terminal-dots span {
-  width: 11px;
-  height: 11px;
-  border-radius: 999px;
-}
+.home-code-dots { display: flex; gap: 8px; }
+.home-code-dots span { width: 12px; height: 12px; border-radius: 50%; }
+.home-code-dots span:nth-child(1) { background: #ef4444; }
+.home-code-dots span:nth-child(2) { background: #eab308; }
+.home-code-dots span:nth-child(3) { background: #22c55e; }
 
-.home-terminal-dots span:nth-child(1) {
-  background: #ef4444;
-}
-
-.home-terminal-dots span:nth-child(2) {
-  background: #eab308;
-}
-
-.home-terminal-dots span:nth-child(3) {
-  background: #22c55e;
-}
-
-.home-terminal-title {
-  color: #94a3b8;
+.home-code-title {
+  color: #64748b;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: 12px;
-  font-weight: 650;
-  text-align: center;
 }
 
-.home-terminal-body {
-  display: grid;
-  gap: 14px;
-  padding: 24px 24px 28px;
-  color: #cbd5e1;
+.home-code-body {
+  overflow-x: auto;
+  padding: 24px;
+  color: #e2e8f0;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 13px;
+  font-size: 13.5px;
   line-height: 1.7;
 }
 
-
-.home-setup-step {
-  display: grid;
-  grid-template-columns: 28px minmax(0, 1fr);
-  gap: 12px;
-  align-items: start;
+.home-code-line {
   opacity: 0;
-  animation: home-code-fade-in 0.4s ease forwards;
+  filter: blur(8px);
+  transform: translateY(16px);
+  animation: home-code-rise 0.62s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.home-setup-step:nth-child(1) { animation-delay: 0.6s; }
-.home-setup-step:nth-child(2) { animation-delay: 1s; }
-.home-setup-step:nth-child(3) { animation-delay: 1.4s; }
+.home-code-spacer {
+  height: 14px;
+}
 
-.home-setup-index {
+.home-code-d-2 { animation-delay: 1.08s; }
+.home-code-d-3 { animation-delay: 1.18s; }
+.home-code-d-4 { animation-delay: 1.28s; }
+.home-code-d-5 { animation-delay: 1.38s; }
+.home-code-d-6 { animation-delay: 1.48s; }
+.home-code-d-7 { animation-delay: 1.58s; }
+.home-code-d-8 { animation-delay: 1.7s; }
+.home-code-d-9 { animation-delay: 1.8s; }
+.home-code-d-10 { animation-delay: 1.9s; }
+.home-code-d-11 { animation-delay: 2s; }
+
+.syntax-keyword { color: #c678dd; }
+.syntax-string { color: #98c379; }
+.syntax-comment { color: #5c6370; font-style: italic; }
+.syntax-func { color: #61afef; }
+
+.home-section {
+  padding: 80px 0;
+}
+
+.home-section-title {
+  margin: 0 0 16px;
+  color: var(--home-text);
+  font-size: clamp(28px, 3.2vw, 36px);
+  font-weight: 760;
+  letter-spacing: -0.04em;
+  line-height: 1.14;
+}
+
+.home-section-desc {
+  max-width: 640px;
+  margin: 0 0 48px;
+  color: var(--home-muted);
+  font-size: clamp(15px, 1.7vw, 17px);
+  line-height: 1.7;
+}
+
+.home-section-heading-compact .home-section-desc {
+  margin-bottom: 28px;
+}
+
+.home-client-grid {
   display: grid;
-  width: 28px;
-  height: 28px;
-  place-items: center;
-  border: 1px solid rgba(100, 103, 242, 0.35);
-  border-radius: 999px;
-  background: rgba(100, 103, 242, 0.16);
-  color: #d8d8ff;
-  font-size: 12px;
-  font-weight: 800;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
 }
 
-.home-setup-step strong {
-  display: block;
-  color: #f8fafc;
-  font-size: 13px;
-  line-height: 1.35;
-}
-
-.home-setup-step span:not(.home-setup-index) {
-  display: block;
-  margin-top: 3px;
-  color: #94a3b8;
-  font-size: 12px;
-  line-height: 1.55;
-}
-
-.home-terminal-line {
+.home-agent-card {
+  position: relative;
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
+  overflow: hidden;
+  flex-direction: column;
+  border: 1px solid var(--home-line);
+  border-radius: 20px;
+  background: var(--home-panel);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.home-agent-card::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(100, 103, 242, 0.7), transparent);
+  content: '';
   opacity: 0;
-  animation: home-code-fade-in 0.4s ease forwards;
+  transition: opacity 0.3s ease;
 }
 
-.home-terminal-line:nth-child(1) { animation-delay: 0.6s; }
-.home-terminal-line:nth-child(2) { animation-delay: 1s; }
-.home-terminal-line:nth-child(3) { animation-delay: 1.4s; }
-.home-terminal-line:nth-child(4) { animation-delay: 1.9s; }
-
-.terminal-muted {
-  color: #64748b;
-  font-style: italic;
+.home-agent-card:hover {
+  border-color: rgba(100, 103, 242, 0.5);
+  box-shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.6), 0 0 20px -5px rgba(100, 103, 242, 0.2);
+  transform: translateY(-6px);
 }
 
-.terminal-prompt,
-.terminal-ok {
-  color: #22c55e;
-  font-weight: 750;
+.home-agent-card:hover::before {
+  opacity: 1;
 }
 
-.terminal-ok {
-  border-radius: 6px;
-  background: rgba(34, 197, 94, 0.14);
-  padding: 1px 7px;
+.home-agent-visual {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  height: 140px;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  background: #0d0d0f;
 }
 
-.terminal-command {
-  color: #38bdf8;
+.home-agent-image {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
 }
 
-.terminal-flag {
-  color: #a78bfa;
+.home-agent-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
 }
 
-.terminal-url {
-  color: #2dd4bf;
+.home-agent-visual::after {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background: var(--home-accent);
+  content: '';
+  filter: blur(40px);
+  opacity: 0.2;
+  transition: all 0.5s ease;
 }
 
-.terminal-json {
-  color: #fbbf24;
+.home-agent-card:hover .home-agent-visual::after {
+  opacity: 0.4;
+  transform: scale(1.5);
 }
 
-.terminal-cursor {
-  width: 8px;
-  height: 15px;
-  background: #fafafa;
-  animation: home-terminal-blink 1s step-end infinite;
+.home-agent-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  background: linear-gradient(180deg, var(--home-panel) 0%, rgba(15, 15, 18, 0.8) 100%);
+  padding: 24px;
 }
 
-@keyframes home-terminal-blink {
-  0%,
-  50% {
-    opacity: 1;
-  }
-  51%,
-  100% {
-    opacity: 0;
-  }
+.home-agent-content h3 {
+  margin: 0 0 10px;
+  color: var(--home-text);
+  font-size: 19px;
+  font-weight: 650;
+}
+
+.home-agent-content p {
+  flex: 1;
+  margin: 0 0 24px;
+  color: var(--home-muted);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.home-doc-link {
+  display: inline-flex;
+  align-items: center;
+  color: var(--home-muted);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.home-doc-link span {
+  margin-left: 4px;
+  transition: transform 0.3s ease;
+}
+
+.home-agent-card:hover .home-doc-link { color: var(--home-accent-hover); }
+.home-agent-card:hover .home-doc-link span { transform: translateX(4px); }
+
+.home-capabilities {
+  border-top: 1px solid var(--home-line);
+  padding-top: 100px;
+}
+
+.home-capability-grid {
+  display: grid;
+  grid-template-columns: 380px minmax(0, 1fr);
+  gap: 80px;
+}
+
+.home-model-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.home-model-group {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--home-line);
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.015)), rgba(24, 24, 27, 0.4);
+  padding: 20px 24px;
+  transition: border-color 0.35s ease, background 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
+}
+
+.home-model-group::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.65), transparent);
+  content: '';
+  opacity: 0.45;
+}
+
+.home-model-group::after {
+  position: absolute;
+  inset: -40% -20% auto auto;
+  width: 180px;
+  height: 180px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(100, 103, 242, 0.26), transparent 68%);
+  content: '';
+  opacity: 0;
+  transform: translate3d(24px, -24px, 0) scale(0.78);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.home-model-group:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: linear-gradient(135deg, rgba(100, 103, 242, 0.16), rgba(255, 255, 255, 0.025) 54%, rgba(30, 30, 35, 0.86));
+  box-shadow: 0 18px 44px -22px rgba(0, 0, 0, 0.72), 0 0 32px -18px rgba(100, 103, 242, 0.65);
+  transform: translateY(-3px);
+}
+
+.home-model-group:hover::after {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+.home-model-group h3 {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 12px;
+  color: var(--home-text);
+  font-size: 15px;
+}
+
+.home-model-group p {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  color: var(--home-muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.8;
+  white-space: pre-line;
+}
+
+.home-model-icon {
+  display: inline-flex;
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 0 10px currentColor);
+}
+
+.home-model-icon :deep(svg) {
+  width: 18px;
+  height: 18px;
+}
+
+.home-model-icon-claude { color: #d97757; }
+.home-model-icon-gpt { color: #10a37f; }
+.home-model-icon-gemini { color: #4285f4; }
+
+.home-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px 32px;
+}
+
+.home-feature-item {
+  border-left: 2px solid rgba(255, 255, 255, 0.06);
+  padding-left: 20px;
+  position: relative;
+  transition: border-color 0.3s;
+}
+
+.home-feature-item::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -2px;
+  width: 2px;
+  background: linear-gradient(180deg, transparent, var(--home-accent), transparent);
+  content: '';
+  opacity: 0;
+  transform: scaleY(0.35);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.home-feature-item:hover {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.home-feature-item:hover::before {
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+.home-feature-item h3 {
+  margin: 0 0 12px;
+  color: var(--home-text);
+  font-size: 16px;
+}
+
+.home-feature-item p {
+  margin: 0;
+  color: var(--home-muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.home-feature-grid .home-feature-item h3 {
+  min-height: 22px;
+}
+
+.home-community-card {
+  position: relative;
+  display: grid;
+  overflow: hidden;
+  grid-column: 2;
+  gap: 0;
+  margin-top: -2px;
+  margin-left: auto;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(100, 103, 242, 0.14), rgba(255, 255, 255, 0.025) 48%, rgba(24, 24, 27, 0.52));
+  padding: 20px;
+  max-width: 420px;
+  box-shadow: 0 18px 42px -28px rgba(0, 0, 0, 0.78);
+}
+
+.home-community-card::before {
+  position: absolute;
+  top: 0;
+  right: 24px;
+  left: 24px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(100, 103, 242, 0.75), transparent);
+  content: '';
+}
+
+.home-community-card::after {
+  position: absolute;
+  right: -56px;
+  bottom: -72px;
+  width: 180px;
+  height: 180px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(100, 103, 242, 0.24), transparent 68%);
+  content: '';
+}
+
+.home-community-card h3,
+.home-community-card p,
+.home-community-card span {
+  position: relative;
+  z-index: 1;
+}
+
+.home-community-card h3 {
+  margin: 0 0 8px;
+  color: var(--home-text);
+  font-size: 16px;
+}
+
+.home-community-card p {
+  margin: 0 0 12px;
+  color: var(--home-muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.home-community-card span {
+  display: inline-flex;
+  border: 1px dashed rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  padding: 6px 10px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 12px;
+}
+
+.home-scroll-reveal {
+  opacity: 0;
+  filter: blur(12px);
+  transform: translateY(52px);
+  transition: opacity 0.96s cubic-bezier(0.16, 1, 0.3, 1), transform 0.96s cubic-bezier(0.16, 1, 0.3, 1), filter 0.96s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.home-scroll-reveal.is-visible {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0);
+}
+
+.home-scroll-reveal-group .home-group-child {
+  opacity: 0;
+  filter: blur(12px);
+  transform: translateY(52px);
+  transition: opacity 0.96s cubic-bezier(0.16, 1, 0.3, 1), transform 0.96s cubic-bezier(0.16, 1, 0.3, 1), filter 0.96s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.home-scroll-reveal-group.is-visible .home-group-child {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0);
+}
+
+.home-scroll-reveal-group.is-visible .home-group-child:nth-child(1) { transition-delay: 0.08s; }
+.home-scroll-reveal-group.is-visible .home-group-child:nth-child(2) { transition-delay: 0.2s; }
+.home-scroll-reveal-group.is-visible .home-group-child:nth-child(3) { transition-delay: 0.32s; }
+.home-scroll-reveal-group.is-visible .home-group-child:nth-child(4) { transition-delay: 0.44s; }
+.home-scroll-reveal-group.is-visible .home-group-child:nth-child(5) { transition-delay: 0.56s; }
+
+.home-footer {
+  justify-content: center;
+  gap: 16px;
+  border-top: 1px solid var(--home-line);
+  padding: 40px 24px;
+  color: var(--home-muted);
+  font-size: 14px;
 }
 
 @keyframes home-reveal-up {
-  0% {
-    opacity: 0;
-    filter: blur(8px);
-    transform: translateY(50px);
-  }
-  100% {
+  to {
     opacity: 1;
     filter: blur(0);
     transform: translateY(0);
@@ -875,569 +1170,63 @@ onBeforeUnmount(() => {
   to { background-position: 200% center; }
 }
 
-@keyframes home-code-fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(5px);
+@keyframes home-code-rise {
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
   }
+}
+
+@keyframes home-code-card-rise {
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-.home-button {
-  gap: 9px;
-  min-height: 42px;
-  padding: 0 18px;
-  font-size: 14px;
-  font-weight: 700;
-}
-
-.home-button-primary {
-  position: relative;
-  overflow: hidden;
-  background: var(--home-accent);
-  border-color: var(--home-accent);
-  color: #ffffff;
-}
-
-.home-button-primary::before {
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.24), transparent);
-  content: '';
-  transform: skewX(-20deg);
-  transition: left 0.5s ease;
-}
-
-.home-button-primary:hover::before {
-  left: 150%;
-}
-
-.home-button-secondary {
-  background: var(--home-panel);
-  color: var(--home-text);
-}
-
-.home-shell-dark .home-button-secondary {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(10px);
-}
-
-.home-shell-dark .home-button-secondary:hover {
-  border-color: #555555;
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.home-metrics {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  max-width: 900px;
-  margin: 64px auto 0;
-}
-
-.home-metric {
-  position: relative;
-  min-width: 0;
-  border: 1px solid color-mix(in srgb, var(--home-line) 75%, transparent);
-  border-radius: 20px;
-  background: linear-gradient(180deg, color-mix(in srgb, var(--home-panel) 82%, transparent), color-mix(in srgb, var(--home-panel-muted) 42%, transparent));
-  padding: 36px 24px;
-  text-align: center;
-  backdrop-filter: blur(12px);
-  transition:
-    background 0.2s ease,
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.home-metric:hover {
-  border-color: color-mix(in srgb, var(--home-accent) 34%, var(--home-line));
-  background: linear-gradient(180deg, color-mix(in srgb, var(--home-panel) 94%, transparent), color-mix(in srgb, var(--home-panel-muted) 62%, transparent));
-  box-shadow: 0 10px 26px -22px rgba(0, 0, 0, 0.22), 0 0 18px -14px rgba(100, 103, 242, 0.24);
-}
-
-.home-shell-dark .home-metric {
-  border-color: rgba(255, 255, 255, 0.06);
-  background: linear-gradient(180deg, rgba(24, 24, 27, 0.5), rgba(15, 15, 18, 0.2));
-}
-
-.home-shell-dark .home-metric:hover {
-  border-color: rgba(100, 103, 242, 0.3);
-  background: linear-gradient(180deg, rgba(30, 30, 36, 0.7), rgba(15, 15, 18, 0.4));
-  box-shadow: 0 10px 26px -20px rgba(0, 0, 0, 0.7), 0 0 18px -12px rgba(100, 103, 242, 0.14);
-}
-
-.home-metric-icon {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 16px;
-  color: var(--home-soft);
-  transition:
-    color 0.2s ease;
-}
-
-.home-metric-icon svg {
-  width: 26px;
-  height: 26px;
-  stroke-width: 1.5;
-}
-
-.home-metric:hover .home-metric-icon {
-  color: var(--home-accent);
-}
-
-.home-metric strong {
-  display: block;
-  color: var(--home-text);
-  font-size: clamp(28px, 4vw, 42px);
-  font-weight: 780;
-  letter-spacing: -0.06em;
-  line-height: 1;
-}
-
-.home-metric span {
-  display: block;
-  margin-top: 8px;
-  color: var(--home-muted);
-  font-size: 13px;
-  font-weight: 550;
-}
-
-.home-story {
-  position: relative;
-  margin-top: clamp(72px, 11vw, 138px);
-  border-top: 1px solid var(--home-line);
-}
-
-.home-story::before {
-  position: absolute;
-  top: -1px;
-  left: 0;
-  width: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--home-accent), transparent);
-  content: '';
-  opacity: 0;
-  transition:
-    opacity 0.6s ease,
-    width 1.1s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.home-story.in-view::before {
-  width: 100%;
-  opacity: 1;
-}
-
-.home-story-row {
-  position: relative;
-  display: grid;
-  grid-template-columns: 78px minmax(0, 1fr);
-  gap: clamp(22px, 4vw, 56px);
-  padding: clamp(44px, 7vw, 80px) 0;
-  border-bottom: 1px solid var(--home-line);
-  overflow: hidden;
-}
-
-.home-story-row::after {
-  position: absolute;
-  bottom: -1px;
-  left: 78px;
-  width: 0;
-  height: 1px;
-  background: linear-gradient(90deg, var(--home-accent), transparent);
-  content: '';
-  opacity: 0.72;
-  transition: width 0.45s ease;
-}
-
-.home-story-row.is-visible::after {
-  width: calc(100% - 78px);
-}
-
-.home-story-row-large {
-  padding-top: clamp(58px, 10vw, 116px);
-}
-
-.home-story-index {
-  margin: 0;
-  color: var(--home-soft);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 12px;
-  font-weight: 750;
-  letter-spacing: 0.12em;
-  transition: color 0.3s ease;
-}
-
-.home-story-row:hover .home-story-index {
-  color: var(--home-accent);
-}
-
-.home-reveal-title,
-.home-reveal-body,
-.home-model-chip,
-.home-responsibility span,
-.home-resource-lead,
-.home-resource-links article,
-.home-metric {
-  opacity: 0;
-  will-change: opacity, transform, filter;
-}
-
-.home-story-row h2 {
-  max-width: 760px;
-  margin: 0;
-  color: var(--home-text);
-  font-size: clamp(26px, 3.2vw, 38px);
-  font-weight: 760;
-  letter-spacing: -0.045em;
-  line-height: 1.16;
-}
-
-.home-story-row p:not(.home-story-index) {
-  max-width: 720px;
-  margin: 16px 0 0;
-  color: var(--home-muted);
-  font-size: clamp(15px, 1.7vw, 17px);
-  line-height: 1.8;
-}
-
-.home-model-strip {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 24px;
-}
-
-.home-model-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  border: 1px solid var(--home-line);
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--home-panel) 62%, transparent);
-  color: var(--home-muted);
-  padding: 6px 14px 6px 6px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 13px;
-  font-weight: 600;
-  transition:
-    background 0.2s ease,
-    border-color 0.2s ease,
-    color 0.2s ease;
-}
-
-.home-model-chip:hover {
-  border-color: var(--home-soft);
-  background: color-mix(in srgb, var(--home-panel-muted) 78%, transparent);
-  color: var(--home-text);
-}
-
-.home-model-icon {
-  display: grid;
-  width: 26px;
-  height: 26px;
-  place-items: center;
-  border-radius: 999px;
-  color: #ffffff;
-}
-
-.home-model-icon svg {
-  display: block;
-  width: 16px;
-  height: 16px;
-  overflow: visible;
-}
-
-.home-model-icon-claude { background: #d97757; }
-.home-model-icon-gpt { background: #10a37f; }
-.home-model-icon-gemini { background: linear-gradient(135deg, #4285f4, #1a73e8); }
-.home-model-icon-auto { background: linear-gradient(135deg, var(--home-accent), #8b5cf6); }
-
-.home-responsibility {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  max-width: 680px;
-  margin-top: 20px;
-}
-
-.home-responsibility-three {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.home-responsibility span {
-  border: 1px solid var(--home-line);
-  border-radius: 12px;
-  background: color-mix(in srgb, var(--home-panel) 62%, transparent);
-  color: var(--home-muted);
-  padding: 14px 16px;
-  font-size: 13px;
-  line-height: 1.5;
-  transition:
-    background 0.2s ease,
-    border-color 0.2s ease,
-    color 0.2s ease;
-}
-
-.home-responsibility span:hover {
-  border-color: var(--home-soft);
-  background: color-mix(in srgb, var(--home-panel-muted) 78%, transparent);
-  color: var(--home-text);
-}
-
-.home-shell-dark .home-responsibility span {
-  background: rgba(24, 24, 27, 0.4);
-}
-
-.home-shell-dark .home-responsibility span:hover {
-  background: rgba(30, 30, 35, 0.8);
-}
-
-.home-resource-flow {
-  display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(300px, 0.95fr);
-  gap: clamp(36px, 7vw, 88px);
-  margin-top: clamp(84px, 12vw, 150px);
-  padding-bottom: clamp(16px, 4vw, 48px);
-}
-
-.home-resource-lead h2 {
-  max-width: 650px;
-  margin: 0;
-  color: var(--home-text);
-  font-size: clamp(34px, 5.6vw, 64px);
-  font-weight: 800;
-  letter-spacing: -0.065em;
-  line-height: 1;
-}
-
-.home-resource-lead > p:not(.home-kicker) {
-  max-width: 600px;
-  margin: 20px 0 0;
-  color: var(--home-muted);
-  font-size: clamp(16px, 2vw, 20px);
-  line-height: 1.75;
-}
-
-.home-resource-links {
-  display: grid;
-  gap: 16px;
-  align-self: end;
-}
-
-.home-resource-links article {
-  border: 1px solid var(--home-line);
-  border-radius: 18px;
-  background: linear-gradient(180deg, var(--home-panel), color-mix(in srgb, var(--home-panel-muted) 80%, transparent));
-  cursor: pointer;
-  padding: 22px;
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.home-resource-links article:hover {
-  border-color: var(--home-line-strong);
-  box-shadow: 0 10px 28px -24px rgba(0, 0, 0, 0.32);
-}
-
-.home-resource-links small {
-  color: var(--home-soft);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 11px;
-  font-weight: 750;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.home-resource-links h3 {
-  margin: 12px 0 0;
-  color: var(--home-text);
-  font-size: 22px;
-  font-weight: 740;
-  letter-spacing: -0.045em;
-}
-
-.home-resource-links p {
-  margin: 8px 0 0;
-  color: var(--home-muted);
-  font-size: 14px;
-  line-height: 1.7;
-}
-
-.home-text-link,
-.home-resource-note {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 20px;
-  color: var(--home-accent);
-  font-size: 14px;
-  font-weight: 750;
-  text-decoration: none;
-}
-
-.home-resource-action {
-  width: max-content;
-  margin-top: 28px;
-}
-
-.home-text-link:hover {
-  color: var(--home-text);
-}
-
-.home-resource-note {
-  color: var(--home-muted);
-  word-break: break-all;
-}
-
-.home-metrics.is-visible .home-metric,
-.home-story-row.is-visible .home-reveal-title,
-.home-story-row.is-visible .home-reveal-body,
-.home-story-row.is-visible .home-model-chip,
-.home-story-row.is-visible .home-responsibility span,
-.home-resource-flow.is-visible .home-resource-lead,
-.home-resource-flow.is-visible .home-resource-links article {
-  animation: home-reveal-up 0.78s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.home-story-row.is-visible .home-reveal-body {
-  animation-name: home-reveal-body-up;
-  animation-duration: 0.9s;
-}
-
-.home-metrics.is-visible .home-metric:nth-child(1) { animation-delay: 0.05s; }
-.home-metrics.is-visible .home-metric:nth-child(2) { animation-delay: 0.15s; }
-.home-metrics.is-visible .home-metric:nth-child(3) { animation-delay: 0.25s; }
-.home-story-row.is-visible .home-model-chip:nth-child(1) { animation-delay: 0.1s; }
-.home-story-row.is-visible .home-model-chip:nth-child(2) { animation-delay: 0.18s; }
-.home-story-row.is-visible .home-model-chip:nth-child(3) { animation-delay: 0.26s; }
-.home-story-row.is-visible .home-model-chip:nth-child(4) { animation-delay: 0.34s; }
-.home-story-row.is-visible .home-responsibility span:nth-child(1) { animation-delay: 0.14s; }
-.home-story-row.is-visible .home-responsibility span:nth-child(2) { animation-delay: 0.24s; }
-.home-story-row.is-visible .home-responsibility span:nth-child(3) { animation-delay: 0.34s; }
-.home-resource-flow.is-visible .home-resource-lead { animation-delay: 0s; }
-.home-resource-flow.is-visible .home-resource-links article:nth-child(1) { animation-delay: 0.14s; }
-.home-resource-flow.is-visible .home-resource-links article:nth-child(2) { animation-delay: 0.26s; }
-
-@keyframes home-reveal-body-up {
-  0% {
-    opacity: 0;
-    clip-path: inset(0 0 100% 0);
-    filter: blur(6px);
-    transform: translateY(40px) scaleY(0.92);
-  }
-  100% {
-    opacity: 1;
-    clip-path: inset(0 0 0 0);
-    filter: blur(0);
-    transform: translateY(0) scaleY(1);
-  }
-}
-
-@keyframes home-ambient-pulse {
-  0% {
-    opacity: 0.5;
-    transform: scale(1);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1.2);
-  }
-}
-
-.home-footer {
-  justify-content: center;
-  gap: 16px;
-  margin-top: 64px;
-  border-top: 1px solid var(--home-line);
-  padding: 22px 24px;
-  color: var(--home-muted);
-  font-size: 13px;
-}
-
-@media (max-width: 980px) {
-  .home-nav-links {
-    display: none;
-  }
-
-  .home-story-row,
-  .home-resource-flow {
+@media (max-width: 1024px) {
+  .home-hero,
+  .home-capability-grid {
     grid-template-columns: 1fr;
-  }
-
-  .home-story-row::after {
-    left: 0;
-  }
-
-  .home-story-row.is-visible::after {
-    width: 100%;
-  }
-
-  .home-story-row {
-    gap: 14px;
-  }
-
-  .home-story-index {
-    margin-bottom: 4px;
-  }
-
-  .home-resource-links {
-    align-self: stretch;
+    gap: 56px;
   }
 
   .home-hero {
-    grid-template-columns: 1fr;
-    min-height: auto;
+    padding: 80px 0 40px;
   }
 
-  .home-hero-visual {
-    padding-top: 0;
+  .home-client-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  .home-terminal-card {
-    margin-right: auto;
-    margin-left: 0;
+  .home-code-tilt {
+    transform: none;
   }
 
+  .home-code-rise:hover .home-code-tilt {
+    transform: translateY(-5px);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .home-shell,
-  .home-shell::before,
   .home-hero-element,
-  .home-reveal-text,
-  .home-story-index,
-  .home-resource-lead,
-  .home-resource-links article,
-  .home-metric,
-  .home-reveal-title,
-  .home-reveal-body,
-  .home-model-chip,
-  .home-responsibility span,
-  .terminal-cursor,
-  .home-title {
+  .home-title,
+  .home-code-motion,
+  .home-code-tilt,
+  .home-agent-card,
+  .home-scroll-reveal,
+  .home-scroll-reveal-group .home-group-child {
     animation: none !important;
+    transition: none !important;
   }
 
   .home-hero-element,
-  .home-reveal-text,
-  .home-story-index,
-  .home-resource-lead,
-  .home-resource-links article,
-  .home-metric,
-  .home-reveal-title,
-  .home-reveal-body,
-  .home-model-chip,
-  .home-responsibility span {
+  .home-code-motion,
+  .home-scroll-reveal,
+  .home-scroll-reveal-group .home-group-child {
     opacity: 1;
-    clip-path: none;
     filter: none;
     transform: none;
   }
@@ -1448,8 +1237,8 @@ onBeforeUnmount(() => {
     padding: 0 16px;
   }
 
-  .home-actions {
-    gap: 6px;
+  .home-nav-links {
+    display: none;
   }
 
   .home-main {
@@ -1458,27 +1247,34 @@ onBeforeUnmount(() => {
   }
 
   .home-hero {
-    gap: 32px;
-    padding-top: 12px;
+    padding-top: 64px;
   }
 
   .home-title {
-    font-size: clamp(42px, 16vw, 60px);
+    font-size: clamp(56px, 18vw, 78px);
   }
 
-  .home-terminal-body {
+  .home-client-grid,
+  .home-feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-hero-actions {
+    gap: 12px;
+  }
+
+  .home-button {
+    flex: 1 1 auto;
+  }
+
+  .home-code-body {
     padding: 18px;
     font-size: 12px;
   }
 
-  .home-metrics {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-
-  .home-responsibility,
-  .home-responsibility-three {
-    grid-template-columns: 1fr;
+  .home-section,
+  .home-capabilities {
+    padding: 60px 0;
   }
 }
 </style>
