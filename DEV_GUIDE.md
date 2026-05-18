@@ -2,6 +2,12 @@
 
 > 本文档记录项目环境配置、常见坑点和注意事项，供 Claude Code 和团队成员参考。
 
+## 当前交接入口
+
+新会话先看 `HANDOFF.md`。那里记录当前工作区状态、主站和文档站边界、端口注意事项，以及本轮未提交改动。
+
+本文档偏长期开发备忘；如果与当前仓库文件冲突，以当前代码、`backend/go.mod`、`frontend/package.json` 和 GitHub Actions 为准。
+
 ## 一、项目基本信息
 
 | 项目 | 说明 |
@@ -9,7 +15,7 @@
 | **上游仓库** | Wei-Shaw/sub2api |
 | **当前本机主开发仓库** | `/home/ycyc/projects/sub2api` |
 | **Fork 仓库** | `sudoyc/sub2api` |
-| **技术栈** | Go 后端 (Ent ORM + Gin) + Vue3 前端 (pnpm) |
+| **技术栈** | Go 后端 (Ent ORM + Gin) + Vue 3 前端 (pnpm) |
 | **数据库** | PostgreSQL 16 + Redis |
 | **包管理** | 后端: go modules, 前端: **pnpm**（不是 npm） |
 
@@ -61,7 +67,7 @@ npm install -g pnpm
 
 ### CI 要求
 
-- Go 版本必须是 **1.25.7**
+- Go 版本必须与 `backend/go.mod` 和 CI 一致；当前为 **1.26.3**
 - 前端使用 `pnpm install --frozen-lockfile`，必须提交 `pnpm-lock.yaml`
 
 ### 本地测试命令

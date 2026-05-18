@@ -1,0 +1,1042 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Arqel Current Homepage Exact Snapshot</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      .home-shell {
+        --home-bg: #fbfbfc;
+        --home-panel: #ffffff;
+        --home-panel-muted: #f4f4f6;
+        --home-text: #111113;
+        --home-muted: #626670;
+        --home-soft: #858995;
+        --home-line: #e5e6ea;
+        --home-line-strong: #d0d2d8;
+        --home-accent: #6467f2;
+        --home-accent-soft: rgba(100, 103, 242, 0.1);
+        --home-shadow: 0 0 0 1px rgba(17, 17, 19, 0.06), 0 18px 48px -34px rgba(17, 17, 19, 0.25);
+        --home-glow: rgba(100, 103, 242, 0.1);
+        min-height: 100vh;
+        overflow-x: hidden;
+        background-color: var(--home-bg);
+        background-image:
+          radial-gradient(circle at 50% -10%, rgba(100, 103, 242, 0.14), transparent 38rem),
+          linear-gradient(to right, rgba(17, 17, 19, 0.025) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(17, 17, 19, 0.025) 1px, transparent 1px);
+        background-size: 100% 100%, 40px 40px, 40px 40px;
+        color: var(--home-text);
+      }
+
+      .home-shell::before {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background: radial-gradient(circle at 85% 60%, var(--home-glow), transparent 35vw);
+        animation: home-ambient-pulse 10s ease-in-out infinite alternate;
+        content: '';
+        pointer-events: none;
+      }
+
+      .home-shell > * {
+        position: relative;
+        z-index: 1;
+      }
+
+      .home-shell.home-shell-dark {
+        --home-bg: #09090b;
+        --home-panel: #111113;
+        --home-panel-muted: #18181b;
+        --home-text: #fafafa;
+        --home-muted: #a1a1aa;
+        --home-soft: #71717a;
+        --home-line: #2f3037;
+        --home-line-strong: #3d3d42;
+        --home-accent: #6467f2;
+        --home-accent-soft: rgba(100, 103, 242, 0.16);
+        --home-shadow: 0 0 0 1px rgba(61, 61, 66, 0.86), 0 16px 44px -30px rgba(0, 0, 0, 0.9);
+        --home-glow: rgba(167, 139, 250, 0.12);
+        background-image:
+          radial-gradient(circle at 50% -10%, rgba(100, 103, 242, 0.2), transparent 40rem),
+          linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      }
+
+      .home-header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        border-bottom: 1px solid color-mix(in srgb, var(--home-line) 70%, transparent);
+        background: color-mix(in srgb, var(--home-bg) 85%, transparent);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+      }
+
+      .home-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        max-width: 1120px;
+        height: 56px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+
+      .home-brand,
+      .home-nav-links,
+      .home-actions,
+      .home-button,
+      .home-icon-button,
+      .home-login-button,
+      .home-metrics,
+      .home-footer {
+        display: flex;
+        align-items: center;
+      }
+
+      .home-brand {
+        gap: 10px;
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .home-brand-mark {
+        display: grid;
+        width: 28px;
+        height: 28px;
+        place-items: center;
+        border: 1px solid var(--home-line-strong);
+        border-radius: 7px;
+        background: var(--home-panel);
+        color: var(--home-text);
+        font-size: 16px;
+        font-weight: 750;
+        line-height: 1;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+
+      .home-brand:hover .home-brand-mark {
+        border-color: var(--home-accent);
+        background: var(--home-accent);
+        color: #ffffff;
+        box-shadow: 0 0 15px rgba(100, 103, 242, 0.3);
+        transform: rotate(9deg) scale(1.05);
+      }
+
+      .home-brand-name {
+        color: var(--home-text);
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+      }
+
+      .home-nav-links {
+        gap: 4px;
+        color: var(--home-muted);
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .home-nav-links a,
+      .home-footer a {
+        border-radius: 6px;
+        color: inherit;
+        padding: 8px 10px;
+        text-decoration: none;
+        transition:
+          background-color 0.18s ease,
+          color 0.18s ease;
+      }
+
+      .home-nav-links a:hover,
+      .home-footer a:hover {
+        background: var(--home-panel-muted);
+        color: var(--home-text);
+        text-shadow: 0 0 8px color-mix(in srgb, var(--home-text) 22%, transparent);
+      }
+
+      .home-actions {
+        gap: 8px;
+      }
+
+      .home-icon-button,
+      .home-login-button,
+      .home-button {
+        justify-content: center;
+        border: 1px solid var(--home-line-strong);
+        border-radius: 999px;
+        text-decoration: none;
+        transition:
+          border-color 0.18s ease,
+          background-color 0.18s ease,
+          color 0.18s ease;
+      }
+
+      .home-icon-button {
+        width: 36px;
+        height: 36px;
+        background: transparent;
+        color: var(--home-muted);
+      }
+
+      .home-login-button {
+        min-height: 36px;
+        padding: 0 14px;
+        background: var(--home-panel);
+        border-color: var(--home-line-strong);
+        color: var(--home-text);
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .home-icon-button:hover,
+      .home-button-secondary:hover {
+        border-color: var(--home-line-strong);
+        background: var(--home-panel-muted);
+        color: var(--home-text);
+      }
+
+      .home-login-button:hover {
+        background: var(--home-text);
+        border-color: var(--home-text);
+        color: var(--home-bg);
+      }
+
+      .home-button-primary:hover {
+        box-shadow: 0 0 0 1px rgba(100, 103, 242, 0.42), 0 10px 28px -22px rgba(100, 103, 242, 0.48);
+      }
+
+      .home-main {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: clamp(42px, 6vw, 72px) 24px 0;
+      }
+
+      .home-hero {
+        display: grid;
+        grid-template-columns: minmax(0, 0.92fr) minmax(320px, 0.76fr);
+        align-items: center;
+        gap: clamp(36px, 7vw, 84px);
+        min-height: 450px;
+        padding-top: 0;
+        text-align: left;
+      }
+
+      .home-hero-copy {
+        max-width: 590px;
+      }
+
+      .home-hero-element {
+        opacity: 0;
+        animation: home-reveal-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+
+      .home-d-1 { animation-delay: 0.1s; }
+      .home-d-2 { animation-delay: 0.2s; }
+      .home-d-3 { animation-delay: 0.3s; }
+      .home-d-4 { animation-delay: 0.4s; }
+      .home-d-5 { animation-delay: 0.48s; }
+
+      .home-kicker {
+        margin: 0 0 18px;
+        color: var(--home-accent);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .home-title {
+        margin: 0;
+        background: linear-gradient(to right, var(--home-text) 20%, #a78bfa 50%, var(--home-text) 80%);
+        background-clip: text;
+        background-size: 200% auto;
+        color: transparent;
+        font-size: clamp(44px, 5.8vw, 68px);
+        font-weight: 800;
+        letter-spacing: -0.06em;
+        line-height: 0.98;
+        -webkit-background-clip: text;
+        animation: home-text-shine 5s linear infinite;
+      }
+
+      .home-title.home-hero-element {
+        animation:
+          home-reveal-up 0.8s 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+          home-text-shine 5s linear infinite;
+      }
+
+      .home-subtitle {
+        max-width: 560px;
+        margin: 18px 0 0;
+        color: var(--home-text);
+        font-size: clamp(22px, 3.1vw, 34px);
+        font-weight: 750;
+        letter-spacing: -0.045em;
+        line-height: 1.12;
+      }
+
+      .home-description {
+        max-width: 570px;
+        margin: 18px 0 0;
+        color: var(--home-muted);
+        font-size: clamp(16px, 1.8vw, 18px);
+        line-height: 1.7;
+      }
+
+      .home-hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 12px;
+        margin-top: 30px;
+      }
+
+      .home-hero-visual {
+        width: 100%;
+        padding-top: clamp(10px, 3vw, 36px);
+      }
+
+      .home-terminal-card {
+        overflow: hidden;
+        width: min(100%, 420px);
+        margin-left: auto;
+        border: 1px solid var(--home-line-strong);
+        border-radius: 18px;
+        background: rgba(15, 23, 42, 0.82);
+        box-shadow: var(--home-shadow);
+        backdrop-filter: blur(12px);
+        transition:
+          box-shadow 0.25s ease,
+          border-color 0.25s ease;
+      }
+
+      .home-terminal-card:hover {
+        border-color: color-mix(in srgb, var(--home-accent) 38%, var(--home-line-strong));
+        box-shadow: 0 0 0 1px rgba(100, 103, 242, 0.22), 0 18px 52px -34px rgba(100, 103, 242, 0.45);
+      }
+
+      .home-shell-dark .home-terminal-card {
+        background: rgba(15, 23, 42, 0.6);
+      }
+
+      .home-terminal-header {
+        display: grid;
+        grid-template-columns: 58px 1fr 58px;
+        align-items: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(30, 41, 59, 0.5);
+        padding: 12px 14px;
+      }
+
+      .home-terminal-dots {
+        display: flex;
+        gap: 7px;
+      }
+
+      .home-terminal-dots span {
+        width: 11px;
+        height: 11px;
+        border-radius: 999px;
+      }
+
+      .home-terminal-dots span:nth-child(1) { background: #ef4444; }
+      .home-terminal-dots span:nth-child(2) { background: #eab308; }
+      .home-terminal-dots span:nth-child(3) { background: #22c55e; }
+
+      .home-terminal-title {
+        color: #94a3b8;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: 12px;
+        font-weight: 650;
+        text-align: center;
+      }
+
+      .home-terminal-body {
+        display: grid;
+        gap: 14px;
+        padding: 24px 24px 28px;
+        color: #cbd5e1;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: 13px;
+        line-height: 1.7;
+      }
+
+      .home-setup-step {
+        display: grid;
+        grid-template-columns: 28px minmax(0, 1fr);
+        gap: 12px;
+        align-items: start;
+        opacity: 0;
+        animation: home-code-fade-in 0.4s ease forwards;
+      }
+
+      .home-setup-step:nth-child(1) { animation-delay: 0.6s; }
+      .home-setup-step:nth-child(2) { animation-delay: 1s; }
+      .home-setup-step:nth-child(3) { animation-delay: 1.4s; }
+
+      .home-setup-index {
+        display: grid;
+        width: 28px;
+        height: 28px;
+        place-items: center;
+        border: 1px solid rgba(100, 103, 242, 0.35);
+        border-radius: 999px;
+        background: rgba(100, 103, 242, 0.16);
+        color: #d8d8ff;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .home-setup-step strong {
+        display: block;
+        color: #f8fafc;
+        font-size: 13px;
+        line-height: 1.35;
+      }
+
+      .home-setup-step span:not(.home-setup-index) {
+        display: block;
+        margin-top: 3px;
+        color: #94a3b8;
+        font-size: 12px;
+        line-height: 1.55;
+      }
+
+      .home-terminal-line {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+        opacity: 0;
+        animation: home-code-fade-in 0.4s ease forwards;
+      }
+
+      .terminal-muted {
+        color: #64748b;
+        font-style: italic;
+      }
+
+      .terminal-ok {
+        color: #22c55e;
+        font-weight: 750;
+        border-radius: 6px;
+        background: rgba(34, 197, 94, 0.14);
+        padding: 1px 7px;
+      }
+
+      .terminal-json { color: #fbbf24; }
+
+      .terminal-cursor {
+        width: 8px;
+        height: 15px;
+        background: #fafafa;
+        animation: home-terminal-blink 1s step-end infinite;
+      }
+
+      .home-button {
+        gap: 9px;
+        min-height: 42px;
+        padding: 0 18px;
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .home-button-primary {
+        position: relative;
+        overflow: hidden;
+        background: var(--home-accent);
+        border-color: var(--home-accent);
+        color: #ffffff;
+      }
+
+      .home-button-primary::before {
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.24), transparent);
+        content: '';
+        transform: skewX(-20deg);
+        transition: left 0.5s ease;
+      }
+
+      .home-button-primary:hover::before { left: 150%; }
+
+      .home-button-secondary {
+        background: rgba(255, 255, 255, 0.03);
+        color: var(--home-text);
+        backdrop-filter: blur(10px);
+      }
+
+      .home-metrics {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        max-width: 900px;
+        margin: 64px auto 0;
+      }
+
+      .home-metric {
+        position: relative;
+        min-width: 0;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 20px;
+        background: linear-gradient(180deg, rgba(24, 24, 27, 0.5), rgba(15, 15, 18, 0.2));
+        padding: 36px 24px;
+        text-align: center;
+        backdrop-filter: blur(12px);
+        transition:
+          background 0.2s ease,
+          border-color 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+
+      .home-metric:hover {
+        border-color: rgba(100, 103, 242, 0.3);
+        background: linear-gradient(180deg, rgba(30, 30, 36, 0.7), rgba(15, 15, 18, 0.4));
+        box-shadow: 0 10px 26px -20px rgba(0, 0, 0, 0.7), 0 0 18px -12px rgba(100, 103, 242, 0.14);
+      }
+
+      .home-metric-icon {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 16px;
+        color: var(--home-soft);
+        transition: color 0.2s ease;
+      }
+
+      .home-metric-icon svg {
+        width: 26px;
+        height: 26px;
+        stroke-width: 1.5;
+      }
+
+      .home-metric:hover .home-metric-icon { color: var(--home-accent); }
+
+      .home-metric strong {
+        display: block;
+        color: var(--home-text);
+        font-size: clamp(28px, 4vw, 42px);
+        font-weight: 780;
+        letter-spacing: -0.06em;
+        line-height: 1;
+      }
+
+      .home-metric span {
+        display: block;
+        margin-top: 8px;
+        color: var(--home-muted);
+        font-size: 13px;
+        font-weight: 550;
+      }
+
+      .home-story {
+        position: relative;
+        margin-top: clamp(72px, 11vw, 138px);
+        border-top: 1px solid var(--home-line);
+      }
+
+      .home-story::before {
+        position: absolute;
+        top: -1px;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--home-accent), transparent);
+        content: '';
+        opacity: 1;
+      }
+
+      .home-story-row {
+        position: relative;
+        display: grid;
+        grid-template-columns: 78px minmax(0, 1fr);
+        gap: clamp(22px, 4vw, 56px);
+        padding: clamp(44px, 7vw, 80px) 0;
+        border-bottom: 1px solid var(--home-line);
+        overflow: hidden;
+      }
+
+      .home-story-row-large { padding-top: clamp(58px, 10vw, 116px); }
+
+      .home-story-index {
+        margin: 0;
+        color: var(--home-soft);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: 12px;
+        font-weight: 750;
+        letter-spacing: 0.12em;
+        transition: color 0.3s ease;
+      }
+
+      .home-story-row:hover .home-story-index { color: var(--home-accent); }
+
+      .home-story-row h2 {
+        max-width: 760px;
+        margin: 0;
+        color: var(--home-text);
+        font-size: clamp(26px, 3.2vw, 38px);
+        font-weight: 760;
+        letter-spacing: -0.045em;
+        line-height: 1.16;
+      }
+
+      .home-story-row p:not(.home-story-index) {
+        max-width: 720px;
+        margin: 16px 0 0;
+        color: var(--home-muted);
+        font-size: clamp(15px, 1.7vw, 17px);
+        line-height: 1.8;
+      }
+
+      .home-model-strip {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 24px;
+      }
+
+      .home-model-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid var(--home-line);
+        border-radius: 999px;
+        background: color-mix(in srgb, var(--home-panel) 62%, transparent);
+        color: var(--home-muted);
+        padding: 6px 14px 6px 6px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .home-model-chip:hover {
+        border-color: var(--home-soft);
+        background: color-mix(in srgb, var(--home-panel-muted) 78%, transparent);
+        color: var(--home-text);
+      }
+
+      .home-model-icon {
+        display: grid;
+        width: 26px;
+        height: 26px;
+        place-items: center;
+        border-radius: 999px;
+        color: #ffffff;
+      }
+
+      .home-model-icon svg {
+        display: block;
+        width: 16px;
+        height: 16px;
+        overflow: visible;
+      }
+
+      .home-model-icon-claude { background: #d97757; }
+      .home-model-icon-gpt { background: #10a37f; }
+      .home-model-icon-gemini { background: linear-gradient(135deg, #4285f4, #1a73e8); }
+
+      .home-responsibility {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        max-width: 680px;
+        margin-top: 20px;
+      }
+
+      .home-responsibility-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+      .home-responsibility span {
+        border: 1px solid var(--home-line);
+        border-radius: 12px;
+        background: rgba(24, 24, 27, 0.4);
+        color: var(--home-muted);
+        padding: 14px 16px;
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      .home-responsibility span:hover {
+        border-color: var(--home-soft);
+        background: rgba(30, 30, 35, 0.8);
+        color: var(--home-text);
+      }
+
+      .home-resource-flow {
+        display: grid;
+        grid-template-columns: minmax(0, 1.05fr) minmax(300px, 0.95fr);
+        gap: clamp(36px, 7vw, 88px);
+        margin-top: clamp(84px, 12vw, 150px);
+        padding-bottom: clamp(16px, 4vw, 48px);
+      }
+
+      .home-resource-lead h2 {
+        max-width: 650px;
+        margin: 0;
+        color: var(--home-text);
+        font-size: clamp(34px, 5.6vw, 64px);
+        font-weight: 800;
+        letter-spacing: -0.065em;
+        line-height: 1;
+      }
+
+      .home-resource-lead > p:not(.home-kicker) {
+        max-width: 600px;
+        margin: 20px 0 0;
+        color: var(--home-muted);
+        font-size: clamp(16px, 2vw, 20px);
+        line-height: 1.75;
+      }
+
+      .home-resource-links {
+        display: grid;
+        gap: 16px;
+        align-self: end;
+      }
+
+      .home-resource-links article {
+        border: 1px solid var(--home-line);
+        border-radius: 18px;
+        background: linear-gradient(180deg, var(--home-panel), color-mix(in srgb, var(--home-panel-muted) 80%, transparent));
+        cursor: pointer;
+        padding: 22px;
+        transition:
+          border-color 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+
+      .home-resource-links article:hover {
+        border-color: var(--home-line-strong);
+        box-shadow: 0 10px 28px -24px rgba(0, 0, 0, 0.32);
+      }
+
+      .home-resource-links small {
+        color: var(--home-soft);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: 11px;
+        font-weight: 750;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .home-resource-links h3 {
+        margin: 12px 0 0;
+        color: var(--home-text);
+        font-size: 22px;
+        font-weight: 740;
+        letter-spacing: -0.045em;
+      }
+
+      .home-resource-links p {
+        margin: 8px 0 0;
+        color: var(--home-muted);
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      .home-text-link,
+      .home-resource-note {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 20px;
+        color: var(--home-accent);
+        font-size: 14px;
+        font-weight: 750;
+        text-decoration: none;
+      }
+
+      .home-resource-action {
+        width: max-content;
+        margin-top: 28px;
+      }
+
+      .home-text-link:hover { color: var(--home-text); }
+
+      .home-footer {
+        justify-content: center;
+        gap: 16px;
+        margin-top: 64px;
+        border-top: 1px solid var(--home-line);
+        padding: 22px 24px;
+        color: var(--home-muted);
+        font-size: 13px;
+      }
+
+      .home-metric,
+      .home-reveal-title,
+      .home-reveal-body,
+      .home-model-chip,
+      .home-responsibility span,
+      .home-resource-lead,
+      .home-resource-links article {
+        opacity: 1;
+      }
+
+      @keyframes home-terminal-blink {
+        0%, 50% { opacity: 1; }
+        51%, 100% { opacity: 0; }
+      }
+
+      @keyframes home-reveal-up {
+        0% {
+          opacity: 0;
+          filter: blur(8px);
+          transform: translateY(50px);
+        }
+        100% {
+          opacity: 1;
+          filter: blur(0);
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes home-text-shine { to { background-position: 200% center; } }
+
+      @keyframes home-code-fade-in {
+        from { opacity: 0; transform: translateY(5px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      @keyframes home-ambient-pulse {
+        0% { opacity: 0.5; transform: scale(1); }
+        100% { opacity: 1; transform: scale(1.2); }
+      }
+
+      @media (max-width: 980px) {
+        .home-nav-links { display: none; }
+
+        .home-story-row,
+        .home-resource-flow { grid-template-columns: 1fr; }
+
+        .home-story-row { gap: 14px; }
+
+        .home-story-index { margin-bottom: 4px; }
+
+        .home-resource-links { align-self: stretch; }
+
+        .home-hero {
+          grid-template-columns: 1fr;
+          min-height: auto;
+        }
+
+        .home-hero-visual { padding-top: 0; }
+
+        .home-terminal-card {
+          margin-right: auto;
+          margin-left: 0;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .home-nav { padding: 0 16px; }
+        .home-actions { gap: 6px; }
+        .home-main { padding-right: 16px; padding-left: 16px; }
+        .home-hero { gap: 32px; padding-top: 12px; }
+        .home-title { font-size: clamp(42px, 16vw, 60px); }
+        .home-terminal-body { padding: 18px; font-size: 12px; }
+        .home-metrics { grid-template-columns: 1fr; gap: 12px; }
+        .home-responsibility,
+        .home-responsibility-three { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="home-shell home-shell-dark">
+      <header class="home-header">
+        <nav class="home-nav" aria-label="Primary navigation">
+          <a href="/" class="home-brand" aria-label="Arqel home">
+            <span class="home-brand-mark">A</span>
+            <span class="home-brand-name">Arqel</span>
+          </a>
+
+          <div class="home-nav-links">
+            <a href="https://docs.arqel.net/tools/" target="_blank" rel="noopener noreferrer">查看接入教程</a>
+            <a href="https://docs.arqel.net/" target="_blank" rel="noopener noreferrer">文档</a>
+          </div>
+
+          <div class="home-actions">
+            <button type="button" class="home-icon-button" title="切换到浅色模式">☀</button>
+            <a href="/login" class="home-login-button">登录</a>
+          </div>
+        </nav>
+      </header>
+
+      <main class="home-main">
+        <section class="home-hero" aria-labelledby="home-title">
+          <div class="home-hero-copy">
+            <p class="home-kicker home-hero-element home-d-1">面向 AI 编程工具的模型接入</p>
+            <h1 id="home-title" class="home-title home-hero-element home-d-2">Arqel</h1>
+            <p class="home-subtitle home-hero-element home-d-3">把 Claude、GPT、Gemini 统一接入你的工具链</p>
+            <p class="home-description home-hero-element home-d-4">一个 API 地址，一份用量面板。Arqel 帮你把模型接入整理清楚。</p>
+
+            <div class="home-hero-actions">
+              <a href="/login" class="home-button home-button-primary home-hero-element home-d-4">
+                立即开始
+                <span aria-hidden="true">→</span>
+              </a>
+              <a href="https://docs.arqel.net/tools/" target="_blank" rel="noopener noreferrer" class="home-button home-button-secondary home-hero-element home-d-5">查看接入教程</a>
+            </div>
+          </div>
+
+          <aside class="home-hero-visual" aria-hidden="true">
+            <div class="home-terminal-card home-hero-element home-d-3">
+              <div class="home-terminal-header">
+                <div class="home-terminal-dots"><span></span><span></span><span></span></div>
+                <span class="home-terminal-title">quick start</span>
+              </div>
+              <div class="home-terminal-body">
+                <div class="home-setup-step">
+                  <span class="home-setup-index">1</span>
+                  <div>
+                    <strong>API 地址</strong>
+                    <span>填到工具里的 Base URL / API URL。</span>
+                  </div>
+                </div>
+                <div class="home-setup-step">
+                  <span class="home-setup-index">2</span>
+                  <div>
+                    <strong>模型凭证</strong>
+                    <span>不同模型可按需要分别配置 Key 或账号凭证。</span>
+                  </div>
+                </div>
+                <div class="home-setup-step">
+                  <span class="home-setup-index">3</span>
+                  <div>
+                    <strong>模型名</strong>
+                    <span>在客户端里选择 Claude、GPT 或 Gemini。</span>
+                  </div>
+                </div>
+                <div class="home-terminal-line terminal-muted"># 先完成一次可用配置，再根据场景调整模型</div>
+                <div class="home-terminal-line">
+                  <span class="terminal-ok">ready</span>
+                  <span class="terminal-json">复制地址 → 配置凭证 → 选择模型</span><span class="terminal-cursor"></span>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </section>
+
+        <section class="home-metrics is-visible" aria-label="Arqel highlights">
+          <div class="home-metric">
+            <div class="home-metric-icon" aria-hidden="true">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 0 0-5.656 0l-4 4a4 4 0 1 0 5.656 5.656l1.102-1.101m-.758-4.899a4 4 0 0 0 5.656 0l4-4a4 4 0 0 0-5.656-5.656l-1.1 1.1" /></svg>
+            </div>
+            <strong>1</strong>
+            <span>一个入口，全部模型</span>
+          </div>
+          <div class="home-metric">
+            <div class="home-metric-icon" aria-hidden="true">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" /></svg>
+            </div>
+            <strong>2</strong>
+            <span>凭证按模型独立管理</span>
+          </div>
+          <div class="home-metric">
+            <div class="home-metric-icon" aria-hidden="true">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" /></svg>
+            </div>
+            <strong>?</strong>
+            <span>用量和消耗透明可查</span>
+          </div>
+        </section>
+
+        <section class="home-story is-visible" aria-label="Arqel beginner guide">
+          <article class="home-story-row home-story-row-large is-visible">
+            <p class="home-story-index">01</p>
+            <div class="home-reveal-text">
+              <h2 class="home-reveal-title">接入时真正需要关注什么</h2>
+              <p class="home-reveal-body">大多数工具只需要三个信息：API 地址、可用的模型凭证，以及要调用的模型名。把这三件事分清楚，配置就不会乱。</p>
+              <div class="home-responsibility home-responsibility-three">
+                <span>API 地址：工具连接 Arqel 的入口。</span>
+                <span>模型凭证：按模型或服务分别配置，不假装合成一个万能入口。</span>
+                <span>模型名：决定这次请求调用哪个模型。</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="home-story-row is-visible">
+            <p class="home-story-index">02</p>
+            <div class="home-reveal-text">
+              <h2 class="home-reveal-title">模型选择保持清晰</h2>
+              <p class="home-reveal-body">Claude、GPT、Gemini 可以在同一个接入层使用，但能力、价格和可用性不同。怎么开始看这里，具体选择在教程和控制台里慢慢调整。</p>
+              <div class="home-model-strip" aria-label="Supported models">
+                <span class="home-model-chip"><span class="home-model-icon home-model-icon-claude" aria-hidden="true">C</span>Claude</span>
+                <span class="home-model-chip"><span class="home-model-icon home-model-icon-gpt" aria-hidden="true">G</span>GPT</span>
+                <span class="home-model-chip"><span class="home-model-icon home-model-icon-gemini" aria-hidden="true">✦</span>Gemini</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="home-story-row is-visible">
+            <p class="home-story-index">03</p>
+            <div class="home-reveal-text">
+              <h2 class="home-reveal-title">用量和消耗要看得见</h2>
+              <p class="home-reveal-body">每次调用都产生消耗，不同模型价格也不同。Arqel 提供余额面板、用量记录和请求日志，让消耗有据可查。</p>
+            </div>
+          </article>
+
+          <article class="home-story-row is-visible">
+            <p class="home-story-index">04</p>
+            <div class="home-reveal-text">
+              <h2 class="home-reveal-title">出错时能定位原因</h2>
+              <p class="home-reveal-body">调用失败不一定是模型坏了。先查配置（地址、凭证、模型名），再看状态（余额、请求记录、错误原因），逐步缩小范围。</p>
+              <div class="home-responsibility">
+                <span>先看配置：地址、凭证、模型名。</span>
+                <span>再看状态：余额、请求记录、错误原因。</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="home-story-row is-visible">
+            <p class="home-story-index">05</p>
+            <div class="home-reveal-text">
+              <h2 class="home-reveal-title">Arqel 的边界</h2>
+              <p class="home-reveal-body">Arqel 不是 Claude、OpenAI 或 Gemini 的官方服务，也不替代官方权益。它是一个接入层工具：把模型配置、调用入口、用量和错误状态放在同一个地方。</p>
+            </div>
+          </article>
+        </section>
+
+        <section class="home-resource-flow is-visible" aria-label="Arqel resources">
+          <div class="home-resource-lead">
+            <p class="home-kicker">Guide</p>
+            <h2>先跑通一套，再慢慢调整</h2>
+            <p>教程按工具场景（Cursor、Claude Code）说明 API 地址、凭证和模型名怎么填。跑通之后，再换模型或调参数。</p>
+            <a href="/login" class="home-button home-button-primary home-resource-action">开始上手 <span aria-hidden="true">→</span></a>
+          </div>
+
+          <div class="home-resource-links">
+            <article>
+              <small>Tutorial</small>
+              <h3>接入教程</h3>
+              <p>覆盖 Cursor、Claude Code 和常见自定义 API 客户端的配置方式，以及常见错误的排查路径。</p>
+              <a href="https://docs.arqel.net/tools/" target="_blank" rel="noopener noreferrer" class="home-text-link">打开教程</a>
+            </article>
+
+            <article>
+              <small>Help</small>
+              <h3>还是没跑通？</h3>
+              <p>按教程配置后仍不确定问题出在哪，可以带着错误信息来问。</p>
+              <span class="home-resource-note">获取支持</span>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer class="home-footer">
+        <span>© 2026 Arqel</span>
+        <a href="https://docs.arqel.net/" target="_blank" rel="noopener noreferrer">文档</a>
+      </footer>
+    </div>
+  </body>
+</html>

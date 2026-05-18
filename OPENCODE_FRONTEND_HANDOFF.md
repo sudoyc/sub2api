@@ -1,5 +1,7 @@
 # OpenCode handoff: repair admin table empty-state alignment and remove dashboard lighting effects
 
+> 历史记录：这份文件只用于较早的后台视觉/表格问题排查。当前开发交接入口请先看 `HANDOFF.md`。如果用户没有明确要求继续这些后台视觉问题，不要把本文件当作当前任务范围。
+
 Repo: /home/ycyc/projects/sub2api
 Fork remote: origin = sudoyc/sub2api
 Current branch observed: arqel
