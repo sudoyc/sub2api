@@ -31,22 +31,34 @@ func TestInjectSiteTitle(t *testing.T) {
 		assert.NotContains(t, string(result), "Sub2API")
 	})
 
-	t.Run("returns_unchanged_when_site_name_empty", func(t *testing.T) {
+	t.Run("normalizes_upstream_default_site_name_to_arqel", func(t *testing.T) {
+		html := []byte(`<html><head><title>Sub2API - AI API Gateway</title></head><body></body></html>`)
+		settingsJSON := []byte(`{"site_name":"Sub2API"}`)
+
+		result := injectSiteTitle(html, settingsJSON)
+
+		assert.Contains(t, string(result), "<title>Arqel - AI API Gateway</title>")
+		assert.NotContains(t, string(result), "Sub2API")
+	})
+
+	t.Run("uses_arqel_when_site_name_empty", func(t *testing.T) {
 		html := []byte(`<html><head><title>Sub2API - AI API Gateway</title></head><body></body></html>`)
 		settingsJSON := []byte(`{"site_name":""}`)
 
 		result := injectSiteTitle(html, settingsJSON)
 
-		assert.Equal(t, string(html), string(result))
+		assert.Contains(t, string(result), "<title>Arqel - AI API Gateway</title>")
+		assert.NotContains(t, string(result), "Sub2API")
 	})
 
-	t.Run("returns_unchanged_when_site_name_missing", func(t *testing.T) {
+	t.Run("uses_arqel_when_site_name_missing", func(t *testing.T) {
 		html := []byte(`<html><head><title>Sub2API - AI API Gateway</title></head><body></body></html>`)
 		settingsJSON := []byte(`{"other_field":"value"}`)
 
 		result := injectSiteTitle(html, settingsJSON)
 
-		assert.Equal(t, string(html), string(result))
+		assert.Contains(t, string(result), "<title>Arqel - AI API Gateway</title>")
+		assert.NotContains(t, string(result), "Sub2API")
 	})
 
 	t.Run("returns_unchanged_when_invalid_json", func(t *testing.T) {

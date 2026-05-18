@@ -213,15 +213,26 @@ func (s *FrontendServer) injectSettings(settingsJSON []byte) []byte {
 	return result
 }
 
+// normalizeInjectedSiteName maps upstream/internal default names to the public Arqel brand.
+func normalizeInjectedSiteName(siteName string) string {
+	trimmed := strings.TrimSpace(siteName)
+	if trimmed == "" || strings.EqualFold(trimmed, "sub2api") {
+		return "Arqel"
+	}
+	return trimmed
+}
+
 // injectSiteTitle replaces the static <title> in HTML with the configured site name.
 // This ensures the browser tab shows the correct title before JS executes.
 func injectSiteTitle(html, settingsJSON []byte) []byte {
 	var cfg struct {
 		SiteName string `json:"site_name"`
 	}
-	if err := json.Unmarshal(settingsJSON, &cfg); err != nil || cfg.SiteName == "" {
+	if err := json.Unmarshal(settingsJSON, &cfg); err != nil {
 		return html
 	}
+
+	titleSiteName := normalizeInjectedSiteName(cfg.SiteName)
 
 	// Find and replace the existing <title>...</title>
 	titleStart := bytes.Index(html, []byte("<title>"))
@@ -230,7 +241,7 @@ func injectSiteTitle(html, settingsJSON []byte) []byte {
 		return html
 	}
 
-	newTitle := []byte("<title>" + cfg.SiteName + " - AI API Gateway</title>")
+	newTitle := []byte("<title>" + titleSiteName + " - AI API Gateway</title>")
 	var buf bytes.Buffer
 	buf.Write(html[:titleStart])
 	buf.Write(newTitle)
