@@ -16,7 +16,7 @@
     <header class="home-header home-hero-element home-d-0">
       <nav class="home-nav" aria-label="Primary navigation">
         <router-link to="/" class="home-brand" aria-label="Arqel home">
-          <span class="home-brand-mark">A</span>
+          <ArqelLogo class="home-brand-mark" aria-hidden="true" />
           <span class="home-brand-name">{{ brandName }}</span>
         </router-link>
 
@@ -187,6 +187,7 @@
 import { ref, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useAuthStore, useAppStore } from '@/stores'
+import ArqelLogo from '@/components/common/ArqelLogo.vue'
 import LocaleSwitcher from '@/components/common/LocaleSwitcher.vue'
 import Icon from '@/components/icons/Icon.vue'
 import { initThemePreference, toggleThemePreference } from '@/utils/theme'
@@ -353,7 +354,8 @@ onBeforeUnmount(() => {
   --home-model-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(245, 247, 255, 0.86)), rgba(255, 255, 255, 0.76);
   --home-model-hover-bg: linear-gradient(135deg, rgba(91, 94, 240, 0.12), rgba(255, 255, 255, 0.94) 52%, rgba(242, 245, 255, 0.92));
   --home-feature-border: rgba(91, 94, 240, 0.18);
-  --home-community-bg: linear-gradient(135deg, rgba(91, 94, 240, 0.1), rgba(255, 255, 255, 0.9) 48%, rgba(240, 244, 255, 0.82));
+  --home-community-bg: var(--home-model-bg);
+  --home-community-hover-bg: var(--home-model-hover-bg);
   --home-community-pill-border: rgba(91, 94, 240, 0.3);
   --home-community-pill-text: #656eea;
   --home-visual-divider: rgba(17, 24, 39, 0.08);
@@ -389,7 +391,8 @@ onBeforeUnmount(() => {
   --home-model-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.015)), rgba(24, 24, 27, 0.4);
   --home-model-hover-bg: linear-gradient(135deg, rgba(100, 103, 242, 0.16), rgba(255, 255, 255, 0.025) 54%, rgba(30, 30, 35, 0.86));
   --home-feature-border: rgba(255, 255, 255, 0.06);
-  --home-community-bg: linear-gradient(135deg, rgba(100, 103, 242, 0.14), rgba(255, 255, 255, 0.025) 48%, rgba(24, 24, 27, 0.52));
+  --home-community-bg: var(--home-model-bg);
+  --home-community-hover-bg: var(--home-model-hover-bg);
   --home-community-pill-border: rgba(255, 255, 255, 0.16);
   --home-community-pill-text: rgba(255, 255, 255, 0.5);
   --home-visual-divider: rgba(255, 255, 255, 0.03);
@@ -443,20 +446,12 @@ onBeforeUnmount(() => {
   width: 28px;
   height: 28px;
   place-items: center;
-  border: 1px solid var(--home-line-strong);
-  border-radius: 7px;
-  background: var(--home-panel);
+  border-radius: 8px;
   color: var(--home-text);
-  font-size: 16px;
-  font-weight: 800;
-  line-height: 1;
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .home-brand:hover .home-brand-mark {
-  border-color: var(--home-accent);
-  background: var(--home-accent);
-  color: #ffffff;
   box-shadow: 0 0 15px rgba(100, 103, 242, 0.4);
   transform: rotate(9deg) scale(1.05);
 }
@@ -1091,27 +1086,43 @@ onBeforeUnmount(() => {
   padding: 20px;
   max-width: 420px;
   box-shadow: 0 18px 42px -28px rgba(43, 52, 86, 0.45);
+  transition: border-color 0.35s ease, background 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
 }
 
 .home-community-card::before {
   position: absolute;
   top: 0;
-  right: 24px;
-  left: 24px;
+  right: 0;
+  left: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(100, 103, 242, 0.75), transparent);
+  background: linear-gradient(90deg, transparent, var(--home-card-top-line), transparent);
   content: '';
+  opacity: 0.45;
 }
 
 .home-community-card::after {
   position: absolute;
-  right: -56px;
-  bottom: -72px;
+  inset: -40% -20% auto auto;
   width: 180px;
   height: 180px;
   border-radius: 999px;
-  background: radial-gradient(circle, rgba(100, 103, 242, 0.24), transparent 68%);
+  background: radial-gradient(circle, rgba(100, 103, 242, 0.26), transparent 68%);
   content: '';
+  opacity: 0;
+  transform: translate3d(24px, -24px, 0) scale(0.78);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.home-community-card:hover {
+  border-color: color-mix(in srgb, var(--home-accent) 34%, var(--home-line));
+  background: var(--home-community-hover-bg);
+  box-shadow: 0 18px 44px -28px rgba(43, 52, 86, 0.4), 0 0 32px -18px var(--home-accent-glow);
+  transform: translateY(-3px);
+}
+
+.home-community-card:hover::after {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
 }
 
 .home-community-card h3,

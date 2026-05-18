@@ -9,7 +9,7 @@
         <template v-if="settingsLoaded">
           <div v-if="settingsLoaded" class="auth-brand-mark mb-4 inline-flex h-16 w-16">
             <img v-if="siteLogo" :src="siteLogo" alt="Logo" class="h-full w-full object-contain" />
-            <span v-else class="arqel-default-mark text-3xl" aria-hidden="true">A</span>
+            <ArqelLogo v-else class="h-full w-full" aria-hidden="true" />
           </div>
           <h1 class="text-gradient mb-2 text-3xl font-bold">
             {{ siteName }}
@@ -41,6 +41,7 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue'
 import { useAppStore } from '@/stores'
+import ArqelLogo from '@/components/common/ArqelLogo.vue'
 import { sanitizeUrl } from '@/utils/url'
 import { normalizePublicSiteSubtitle } from '@/utils/publicBrand'
 

@@ -11,7 +11,7 @@
       <!-- Custom Logo or Default Logo -->
       <div v-if="settingsLoaded" class="auth-brand-mark flex h-9 w-9">
         <img v-if="siteLogo" :src="siteLogo" alt="Logo" class="h-full w-full object-contain" />
-        <span v-else class="arqel-default-mark text-lg" aria-hidden="true">A</span>
+        <ArqelLogo v-else class="h-full w-full" aria-hidden="true" />
       </div>
       <div class="sidebar-brand" :class="{ 'sidebar-brand-collapsed': sidebarCollapsed }" :aria-hidden="sidebarCollapsed ? 'true' : 'false'">
         <span class="sidebar-brand-title text-lg font-bold">
@@ -185,6 +185,7 @@ import { computed, h, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useAdminSettingsStore, useAppStore, useAuthStore, useOnboardingStore } from '@/stores'
+import ArqelLogo from '@/components/common/ArqelLogo.vue'
 import VersionBadge from '@/components/common/VersionBadge.vue'
 import { sanitizeSvg } from '@/utils/sanitize'
 import { FeatureFlags, makeSidebarFlag } from '@/utils/featureFlags'

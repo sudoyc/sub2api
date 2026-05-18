@@ -6,7 +6,7 @@
         <router-link to="/home" class="flex items-center gap-3">
           <div class="h-10 w-10 overflow-hidden rounded-xl shadow-md">
             <img v-if="siteLogo" :src="siteLogo" alt="Logo" class="h-full w-full object-contain" />
-            <span v-else class="arqel-default-mark text-xl" aria-hidden="true">A</span>
+            <ArqelLogo v-else class="h-full w-full" aria-hidden="true" />
           </div>
           <span class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white">{{ siteName }}</span>
         </router-link>
@@ -365,6 +365,7 @@
 import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useAppStore } from '@/stores'
+import ArqelLogo from '@/components/common/ArqelLogo.vue'
 import LocaleSwitcher from '@/components/common/LocaleSwitcher.vue'
 import Icon from '@/components/icons/Icon.vue'
 import { sanitizeSvg } from '@/utils/sanitize'
