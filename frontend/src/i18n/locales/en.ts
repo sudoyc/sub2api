@@ -48,9 +48,9 @@ export default {
         title: 'Model families behind one call path',
         desc: 'Follow mainstream model capabilities and call them by passing the model name from your client.',
         items: {
-          claude: 'claude-sonnet-4-5\nclaude-opus-4-1\nclaude-haiku-4-5',
+          claude: 'claude-opus-4-7\nclaude-sonnet-4-6\nclaude-haiku-4-5',
           gpt: 'gpt-5.5\ngpt-5.4-mini\ngpt-5.3-codex',
-          gemini: 'gemini-3-pro-preview\ngemini-2.5-flash\ngemini-2.0-flash-thinking',
+          gemini: 'gemini-3.1-pro-preview\ngemini-3-flash-preview\ngemini-3.1-flash-lite',
         },
       },
       capabilities: {

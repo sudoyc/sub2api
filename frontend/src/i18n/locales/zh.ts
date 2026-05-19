@@ -48,9 +48,9 @@ export default {
         title: '统一调用的模型族',
         desc: '跟进主流模型能力，只需在客户端传入对应模型名即可调用。',
         items: {
-          claude: 'claude-sonnet-4-5\nclaude-opus-4-1\nclaude-haiku-4-5',
+          claude: 'claude-opus-4-7\nclaude-sonnet-4-6\nclaude-haiku-4-5',
           gpt: 'gpt-5.5\ngpt-5.4-mini\ngpt-5.3-codex',
-          gemini: 'gemini-3-pro-preview\ngemini-2.5-flash\ngemini-2.0-flash-thinking',
+          gemini: 'gemini-3.1-pro-preview\ngemini-3-flash-preview\ngemini-3.1-flash-lite',
         },
       },
       capabilities: {
