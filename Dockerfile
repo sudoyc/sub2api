@@ -20,9 +20,8 @@ FROM ${NODE_IMAGE} AS frontend-builder
 
 WORKDIR /app/frontend
 
-# Install pnpm
-# Pin to pnpm 9.x so the container build keeps running dependency build scripts
-# without pnpm 10's interactive approve-builds flow.
+# Install pnpm (pinned to v9 to match CI and keep builds reproducible)
+# Use an exact 9.x release to avoid pnpm 10's interactive approve-builds flow.
 RUN corepack enable && corepack prepare pnpm@9.15.4 --activate
 
 # Install dependencies first (better caching)
