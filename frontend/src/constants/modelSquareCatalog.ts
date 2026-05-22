@@ -21,6 +21,7 @@ export const MODEL_SQUARE_MODELS: ModelSquareModel[] = [
     mode: 'reasoning',
     contextWindow: 1000000,
     maxOutputTokens: 128000,
+    note: '当前 key 已返回该模型，但实测调用返回 502，暂不视为稳定可用。',
     capabilities: anthropicCaps,
   },
   {
@@ -30,6 +31,7 @@ export const MODEL_SQUARE_MODELS: ModelSquareModel[] = [
     mode: 'reasoning',
     contextWindow: 1000000,
     maxOutputTokens: 128000,
+    note: '当前 key 实测可调用。',
     capabilities: anthropicCaps,
   },
   {
@@ -39,14 +41,18 @@ export const MODEL_SQUARE_MODELS: ModelSquareModel[] = [
     mode: 'reasoning',
     contextWindow: 1000000,
     maxOutputTokens: 64000,
+    note: '当前 key 已返回该模型，但实测调用返回 503（可用账号耗尽）。',
     capabilities: anthropicCaps,
   },
   {
-    name: 'claude-haiku-4-6',
+    name: 'claude-haiku-4-5-20251001',
     provider: 'anthropic',
-    family: 'Claude Haiku 4.6',
+    family: 'Claude Haiku 4.5',
     mode: 'chat',
-    note: '后端当前未返回该模型的官方费率/上下文规格，展示仅作可选模型参考。',
+    contextWindow: 200000,
+    maxOutputTokens: 64000,
+    aliases: ['claude-haiku-4-5'],
+    note: '当前 key 实际返回的是 Haiku 4.5；实测调用返回 503（可用账号耗尽）。',
     capabilities: anthropicCaps,
   },
   {
