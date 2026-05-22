@@ -45,7 +45,7 @@
           <select v-model="providerFilter" class="input">
             <option value="">全部供应商</option>
             <option v-for="provider in providers" :key="provider" :value="provider">
-              {{ provider }}
+              {{ providerLabel(provider) }}
             </option>
           </select>
 
@@ -103,7 +103,7 @@
                     ]"
                   >
                     <PlatformIcon :platform="model.provider as GroupPlatform" size="xs" />
-                    {{ model.provider }}
+                    {{ providerLabel(model.provider) }}
                   </span>
                   <span class="rounded-md bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600 dark:bg-dark-700 dark:text-gray-300">
                     {{ modeLabel(model.mode) }}
@@ -328,6 +328,15 @@ function capabilityLabel(capability: ModelSquareModel['capabilities'][number]): 
     coding: 'Coding',
   }
   return labels[capability]
+}
+
+function providerLabel(provider: ModelSquareModel['provider']): string {
+  const labels: Record<ModelSquareModel['provider'], string> = {
+    anthropic: 'Claude',
+    openai: 'OpenAI',
+    gemini: 'Gemini',
+  }
+  return labels[provider]
 }
 
 function modeLabel(mode: ModelSquareModel['mode']): string {
